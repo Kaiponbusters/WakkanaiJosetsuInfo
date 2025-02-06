@@ -22,10 +22,8 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 // 画像をインポート
-import higumaIcon from '@/assets/img/higumaImg/higumaIcon.png';
-import jikoIcon from '@/assets/img/jikoImg/jikoIcon.png';
 import josetsuIcon from '@/assets/img/josetsuImg/josetsuIcon.png';
-import fusinshaIcon from '@/assets/img/fusinshaImg/fusinshaIcon.png';
+
 
 // 型の定義
 interface InformationDetail {
@@ -38,10 +36,7 @@ interface InformationDetail {
 // ルートとアイコン、テキストのマッピング
 // elseifを使うより保守性が高いため、データを一括管理するようにしている
 const informationData: { [key: string]: InformationDetail } = {
-    higuma: { src: higumaIcon, alt: 'ヒグマアイコン', text: 'ヒグマ情報', color: 'text-[#ff3e3e]' },
-    jiko: { src: jikoIcon, alt: '事故アイコン', text: '事故情報', color: 'text-[#ffa629]' },
     josetsu: { src: josetsuIcon, alt: '除雪アイコン', text: '除雪情報', color: 'text-[#578cff]' },
-    fusinsha: { src: fusinshaIcon, alt: '不審者アイコン', text: '不審者情報', color: 'text-[#4f4f4f]' },
 };
 
 const route = useRoute();
