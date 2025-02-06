@@ -1,10 +1,10 @@
 <script setup lang="ts">
 useHead({
-  title: 'わっかない速報アプリ',
+  title: 'わっかない除雪速報アプリ(制作中)',
   meta: [
     {
       name: 'description',
-      content: 'Wakkanai Realtime Information'
+      content: 'Wakkanai Josetsu Information'
     }
   ],
   link: [

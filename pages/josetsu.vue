@@ -18,6 +18,7 @@
               :key="report.id"
               class="border-x border-b p-4 bg-white"
             >
+              <AreaNameDisplay :area="report.area" />
               <SnowLocationMap :area="report.area" />
               <div class="mt-2 space-y-1 text-gray-600">
                 <p>除雪開始: {{ formatDateTime(report.start_time) }}</p>
@@ -44,6 +45,7 @@ import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
 import { supabase } from '~/utils/supabaseClient'
 import SnowLocationMap from '~/components/SnowLocationMap.vue'
 import 'leaflet/dist/leaflet.css'
+import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
 
 /**
  * @interface SnowReport
