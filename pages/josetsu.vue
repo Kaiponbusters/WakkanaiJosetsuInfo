@@ -18,7 +18,6 @@
               :key="report.id"
               class="border-x border-b p-4 bg-white"
             >
-              <AreaNameDisplay :area="report.area" />
               <SnowLocationMap :area="report.area" />
               <div class="mt-2 space-y-1 text-gray-600">
                 <p>除雪開始: {{ formatDateTime(report.start_time) }}</p>
