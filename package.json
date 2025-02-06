@@ -1,0 +1,33 @@
+{
+  "name": "wakkanairealtimeinformation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "nuxt start"
+  },
+  "dependencies": {
+    "@nuxtjs/supabase": "^1.4.6",
+    "@supabase/supabase-js": "^2.48.1",
+    "@types/leaflet": "^1.9.16",
+    "firebase": "^11.2.0",
+    "leaflet": "^1.9.4",
+    "mysql2": "^3.12.0",
+    "nuxt": "^3.14.159",
+    "nuxt-leaflet": "^0.0.27",
+    "supabase": "^2.9.6",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@types/node": "^22.12.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14"
+  }
+}
