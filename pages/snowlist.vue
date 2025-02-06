@@ -3,21 +3,21 @@
     <h1 class="text-black text-[32px] mt-[30px] h-[50px] text-center border-b-4 font-['Noto Sans']">
       除雪情報管理
     </h1>
-    
+
     <!-- 登録ページへのボタンを追加 -->
     <div class="flex justify-end mt-4 mb-6">
-      <button 
+      <button
         @click="router.push('/create')"
         class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
       >
         新規登録
       </button>
     </div>
-    
+
     <div v-if="loading" class="text-center py-8">
       Loading...
     </div>
-    
+
     <div v-else>
       <div v-for="report in snowReports" :key="report.id" class="mb-6 bg-white rounded-lg shadow p-4">
         <div class="flex justify-between items-start">
@@ -29,15 +29,15 @@
               <p class="text-sm text-gray-500">登録日時: {{ formatDateTime(report.created_at) }}</p>
             </div>
           </div>
-          
+
           <div class="flex space-x-2">
-            <button 
+            <button
               @click="handleEdit(report)"
               class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
             >
               編集
             </button>
-            <button 
+            <button
               @click="handleDelete(report.id)"
               class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
             >
@@ -167,7 +167,7 @@ const handleEdit = (report: SnowReport) => {
 // 更新
 const handleUpdate = async () => {
   if (!editingReport.value) return
-  
+
   try {
     // supabaseクライアントを直接使用
     const { data, error } = await supabase
@@ -181,7 +181,7 @@ const handleUpdate = async () => {
       .select()
 
     if (error) throw error
-    
+
     // ローカルデータの更新
     snowReports.value = snowReports.value.map(report => {
       if (report.id === editingReport.value?.id) {
@@ -206,7 +206,7 @@ const handleUpdate = async () => {
 // 削除
 const handleDelete = async (id: number) => {
   if (!confirm('本当に削除しますか？')) return
-  
+
   try {
     // サーバーサイドのエンドポイントを使用
     const { error } = await $fetch('/api/snow/delete', {
@@ -215,7 +215,7 @@ const handleDelete = async (id: number) => {
     })
 
     if (error) throw error
-    
+
     // 削除成功時のみローカルのデータを更新
     snowReports.value = snowReports.value.filter(report => report.id !== id)
     alert('削除しました')
