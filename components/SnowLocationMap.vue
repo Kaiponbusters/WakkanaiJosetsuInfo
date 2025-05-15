@@ -22,19 +22,28 @@ let mapInstance: any = null
  * 地域名から座標を取得する関数
  */
 async function getCoordinates(area: string) {
+  console.log(`[SnowLocationMap] getCoordinates called for area: '${area}'`);
   try {
     const query = `${area}、稚内市、北海道`
+    console.log(`[SnowLocationMap] Nominatim query: '${query}'`);
     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
     const data = await response.json()
+    console.log(`[SnowLocationMap] Nominatim response for '${area}':`, JSON.stringify(data, null, 2));
 
     if (data && data[0]) {
       coordinates.value = {
         lat: parseFloat(data[0].lat),
         lng: parseFloat(data[0].lon)
       }
+      console.log(`[SnowLocationMap] Coordinates updated for '${area}':`, coordinates.value);
+    } else {
+      console.warn(`[SnowLocationMap] No coordinates found for area: '${area}'. Using initial coordinates.`);
+      // オプション: 座標が見つからない場合、初期値やエラー状態に戻すことを検討
+      // coordinates.value = { lat: 45.4161, lng: 141.6739 }; // 例えば初期値に戻すか、あるいはnullなど
     }
   } catch (error) {
-    console.error('Geocoding error:', error)
+    console.error(`[SnowLocationMap] Geocoding error for area '${area}':`, error);
+    console.warn(`[SnowLocationMap] Geocoding failed for area: '${area}'. Using initial coordinates.`);
   }
 }
 
