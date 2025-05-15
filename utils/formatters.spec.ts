@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { formatDateTime, formatDate } from './formatters'
+import { formatDateTime, formatDate, parseDate, compareDates } from './formatters'
 
 describe('formatDateTime', () => {
   it('should format a valid ISO string correctly', () => {
@@ -34,5 +34,33 @@ describe('formatDate', () => {
     const dateString = '2023-12-25'
     const formatted = formatDate(dateString)
     expect(formatted).toBe('2023/12/25')
+  })
+})
+
+describe('parseDate', () => {
+  it('should convert a valid ISO string to a Date object', () => {
+    const isoString = '2023-01-15T14:30:00'
+    const date = parseDate(isoString)
+    expect(date).toBeInstanceOf(Date)
+    expect(date.getFullYear()).toBe(2023)
+    expect(date.getMonth()).toBe(0) // 0-indexed (0 = 1月)
+    expect(date.getDate()).toBe(15)
+    expect(date.getHours()).toBe(14)
+    expect(date.getMinutes()).toBe(30)
+  })
+
+  it('should return an empty Date object for an empty input', () => {
+    const date = parseDate('')
+    expect(date).toBeInstanceOf(Date)
+    expect(date.getTime()).toBe(0)
+  })
+})
+
+describe('compareDates', () => {
+  it('should compare dates correctly', () => {
+    expect(compareDates('2023-01-15T14:30:00', '2023-01-15T14:30:00')).toBe(0)
+    expect(compareDates('2023-01-15T14:30:00', '2023-01-15T14:35:00')).toBeLessThan(0)
+    expect(compareDates('2023-01-15T14:35:00', '2023-01-15T14:30:00')).toBeGreaterThan(0)
+    expect(compareDates('2023-01-15T14:30:00', '2023-01-16T14:30:00')).toBeLessThan(0)
   })
 })

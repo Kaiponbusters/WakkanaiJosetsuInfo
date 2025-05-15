@@ -46,7 +46,7 @@ import { useSupabaseClient } from '#imports'
 import SnowLocationMap from '~/components/SnowLocationMap.vue'
 import 'leaflet/dist/leaflet.css'
 import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
-import { formatDate, formatDateTime } from '~/utils/formatters'
+import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
 
 /**
  * @interface SnowReport
@@ -111,7 +111,7 @@ const groupedReports = computed(() => {
       groups.push({
         date,
         reports: reports.sort((a, b) =>
-          new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
+          -compareDates(a.start_time, b.start_time) // 降順にするため負の値を返す
         )
       })
     })
