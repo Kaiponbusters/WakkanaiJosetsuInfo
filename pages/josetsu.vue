@@ -42,10 +42,11 @@
  */
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
-import { supabase } from '~/utils/supabaseClient'
+import { useSupabaseClient } from '#imports'
 import SnowLocationMap from '~/components/SnowLocationMap.vue'
 import 'leaflet/dist/leaflet.css'
 import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
+import { formatDate, formatDateTime } from '~/utils/formatters'
 
 /**
  * @interface SnowReport
@@ -88,36 +89,6 @@ const toggleGroup = (index: number) => {
 }
 
 /**
- * 日付を指定されたフォーマットに変換する関数
- * @param {string} dateStr - フォーマットする日付文字列
- * @returns {string} フォーマットされた日付文字列
- */
-const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-  })
-}
-
-/**
- * 日時を指定されたフォーマットに変換する関数
- * @param {string} dateStr - フォーマットする日時文字列
- * @returns {string} フォーマットされた日時文字列
- */
-const formatDateTime = (dateStr: string) => {
-  const date = new Date(dateStr)
-  return date.toLocaleString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
-
-/**
  * 除雪情報を日付でグループ化するcomputed
  * @returns {GroupedReports[]} グループ化された除雪情報の配列
  */
@@ -154,6 +125,7 @@ const groupedReports = computed(() => {
  * @throws {Error} データ取得に失敗した場合
  */
 const fetchSnowReports = async () => {
+  const supabase = useSupabaseClient()
   try {
     const { data, error } = await supabase
       .from('snow_reports')

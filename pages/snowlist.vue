@@ -107,9 +107,11 @@
 
 definePageMeta({ layout: 'false' })
 import { ref, onMounted } from 'vue'
-import { serverSupabaseClient } from '#supabase/server'
+// import { serverSupabaseClient } from '#supabase/server' // serverSupabaseClientはクライアントサイドでは不要
 import { useRouter } from 'vue-router' // 追加
-import { supabase } from '~/utils/supabaseClient'  // supabaseClientのインポートを追加
+// import { supabase } from '~/utils/supabaseClient'  // ★ 削除：supabaseClientのインポートを削除
+import { useSupabaseClient } from '#imports' // ★ 追加：Nuxt3のコンポーザブルを使用
+import { formatDateTime } from '~/utils/formatters' // ★ 追加
 
 interface SnowReport {
   id: number
@@ -125,23 +127,9 @@ const showEditModal = ref(false)
 const editingReport = ref<SnowReport | null>(null)
 const router = useRouter() // 追加
 
-// 日時フォーマット関数
-const formatDateTime = (dateStr: string) => {
-  if (!dateStr) return ''
-  // "YYYY-MM-DDTHH:MM" をローカル表記に変換してからDateを生成
-  const localStr = dateStr.replace('T', ' ').replace(/-/g, '/')
-  const date = new Date(localStr)
-  return date.toLocaleString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
-
 // データ取得
 const fetchSnowReports = async () => {
+  const supabase = useSupabaseClient() // ★ 追加：useSupabaseClientでクライアント取得
   try {
     const { data, error } = await supabase
       .from('snow_reports')
@@ -169,16 +157,16 @@ const handleUpdate = async () => {
   if (!editingReport.value) return
 
   try {
-    // supabaseクライアントを直接使用
-    const { data, error } = await supabase
-      .from('snow_reports')
-      .update({
+    // ★ 変更：サーバーサイドのエンドポイントを使用
+    const { data, error } = await $fetch('/api/snow/update', {
+      method: 'POST',
+      body: {
+        id: editingReport.value.id,
         area: editingReport.value.area,
         start_time: editingReport.value.start_time,
         end_time: editingReport.value.end_time
-      })
-      .eq('id', editingReport.value.id)
-      .select()
+      }
+    })
 
     if (error) throw error
 
