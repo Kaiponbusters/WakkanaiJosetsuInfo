@@ -178,8 +178,15 @@ const getCoordinates = async (area: string) => {
 }
 
 watch(() => props.area, async (newArea) => {
-  await getCoordinates(newArea);
-  await updateMapView();
+  if (newArea && typeof newArea === 'string' && newArea.trim() !== '') {
+    await getCoordinates(newArea);
+    await updateMapView();
+  } else {
+    // newArea が無効な場合、地図表示をクリアするなどの処理も検討できる
+    // coordinates.value = null; 
+    // if (map) { map.remove(); map = null; }
+    console.warn('props.area が無効なため、座標取得と地図更新をスキップしました。 area:', newArea);
+  }
 }, { immediate: true });
 
 onMounted(async () => {
