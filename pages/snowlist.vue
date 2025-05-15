@@ -112,6 +112,7 @@ import { useRouter } from 'vue-router' // 追加
 // import { supabase } from '~/utils/supabaseClient'  // ★ 削除：supabaseClientのインポートを削除
 import { useSupabaseClient } from '#imports' // ★ 追加：Nuxt3のコンポーザブルを使用
 import { formatDateTime } from '~/utils/formatters' // ★ 追加
+import { useErrorHandler } from '~/composables/useErrorHandler' // 追加
 
 interface SnowReport {
   id: number
@@ -126,6 +127,7 @@ const loading = ref(true)
 const showEditModal = ref(false)
 const editingReport = ref<SnowReport | null>(null)
 const router = useRouter() // 追加
+const { handleError } = useErrorHandler() // 追加
 
 // データ取得
 const fetchSnowReports = async () => {
@@ -139,8 +141,7 @@ const fetchSnowReports = async () => {
     if (error) throw error
     snowReports.value = data
   } catch (error) {
-    console.error('Error fetching snow reports:', error)
-    alert('データの取得に失敗しました')
+    handleError(error, '除雪情報の取得') // 変更
   } finally {
     loading.value = false
   }
@@ -157,8 +158,7 @@ const handleUpdate = async () => {
   if (!editingReport.value) return
 
   try {
-    // ★ 変更：サーバーサイドのエンドポイントを使用
-    const { data, error } = await $fetch('/api/snow/update', {
+    const response = await $fetch('/api/snow/update', { // APIのレスポンス構造に注意
       method: 'POST',
       body: {
         id: editingReport.value.id,
@@ -168,14 +168,17 @@ const handleUpdate = async () => {
       }
     })
 
-    if (error) throw error
+    // API側が成功時に { success: true, data: ... } などを返すか、
+    // エラー時にcreateErrorで投げるかによってここの処理は変わる
+    // 今回はAPI側をcreateErrorで投げるようにするので、成功時はそのまま進む
 
-    // ローカルデータの更新
+    // ローカルデータの更新 (APIが更新後のデータを返せばそれを使うのが望ましい)
     snowReports.value = snowReports.value.map(report => {
       if (report.id === editingReport.value?.id) {
+        // APIから返却されたデータで更新するのが理想 (response.data など)
         return {
           ...report,
-          area: editingReport.value.area,
+          area: editingReport.value.area, // 仮にローカルのeditingReportで更新
           start_time: editingReport.value.start_time,
           end_time: editingReport.value.end_time
         }
@@ -186,8 +189,7 @@ const handleUpdate = async () => {
     showEditModal.value = false
     alert('更新しました')
   } catch (error) {
-    console.error('Error updating snow report:', error)
-    alert('更新に失敗しました')
+    handleError(error, '除雪情報の更新') // 変更
   }
 }
 
@@ -196,20 +198,16 @@ const handleDelete = async (id: number) => {
   if (!confirm('本当に削除しますか？')) return
 
   try {
-    // サーバーサイドのエンドポイントを使用
-    const { error } = await $fetch('/api/snow/delete', {
+    await $fetch('/api/snow/delete', { // APIのレスポンス構造に注意
       method: 'POST',
       body: { id }
     })
 
-    if (error) throw error
-
-    // 削除成功時のみローカルのデータを更新
+    // API側がエラー時にcreateErrorで投げるので、成功時はそのまま進む
     snowReports.value = snowReports.value.filter(report => report.id !== id)
     alert('削除しました')
   } catch (error) {
-    console.error('Error deleting snow report:', error)
-    alert('削除に失敗しました')
+    handleError(error, '除雪情報の削除') // 変更
   }
 }
 
