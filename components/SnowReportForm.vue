@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { supabase } from '~/utils/supabaseClient'
+import { useSupabaseClient } from '#imports'
 
 interface SnowReport {
   id: number
@@ -85,6 +85,8 @@ const formData = ref({
 const editingReport = ref<SnowReport | null>(null)
 const showEditModal = ref(false)
 const snowReports = ref<SnowReport[]>([])
+
+const supabase = useSupabaseClient()
 
 const handleSubmit = async () => {
   try {
