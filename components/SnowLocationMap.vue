@@ -24,7 +24,7 @@ let mapInstance: any = null
 async function getCoordinates(area: string) {
   console.log(`[SnowLocationMap] getCoordinates called for area: '${area}'`);
   try {
-    const query = `${area}、稚内市、北海道`
+    const query = area;
     console.log(`[SnowLocationMap] Nominatim query: '${query}'`);
     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
     const data = await response.json()
@@ -51,6 +51,10 @@ async function getCoordinates(area: string) {
  * マップを生成する処理
  */
 async function createMap() {
+  if (!mapContainer.value) { 
+    console.error("[SnowLocationMap] mapContainer is not available.");
+    return;
+  }
   // すでにマップが存在していれば破棄
   if (mapInstance) {
     mapInstance.remove()
