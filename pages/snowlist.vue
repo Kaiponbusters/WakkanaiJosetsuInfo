@@ -121,6 +121,13 @@ interface SnowReport {
   created_at: string
 }
 
+// API応答の型定義
+interface ApiResponse {
+  success: boolean
+  data?: SnowReport[] | null
+  error?: string
+}
+
 const snowReports = ref<SnowReport[]>([])
 const loading = ref(true)
 const showEditModal = ref(false)
@@ -157,8 +164,8 @@ const handleUpdate = async () => {
   if (!editingReport.value) return
 
   try {
-    // ★ 変更：サーバーサイドのエンドポイントを使用
-    const { data, error } = await $fetch('/api/snow/update', {
+    // サーバーサイドのエンドポイントを使用
+    const response = await $fetch<ApiResponse>('/api/snow/update', {
       method: 'POST',
       body: {
         id: editingReport.value.id,
@@ -168,7 +175,9 @@ const handleUpdate = async () => {
       }
     })
 
-    if (error) throw error
+    if (!response.success) {
+      throw new Error(response.error || '更新に失敗しました')
+    }
 
     // ローカルデータの更新
     snowReports.value = snowReports.value.map(report => {
@@ -187,7 +196,7 @@ const handleUpdate = async () => {
     alert('更新しました')
   } catch (error) {
     console.error('Error updating snow report:', error)
-    alert('更新に失敗しました')
+    alert(`更新に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
   }
 }
 
@@ -197,19 +206,21 @@ const handleDelete = async (id: number) => {
 
   try {
     // サーバーサイドのエンドポイントを使用
-    const { error } = await $fetch('/api/snow/delete', {
+    const response = await $fetch<ApiResponse>('/api/snow/delete', {
       method: 'POST',
       body: { id }
     })
 
-    if (error) throw error
+    if (!response.success) {
+      throw new Error(response.error || '削除に失敗しました')
+    }
 
     // 削除成功時のみローカルのデータを更新
     snowReports.value = snowReports.value.filter(report => report.id !== id)
     alert('削除しました')
   } catch (error) {
     console.error('Error deleting snow report:', error)
-    alert('削除に失敗しました')
+    alert(`削除に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
   }
 }
 
