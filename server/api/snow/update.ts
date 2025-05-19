@@ -21,10 +21,20 @@ interface SnowReport {
 }
 
 /**
+ * API応答の型定義
+ * @interface ApiResponse
+ */
+interface ApiResponse {
+  success: boolean
+  data?: SnowReport[] | null
+  error?: string
+}
+
+/**
  * 除雪情報を更新するイベントハンドラー
  * @async
  * @param {H3Event} event - H3イベントオブジェクト
- * @returns {Promise<{success: boolean, data?: any, error?: string}>} 更新結果
+ * @returns {Promise<ApiResponse>} 更新結果
  */
 export default defineEventHandler(async (event) => {
   try {

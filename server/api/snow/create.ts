@@ -6,10 +6,37 @@ import { serverSupabaseClient } from '#supabase/server'
  */
 
 /**
+ * 除雪情報の型定義
+ * @interface SnowReport
+ */
+interface SnowReport {
+  /** 除雪情報の一意のID */
+  id: number
+  /** 除雪作業が行われた地域名 */
+  area: string
+  /** 除雪作業の開始時間 */
+  start_time: string
+  /** 除雪作業の終了時間 */
+  end_time: string
+  /** 作成日時 */
+  created_at?: string
+}
+
+/**
+ * API応答の型定義
+ * @interface ApiResponse
+ */
+interface ApiResponse {
+  success: boolean
+  data?: SnowReport[] | null
+  error?: string
+}
+
+/**
  * 新規除雪情報を作成するイベントハンドラー
  * @async
  * @param {H3Event} event - H3イベントオブジェクト
- * @returns {Promise<{success: boolean, data?: any, error?: string}>} 作成結果
+ * @returns {Promise<ApiResponse>} 作成結果
  */
 export default defineEventHandler(async (event) => {
   try {

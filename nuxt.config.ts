@@ -33,4 +33,4 @@ export default defineNuxtConfig({
       SUPABASE_KEY: process.env.SUPABASE_KEY
     }
   }
-} as any)
+})
