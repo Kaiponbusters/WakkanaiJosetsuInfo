@@ -6,10 +6,19 @@ import { serverSupabaseClient } from '#supabase/server'
  */
 
 /**
+ * API応答の型定義
+ * @interface ApiResponse
+ */
+interface ApiResponse {
+  success: boolean
+  error?: string
+}
+
+/**
  * 除雪情報を削除するイベントハンドラー
  * @async
  * @param {H3Event} event - H3イベントオブジェクト
- * @returns {Promise<{success: boolean, error?: string}>} 削除結果
+ * @returns {Promise<ApiResponse>} 削除結果
  */
 export default defineEventHandler(async (event) => {
   try {

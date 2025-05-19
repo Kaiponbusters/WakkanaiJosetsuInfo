@@ -122,6 +122,13 @@ interface SnowReport {
   created_at: string
 }
 
+// API応答の型定義
+interface ApiResponse {
+  success: boolean
+  data?: SnowReport[] | null
+  error?: string
+}
+
 const snowReports = ref<SnowReport[]>([])
 const loading = ref(true)
 const showEditModal = ref(false)
@@ -130,6 +137,7 @@ const router = useRouter() // 追加
 const { handleError } = useErrorHandler() // 追加
 
 // データ取得
+//処理は一貫しないが、読み取りはsupabaseのAPIを利用してもセキュリティ敵に問題はないためこのままでいく
 const fetchSnowReports = async () => {
   const supabase = useSupabaseClient() // ★ 追加：useSupabaseClientでクライアント取得
   try {
@@ -158,7 +166,10 @@ const handleUpdate = async () => {
   if (!editingReport.value) return
 
   try {
-    const response = await $fetch('/api/snow/update', { // APIのレスポンス構造に注意
+
+    // サーバーサイドのエンドポイントを使用
+    const response = await $fetch<ApiResponse>('/api/snow/update', {
+
       method: 'POST',
       body: {
         id: editingReport.value.id,
@@ -168,9 +179,11 @@ const handleUpdate = async () => {
       }
     })
 
-    // API側が成功時に { success: true, data: ... } などを返すか、
-    // エラー時にcreateErrorで投げるかによってここの処理は変わる
-    // 今回はAPI側をcreateErrorで投げるようにするので、成功時はそのまま進む
+
+    if (!response.success) {
+      throw new Error(response.error || '更新に失敗しました')
+    }
+
 
     // ローカルデータの更新 (APIが更新後のデータを返せばそれを使うのが望ましい)
     snowReports.value = snowReports.value.map(report => {
@@ -189,7 +202,10 @@ const handleUpdate = async () => {
     showEditModal.value = false
     alert('更新しました')
   } catch (error) {
-    handleError(error, '除雪情報の更新') // 変更
+
+    console.error('Error updating snow report:', error)
+    alert(`更新に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
+
   }
 }
 
@@ -198,16 +214,26 @@ const handleDelete = async (id: number) => {
   if (!confirm('本当に削除しますか？')) return
 
   try {
-    await $fetch('/api/snow/delete', { // APIのレスポンス構造に注意
+
+    // サーバーサイドのエンドポイントを使用
+    const response = await $fetch<ApiResponse>('/api/snow/delete', {
+
       method: 'POST',
       body: { id }
     })
 
-    // API側がエラー時にcreateErrorで投げるので、成功時はそのまま進む
+
+    if (!response.success) {
+      throw new Error(response.error || '削除に失敗しました')
+    }
+
+    // 削除成功時のみローカルのデータを更新
     snowReports.value = snowReports.value.filter(report => report.id !== id)
     alert('削除しました')
   } catch (error) {
-    handleError(error, '除雪情報の削除') // 変更
+    console.error('Error deleting snow report:', error)
+    alert(`削除に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`)
+
   }
 }
 
