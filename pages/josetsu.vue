@@ -44,6 +44,7 @@ import { useSupabaseClient } from '#imports'
 import SnowLocationMap from '~/components/SnowLocationMap.vue'
 import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
 import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
+import { useErrorHandler } from '~/composables/useErrorHandler'
 
 /**
  * @interface SnowReport
@@ -72,6 +73,8 @@ const snowReports = ref<SnowReport[]>([])
 const loading = ref(true)
 /** @type {Ref<Set<number>>} 開いているグループのインデックスを管理するセット */
 const openGroups = ref(new Set<number>())
+
+const { handleError } = useErrorHandler()
 
 /**
  * グループの開閉状態を切り替える関数
@@ -132,7 +135,7 @@ const fetchSnowReports = async () => {
     if (error) throw error
     snowReports.value = data
   } catch (error) {
-    console.error('Error fetching snow reports:', error)
+    handleError(error, '除雪情報の取得')
   } finally {
     loading.value = false
   }
@@ -141,6 +144,7 @@ const fetchSnowReports = async () => {
 onMounted(() => {
   fetchSnowReports()
 })
+
 </script>
 <style scoped>
 .map-container {
