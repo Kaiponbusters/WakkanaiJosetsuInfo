@@ -47,6 +47,7 @@ import SnowLocationMap from '~/components/SnowLocationMap.vue'
 import 'leaflet/dist/leaflet.css'
 import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
 import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
+import { useErrorHandler } from '~/composables/useErrorHandler'
 
 /**
  * @interface SnowReport
@@ -75,6 +76,8 @@ const snowReports = ref<SnowReport[]>([])
 const loading = ref(true)
 /** @type {Ref<Set<number>>} 開いているグループのインデックスを管理するセット */
 const openGroups = ref(new Set<number>())
+
+const { handleError } = useErrorHandler()
 
 /**
  * グループの開閉状態を切り替える関数
@@ -135,7 +138,7 @@ const fetchSnowReports = async () => {
     if (error) throw error
     snowReports.value = data
   } catch (error) {
-    console.error('Error fetching snow reports:', error)
+    handleError(error, '除雪情報の取得')
   } finally {
     loading.value = false
   }
@@ -168,12 +171,17 @@ let map: any = null
 const getCoordinates = async (area: string) => {
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area + ', 稚内市, 北海道')}`);
+    if (!response.ok) {
+      throw new Error(`座標の取得に失敗しました (HTTP ${response.status}: ${response.statusText})`);
+    }
     const data = await response.json();
     if (data && data[0]) {
       coordinates.value = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+    } else {
+      throw new Error('指定された地域の座標が見つかりませんでした。');
     }
   } catch (error) {
-    console.error('Error fetching coordinates:', error);
+    handleError(error, `地域「${area}」の座標取得`);
   }
 }
 

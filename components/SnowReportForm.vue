@@ -66,6 +66,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSupabaseClient } from '#imports'
+import { useErrorHandler } from '~/composables/useErrorHandler'
 
 interface SnowReport {
   id: number
@@ -87,6 +88,7 @@ const showEditModal = ref(false)
 const snowReports = ref<SnowReport[]>([])
 
 const supabase = useSupabaseClient()
+const { handleError } = useErrorHandler()
 
 const handleSubmit = async () => {
   try {
@@ -98,14 +100,11 @@ const handleSubmit = async () => {
       body: formData.value
     })
 
-    if (response.success) {
-      alert('除雪情報を登録しました')
-      // 登録成功後に管理画面へ遷移
-      router.push('/snowlist')
-    }
+    alert('除雪情報を登録しました')
+    router.push('/snowlist')
+
   } catch (error) {
-    console.error('Error:', error)
-    alert('登録に失敗しました')
+    handleError(error, '除雪情報の登録')
   }
 }
 
@@ -113,7 +112,7 @@ const handleUpdate = async () => {
   if (!editingReport.value) return
 
   try {
-    const { error } = await supabase
+    const { error: supabaseError } = await supabase
       .from('snow_reports')
       .update({
         area: editingReport.value.area,
@@ -122,9 +121,8 @@ const handleUpdate = async () => {
       })
       .eq('id', editingReport.value.id)
 
-    if (error) throw error
+    if (supabaseError) throw supabaseError
 
-    // 更新が成功したら、ローカルのデータも更新
     snowReports.value = snowReports.value.map(report => {
       if (report.id === editingReport.value?.id) {
         return {
@@ -140,8 +138,7 @@ const handleUpdate = async () => {
     showEditModal.value = false
     alert('更新しました')
   } catch (error) {
-    console.error('Error updating snow report:', error)
-    alert('更新に失敗しました')
+    handleError(error, '除雪情報の更新')
   }
 }
 </script>
