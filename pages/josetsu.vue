@@ -30,8 +30,6 @@
         </div>
       </div>
   </div>
-  <!-- 地図を表示する要素 -->
-  <div ref="mapContainer" class="w-full h-[300px] mb-5"></div>
 </template>
 
 /**
@@ -44,7 +42,6 @@
 import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useSupabaseClient } from '#imports'
 import SnowLocationMap from '~/components/SnowLocationMap.vue'
-import 'leaflet/dist/leaflet.css'
 import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
 import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
 import { useErrorHandler } from '~/composables/useErrorHandler'
@@ -148,113 +145,6 @@ onMounted(() => {
   fetchSnowReports()
 })
 
-/**
- * コンポーネントのプロパティ定義
- */
-const props = defineProps<{
-  /** 地域名 */
-  area: string
-}>()
-
-/** @type {Ref<[number, number] | null>} 地図の座標を管理する変数 */
-const coordinates = ref<[number, number] | null>(null)
-/** @type {Ref<HTMLElement | null>} 地図を表示するDOM要素への参照 */
-const mapContainer = ref<HTMLElement | null>(null)
-/** @type {any} Leafletマップのインスタンス */
-let map: any = null
-
-/**
- * 地域名から座標を取得する非同期関数
- * @async
- * @param {string} area - 座標を取得する地域名
- */
-const getCoordinates = async (area: string) => {
-  try {
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area + ', 稚内市, 北海道')}`);
-    if (!response.ok) {
-      throw new Error(`座標の取得に失敗しました (HTTP ${response.status}: ${response.statusText})`);
-    }
-    const data = await response.json();
-    if (data && data[0]) {
-      coordinates.value = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-    } else {
-      throw new Error('指定された地域の座標が見つかりませんでした。');
-    }
-  } catch (error) {
-    handleError(error, `地域「${area}」の座標取得`);
-  }
-}
-
-watch(() => props.area, async (newArea) => {
-  if (newArea && typeof newArea === 'string' && newArea.trim() !== '') {
-    await getCoordinates(newArea);
-    await updateMapView();
-  } else {
-    // newArea が無効な場合、地図表示をクリアするなどの処理も検討できる
-    // coordinates.value = null; 
-    // if (map) { map.remove(); map = null; }
-    console.warn('props.area が無効なため、座標取得と地図更新をスキップしました。 area:', newArea);
-  }
-}, { immediate: true });
-
-onMounted(async () => {
-  if (typeof window !== 'undefined') {
-    const L = (await import('leaflet')).default;
-
-    watch(coordinates, () => {
-      if (coordinates.value && mapContainer.value) {
-        if (map) {
-          map.remove();
-          map = null;
-        }
-        map = L.map(mapContainer.value).setView(coordinates.value, 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-        L.marker(coordinates.value).addTo(map);
-      }
-    }, { immediate: true });
-  }
-});
-
-onBeforeUnmount(() => {
-  if (map) {
-    map.remove();
-    map = null;
-  }
-});
-
-/**
- * 座標が変わったタイミングでマップをセットビューする関数
- * すでにマップがあれば座標・ズームだけ更新し、なければ新規生成
- */
-const updateMapView = async () => {
-  // クライアントサイドのみ Leaflet をインポート
-  const L = (await import('leaflet')).default
-
-  if (!mapContainer.value || !coordinates.value) return
-
-  if (map) {
-    // すでにマップがある場合は座標のみ更新
-    map.setView(coordinates.value, 15)
-    // マーカー追加等が必要であればここで再設定
-    return
-  }
-
-  // マップが未生成の場合のみ新規作成
-  map = L.map(mapContainer.value).setView(coordinates.value, 15)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map)
-  L.marker(coordinates.value).addTo(map)
-}
-
-/**
- * マップコンテナが変更されたら再生成（初回・DOMが用意された後）
- */
-watch(mapContainer, async () => {
-  await updateMapView()
-})
 </script>
 <style scoped>
 .map-container {
