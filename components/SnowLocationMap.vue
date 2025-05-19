@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import 'leaflet/dist/leaflet.css'
+import type { Map as LeafletMap } from 'leaflet'
 
 // 親から文字列プロパティ "area" を受け取る
 const props = defineProps<{
@@ -16,7 +17,7 @@ const props = defineProps<{
 
 // 座標の初期値を任意で設定
 const coordinates = ref({ lat: 45.4161, lng: 141.6739 })
-let mapInstance: any = null
+let mapInstance: LeafletMap | null = null
 
 /**
  * 地域名から座標を取得する関数
