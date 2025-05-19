@@ -29,10 +29,13 @@ interface SnowReport {
 export default defineEventHandler(async (event) => {
   try {
     const supabase = await serverSupabaseClient(event)
-    const body = await readBody<SnowReport>(event)
-    
-    if (!body.id) {
-      throw new Error('ID is required')
+    const body = await readBody(event)
+
+    if (!body.id || !body.area || !body.start_time || !body.end_time) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: '入力データが不足しています。ID、地域、開始時間、終了時間は必須です。'
+      })
     }
 
     const { data, error } = await supabase
@@ -43,16 +46,36 @@ export default defineEventHandler(async (event) => {
         end_time: body.end_time
       })
       .eq('id', body.id)
-      .select('*') // 更新後のデータを取得
+      .select()
+      .single()
 
     if (error) {
-      console.error('Update error:', error)
-      throw error
+      console.error('Supabase update error:', error)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'データベースの更新に失敗しました。',
+        data: { details: error.message }
+      })
+    }
+
+    if (!data) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: '更新対象のデータが見つかりませんでした。'
+      })
     }
 
     return { success: true, data }
-  } catch (error) {
-    console.error('Database error:', error)
-    return { success: false, error: error.message }
+
+  } catch (error: any) {
+    console.error('Update API error:', error)
+    if (error.statusCode) {
+        return sendError(event, error)
+    }
+    return sendError(event, createError({
+      statusCode: 500,
+      statusMessage: 'サーバー内部エラーが発生しました。',
+      data: { details: error.message || 'Unknown server error' }
+    }))
   }
 })
