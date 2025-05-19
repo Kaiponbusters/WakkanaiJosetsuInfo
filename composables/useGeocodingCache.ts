@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { useState } from '#imports'
+import { useGeocodingApi } from '~/composables/useGeocodingApi'
 
 /**
  * 座標情報の型定義
@@ -13,6 +14,9 @@ export interface Coordinates {
  * 地名から座標へのキャッシュを管理するコンポーザブル
  */
 export function useGeocodingCache() {
+  // APIリクエスト管理機能を利用
+  const { fetchWithRateLimit } = useGeocodingApi()
+
   // グローバルステートでキャッシュを管理（アプリケーション全体で共有）
   const cache = useState<Record<string, Coordinates>>('geocoding-cache', () => {
     // 初期化時にローカルストレージから読み込む
@@ -50,10 +54,11 @@ export function useGeocodingCache() {
     stats.value.misses++
     console.debug(`[GeoCache] Cache miss for ${area}, fetching...`)
     
-    // キャッシュにない場合はAPIから取得
+    // キャッシュにない場合はAPIから取得（レート制限付き）
     try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area)}`)
-      const data = await response.json()
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area)}`
+      // レート制限とリトライ機能を持つfetch関数を使用
+      const data = await fetchWithRateLimit(url, area)
       
       if (data && data[0]) {
         const coords: Coordinates = {
@@ -116,4 +121,4 @@ export function useGeocodingCache() {
     clearCache,
     getStats
   }
-} 
+}
