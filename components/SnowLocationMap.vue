@@ -9,6 +9,7 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import 'leaflet/dist/leaflet.css'
 import type { Map as LeafletMap } from 'leaflet'
+import { useGeocodingCache } from '~/composables/useGeocodingCache'
 
 // 親から文字列プロパティ "area" を受け取る
 const props = defineProps<{
@@ -19,32 +20,23 @@ const props = defineProps<{
 const coordinates = ref({ lat: 45.4161, lng: 141.6739 })
 let mapInstance: LeafletMap | null = null
 
-/**
- * 地域名から座標を取得する関数
- */
-async function getCoordinates(area: string) {
-  console.log(`[SnowLocationMap] getCoordinates called for area: '${area}'`);
-  try {
-    const query = area;
-    console.log(`[SnowLocationMap] Nominatim query: '${query}'`);
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
-    const data = await response.json()
-    console.log(`[SnowLocationMap] Nominatim response for '${area}':`, JSON.stringify(data, null, 2));
+// 座標キャッシュを使用
+const { getCoordinates } = useGeocodingCache()
 
-    if (data && data[0]) {
-      coordinates.value = {
-        lat: parseFloat(data[0].lat),
-        lng: parseFloat(data[0].lon)
-      }
-      console.log(`[SnowLocationMap] Coordinates updated for '${area}':`, coordinates.value);
-    } else {
-      console.warn(`[SnowLocationMap] No coordinates found for area: '${area}'. Using initial coordinates.`);
-      // オプション: 座標が見つからない場合、初期値やエラー状態に戻すことを検討
-      // coordinates.value = { lat: 45.4161, lng: 141.6739 }; // 例えば初期値に戻すか、あるいはnullなど
-    }
+/**
+ * 地域名から座標を取得する関数（キャッシュ対応版）
+ */
+async function fetchCoordinates(area: string) {
+  console.log(`[SnowLocationMap] fetchCoordinates called for area: '${area}'`);
+  try {
+    // キャッシュからの取得を試みる
+    const coords = await getCoordinates(area)
+    coordinates.value = coords
+    console.log(`[SnowLocationMap] Coordinates updated for '${area}':`, coordinates.value);
   } catch (error) {
     console.error(`[SnowLocationMap] Geocoding error for area '${area}':`, error);
     console.warn(`[SnowLocationMap] Geocoding failed for area: '${area}'. Using initial coordinates.`);
+    // エラー時は初期座標を維持
   }
 }
 
@@ -82,7 +74,7 @@ async function createMap() {
  * コンポーネントマウント時に座標を取得してマップを生成
  */
 onMounted(async () => {
-  await getCoordinates(props.area)
+  await fetchCoordinates(props.area)
   await createMap()
 })
 
@@ -90,7 +82,7 @@ onMounted(async () => {
  * 親から "area" が変わったとき、座標を再取得してマップを再描画
  */
 watch(() => props.area, async (newArea) => {
-  await getCoordinates(newArea)
+  await fetchCoordinates(newArea)
   if (mapInstance) {
     // 既存のマップがあれば座標だけ更新
     mapInstance.setView([coordinates.value.lat, coordinates.value.lng], 15)

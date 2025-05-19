@@ -135,6 +135,7 @@ const editingReport = ref<SnowReport | null>(null)
 const router = useRouter() // 追加
 
 // データ取得
+//処理は一貫しないが、読み取りはsupabaseのAPIを利用してもセキュリティ敵に問題はないためこのままでいく
 const fetchSnowReports = async () => {
   const supabase = useSupabaseClient() // ★ 追加：useSupabaseClientでクライアント取得
   try {
