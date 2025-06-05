@@ -1,0 +1,147 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# プロジェクト構造とSupabase利用ガイドライン
+
+## ディレクトリ構造
+
+### ページとコンポーネント
+- ページコンポーネントは[pages](mdc:pages)ディレクトリに配置してください
+- 再利用可能なコンポーネントは[components](mdc:components)ディレクトリに配置してください
+- ページレイアウトは[layouts](mdc:layouts)ディレクトリに配置してください
+
+### 機能別構造化
+- 特定の機能に関連するコンポーネントは、機能名のサブディレクトリにグループ化することを検討してください
+  - 例: `components/snow/` - 除雪関連のコンポーネント
+
+## APIエンドポイント
+
+### サーバーAPI
+- サーバーAPIは[server/api](mdc:server/api)ディレクトリに配置してください
+- APIルートは機能ごとにサブディレクトリに分類してください
+  - 例: `server/api/snow/` - 除雪情報関連のAPI
+
+```ts
+// server/api/snow/report.post.ts
+export default defineEventHandler(async (event) => {
+  // POSTリクエストの処理
+})
+```
+
+## Supabaseの利用
+
+### クライアントの初期化
+- Supabaseクライアントの初期化には`useSupabaseClient()`コンポジャブルを使用してください
+- 直接`createClient`を使用するのではなく、Nuxtのサポートを利用してください
+
+```ts
+// 推奨
+const supabase = useSupabaseClient()
+
+// 非推奨
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(...)
+```
+
+### データアクセスパターン
+- データアクセスロジックはコンポーネントから分離してください
+- 可能な限りサーバーサイドAPIを通じてデータにアクセスしてください
+
+```ts
+// サーバーAPIを通じたデータアクセス（推奨）
+const { data, error } = await useFetch('/api/snow/reports')
+
+// 直接クライアントからのアクセス（必要な場合のみ）
+const supabase = useSupabaseClient()
+const { data, error } = await supabase
+  .from('snow_reports')
+  .select('*')
+```
+
+### 認証処理
+- 認証には`useSupabaseUser()`を使用してユーザー情報にアクセスしてください
+- 認証が必要なページには[middleware](mdc:middleware)を使用してください
+
+```ts
+// ユーザー情報の取得
+const user = useSupabaseUser()
+
+// 認証が必要なルートの保護（middleware/auth.ts）
+export default defineNuxtRouteMiddleware(() => {
+  const user = useSupabaseUser()
+  if (!user.value) {
+    return navigateTo('/login')
+  }
+})
+```
+
+## 共通ユーティリティ
+
+### 再利用可能なロジック
+- 再利用可能なロジックは[utils](mdc:utils)ディレクトリに配置してください
+- 再利用可能なコンポジションロジックは[composables](mdc:composables)ディレクトリに配置してください
+
+### フォーマッター関数
+- 日付、通貨、その他のフォーマット機能は`utils/formatters.ts`に集約してください
+- フォーマッター関数は純粋関数として実装してください
+
+```ts
+// utils/formatters.ts
+export function formatDate(date: Date, format: string = 'yyyy-MM-dd'): string {
+  // 日付フォーマット実装
+}
+
+export function formatSnowDepth(depth: number): string {
+  return `${depth}cm`
+}
+```
+
+## 環境変数とシークレット
+
+### 環境変数の管理
+- 環境変数は`.env`ファイルで管理してください
+- 公開可能な環境変数は`NUXT_PUBLIC_`プレフィックスを付けてください
+- シークレット情報は常に`.gitignore`に含めてください
+
+### 環境変数の取得
+- サーバーサイドでは`process.env`から直接アクセスできます
+- クライアントサイドでは`useRuntimeConfig()`を使用してください
+
+```ts
+// サーバーサイド
+const apiKey = process.env.API_SECRET_KEY
+
+// クライアントサイド（公開可能な変数のみ）
+const config = useRuntimeConfig()
+const publicApiUrl = config.public.apiUrl
+```
+
+## テスト
+
+### テストファイルの配置
+- ユニットテストは関連するソースファイルと同じディレクトリに配置してください
+- テストファイル名は`.test.ts`または`.spec.ts`で終わるようにしてください
+
+### テストフレームワーク
+- Vitestを使用してテストを記述してください
+- コンポーネントテストにはVue Test Utilsを使用してください
+
+## ビルドと開発
+
+### 開発サーバーの起動
+```bash
+npm run dev
+```
+
+### プロダクションビルド
+```bash
+npm run build
+```
+
+### Docker環境
+- Dockerを使用して開発環境を起動するには:
+```bash
+docker-compose up -d
+```

@@ -100,8 +100,8 @@ const handleSubmit = async () => {
       body: formData.value
     })
 
-    alert('除雪情報を登録しました')
-    router.push('/snowlist')
+      alert('除雪情報を登録しました')
+      router.push('/snowlist')
 
   } catch (error) {
     handleError(error, '除雪情報の登録')

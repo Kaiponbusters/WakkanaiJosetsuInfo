@@ -16,7 +16,7 @@ export function useGeocodingApi() {
   const lastRequestTime = ref(0)
   
   // 進行中のリクエストを追跡
-  const pendingRequests = ref<Record<string, Promise<any>>>({});
+  const pendingRequests = ref<Record<string, Promise<any>>>({})
   
   // APIリクエストの統計情報
   const stats = ref({
