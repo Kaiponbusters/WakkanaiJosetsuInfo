@@ -41,15 +41,14 @@ const props = defineProps<{
   area: string
 }>()
 
-// 座標の初期値を任意で設定
-const coordinates = ref({ lat: 45.4161, lng: 141.6739 })
+// 座標情報（取得成功時のみ設定）
+const coordinates = ref<{ lat: number; lng: number } | null>(null)
 let mapInstance: LeafletMap | null = null
 
 // UI状態管理
 const isLoading = ref(false)
 const hasError = ref(false)
 const errorMessage = ref('')
-const isUsingDefaultCoordinates = ref(false)
 
 // 座標キャッシュを使用
 const { getCoordinates } = useGeocodingCache()
@@ -62,7 +61,7 @@ async function fetchCoordinates(area: string) {
   isLoading.value = true
   hasError.value = false
   errorMessage.value = ''
-  isUsingDefaultCoordinates.value = false
+  coordinates.value = null
   
   try {
     // キャッシュからの取得を試みる
@@ -73,11 +72,10 @@ async function fetchCoordinates(area: string) {
     console.error(`[SnowLocationMap] Geocoding error for area '${area}':`, error);
     hasError.value = true
     errorMessage.value = error instanceof Error 
-      ? `「${area}」の座標情報が取得できませんでした: ${error.message}`
-      : `「${area}」の座標情報の取得中にエラーが発生しました`;
-    // エラー時は初期座標を維持
-    isUsingDefaultCoordinates.value = true
-    console.warn(`[SnowLocationMap] Geocoding failed for area: '${area}'. Using initial coordinates.`);
+      ? `「${area}」の正確な位置情報が取得できませんでした。${error.message}`
+      : `「${area}」の位置情報の取得中にエラーが発生しました。`;
+    coordinates.value = null
+    console.warn(`[SnowLocationMap] Geocoding failed for area: '${area}'. Map will not be displayed.`);
   } finally {
     isLoading.value = false
   }
@@ -94,33 +92,34 @@ async function createMap() {
     return;
   }
   
+  if (!coordinates.value) {
+    console.error("[SnowLocationMap] No coordinates available for map creation.");
+    hasError.value = true
+    errorMessage.value = "位置情報が取得できないため、地図を表示できません"
+    return;
+  }
+  
   isLoading.value = true
   
   try {
-  // すでにマップが存在していれば破棄
-  if (mapInstance) {
-    mapInstance.remove()
-    mapInstance = null
-  }
-
-  // →Map container Already initializedに対する修正
-  const L = await import('leaflet').then(m => m.default || m)
-  mapInstance = L.map(mapContainer.value).setView([coordinates.value.lat, coordinates.value.lng], 15)
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(mapInstance)
-
-  // マーカーを追加
-    const marker = L.marker([coordinates.value.lat, coordinates.value.lng])
-    .addTo(mapInstance)
-      
-    // デフォルト座標使用時はポップアップでその旨を表示
-    if (isUsingDefaultCoordinates.value) {
-      marker.bindPopup(`${props.area}<br><small class="text-orange-500">※ 正確な位置ではない可能性があります</small>`)
-    } else {
-      marker.bindPopup(props.area)
+    // すでにマップが存在していれば破棄
+    if (mapInstance) {
+      mapInstance.remove()
+      mapInstance = null
     }
+
+    // →Map container Already initializedに対する修正
+    const L = await import('leaflet').then(m => m.default || m)
+    mapInstance = L.map(mapContainer.value).setView([coordinates.value.lat, coordinates.value.lng], 15)
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(mapInstance)
+
+    // マーカーを追加
+    const marker = L.marker([coordinates.value.lat, coordinates.value.lng])
+      .addTo(mapInstance)
+      .bindPopup(props.area)
     
     // エラー状態をリセット
     hasError.value = false
@@ -142,7 +141,7 @@ async function createMap() {
 async function retryLoading() {
   hasError.value = false
   await fetchCoordinates(props.area)
-  if (!hasError.value) {
+  if (!hasError.value && coordinates.value) {
     await createMap()
   }
 }
@@ -152,8 +151,8 @@ async function retryLoading() {
  */
 onMounted(async () => {
   await fetchCoordinates(props.area)
-  if (!hasError.value) {
-  await createMap()
+  if (!hasError.value && coordinates.value) {
+    await createMap()
   }
 })
 
@@ -161,7 +160,7 @@ onMounted(async () => {
  * 既存のマーカーを更新する
  */
 async function updateMarker(areaName: string) {
-  if (!mapInstance) return;
+  if (!mapInstance || !coordinates.value) return;
   
   try {
     const L = await import('leaflet').then(m => m.default || m);
@@ -176,14 +175,8 @@ async function updateMarker(areaName: string) {
     
     // マーカーを再追加
     const marker = L.marker([coordinates.value.lat, coordinates.value.lng])
-      .addTo(mapInstance);
-      
-    // デフォルト座標使用時はポップアップでその旨を表示
-    if (isUsingDefaultCoordinates.value) {
-      marker.bindPopup(`${areaName}<br><small class="text-orange-500">※ 正確な位置ではない可能性があります</small>`);
-    } else {
-      marker.bindPopup(areaName);
-    }
+      .addTo(mapInstance)
+      .bindPopup(areaName);
   } catch (error) {
     console.error("[SnowLocationMap] Error updating marker:", error);
   }
@@ -194,8 +187,13 @@ async function updateMarker(areaName: string) {
  */
 watch(() => props.area, async (newArea) => {
   await fetchCoordinates(newArea)
-  if (hasError.value) {
-    return; // エラーがある場合は処理を中断
+  if (hasError.value || !coordinates.value) {
+    // エラーがある場合や座標が取得できない場合は既存マップを削除
+    if (mapInstance) {
+      mapInstance.remove()
+      mapInstance = null
+    }
+    return;
   }
   
   if (mapInstance) {
