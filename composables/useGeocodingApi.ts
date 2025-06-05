@@ -150,4 +150,4 @@ export function useGeocodingApi() {
     cancelRequest,
     getStats
   }
-} 
+}

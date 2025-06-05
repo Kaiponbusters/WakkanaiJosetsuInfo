@@ -121,4 +121,4 @@ export function useGeocodingCache() {
     clearCache,
     getStats
   }
-} 
+}
