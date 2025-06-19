@@ -24,7 +24,15 @@ export const useErrorHandler = () => {
       console.error(`${userMessagePrefix}で不明なエラーが発生しました:`, error)
     }
 
-    const alertMessage = `${userMessagePrefix}に失敗しました。(${detailedMessage})`
+    // XSS を防ぐため、詳細メッセージをエスケープ
+    const sanitize = (str: string) => str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+
+    const alertMessage = `${userMessagePrefix}に失敗しました。(${sanitize(detailedMessage)})`
     
     // ブラウザ環境でのみalertを表示（SSR時などを考慮）
     if (typeof window !== 'undefined') {

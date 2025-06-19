@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Supabase, Vitest, Leaflet, Playwright MCP best practices for this project
+globs: "**/*"
+---
+# Supabase 利用ガイドライン
+
+## 初期化と設定
+- Nuxt 3 の `@nuxtjs/supabase` モジュールを介してクライアントを初期化してください。
+- `useSupabaseClient()` と `useSupabaseUser()` を利用し、直接 `createClient` を呼び出さないでください。
+- パブリックキーなど公開可能な値は `NUXT_PUBLIC_` プレフィックス付き環境変数に保存してください。
+- シークレットキーは**絶対に**クライアントに送らず、サーバー API 内でのみ参照してください。
+
+## データアクセスパターン
+- 可能な限りサーバーサイド API (`server/api/`) を経由してデータを取得・更新してください。
+- リアルタイム機能を使用する場合は、`supabase.channel()` を利用し、チャンネル名は `project:table:event` の形式で一意に命名してください。
+
+## 認証
+- ログイン状態の判定には `useSupabaseUser()` を使用し、必要なページでは Nuxt のルートミドルウェアでガードしてください。
+
+# テスト方針
+
+## 単体テスト (Vitest)
+- テストファイルは対象コードと同じフォルダに置き、`*.spec.ts` もしくは `*.test.ts` の拡張子を付けてください。
+- DOM を扱うコンポーネントは `@vue/test-utils` と `happy-dom` を組み合わせてテストしてください。
+- モックには `vi.fn()` を使用し、外部 API へのネットワーク呼び出しは全てモック化してください。
+
+## E2E / ブラウザテスト (Playwright MCP)
+- Playwright MCP で生成するテストは `tests/playwright/` 配下に `*.spec.ts` として配置してください。
+- MCP ツールの各アクションは**必ず** non-interactive フラグ (`--yes` など) を付与し、CI での自動実行を想定してください。
+- スクリーンショットや動画は `tests/playwright/artifacts/` に出力し、Git にはコミットしないでください (`.gitignore` 登録)。
+- テストユーザーの認証情報は CI のシークレットに設定し、テストコード内にハードコードしないでください。
+
+# Leaflet ベストプラクティス
+
+## コンポーネント構築
+- Leaflet マップは **サーバーサイドレンダリング無効** (`<client-only>`) 内で描画してください。
+- マップインスタンスは `onMounted` で生成し、`onBeforeUnmount` で `map.remove()` を呼び出して確実にクリーンアップしてください。
+- レイヤーやマーカーはコンポーネント外部 (例: composable) でビジネスロジックを管理し、UI コンポーネントを薄く保ちます。
+
+## パフォーマンス
+- 多数のマーカーを表示する場合は、`L.markerClusterGroup` などクラスタリングプラグインの利用を検討してください。
+- マーカーやレイヤーのスタイルは `className` と CSS クラスで制御し、インラインスタイルを避けてください。
+
+# ドキュメンテーション
+- すべてのルール文書は日本語で記載し、更新時は Pull Request 上でレビュワーに分かりやすい説明を添えてください。

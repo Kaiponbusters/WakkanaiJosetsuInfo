@@ -41,8 +41,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useSupabaseClient } from '#imports'
-import SnowLocationMap from '~/components/SnowLocationMap.vue'
-import AreaNameDisplay from '~/components/AreaNameDisplay.vue'
+import SnowLocationMap from '~/components/feature/snow/SnowLocationMap.vue'
+import AreaNameDisplay from '~/components/ui/AreaNameDisplay.vue'
 import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
 import { useErrorHandler } from '~/composables/useErrorHandler'
 
