@@ -1,6 +1,6 @@
 <template>
   <div>
-    <InformationIcon :type="iconType" />
+    <UiInformationIcon :type="iconType" />
     <!-- 下記slotはNuxtLayoutコンポーネントの子要素に差し替わる -->
     <slot />
   </div>
