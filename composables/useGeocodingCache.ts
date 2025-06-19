@@ -10,6 +10,13 @@ export interface Coordinates {
   lng: number
 }
 
+interface CachedCoordinates extends Coordinates {
+  timestamp: number // 保存時刻 (ms)
+}
+
+// 1 週間 (7 * 24 * 60 * 60 * 1000)
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
+
 /**
  * 地名から座標へのキャッシュを管理するコンポーザブル
  */
@@ -18,7 +25,7 @@ export function useGeocodingCache() {
   const { fetchWithRateLimit } = useGeocodingApi()
 
   // グローバルステートでキャッシュを管理（アプリケーション全体で共有）
-  const cache = useState<Record<string, Coordinates>>('geocoding-cache', () => {
+  const cache = useState<Record<string, CachedCoordinates>>('geocoding-cache', () => {
     // 初期化時にローカルストレージから読み込む
     if (process.client) {
       try {
@@ -45,10 +52,17 @@ export function useGeocodingCache() {
    */
   const getCoordinates = async (area: string): Promise<Coordinates> => {
     // キャッシュにあればそれを返す
-    if (cache.value[area]) {
+    const cached = cache.value[area]
+    if (cached) {
+      // TTL チェック
+      if (Date.now() - cached.timestamp < CACHE_TTL_MS) {
       stats.value.hits++
       console.debug(`[GeoCache] Cache hit for ${area}`)
-      return cache.value[area]
+        return cached
+      }
+      // 期限切れ
+      console.debug(`[GeoCache] Cache expired for ${area}`)
+      delete cache.value[area]
     }
 
     stats.value.misses++
@@ -61,9 +75,10 @@ export function useGeocodingCache() {
       const data = await fetchWithRateLimit(url, area)
       
       if (data && data[0]) {
-        const coords: Coordinates = {
+        const coords: CachedCoordinates = {
           lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon)
+          lng: parseFloat(data[0].lon),
+          timestamp: Date.now()
         }
         
         // キャッシュに保存

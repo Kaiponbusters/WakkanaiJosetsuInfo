@@ -1,0 +1,223 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: 関心の分離パターンとアーキテクチャ設計ガイドライン
+globs: "**/*.vue,**/*.ts,**/*.js"
+---
+# 関心の分離パターンと設計ガイドライン
+
+## 関心の分離の基本原則
+
+### 単一責任の原則
+- 各コンポーネント、関数、クラスは一つの責任のみを持つようにしてください
+- コンポーネントは**UIの表示・操作**のみに専念し、ビジネスロジックは別に分離してください
+- 複数の責任を持つコンポーネントは、より小さな単位に分割することを検討してください
+
+### レイヤー分離
+プロジェクトでは以下のレイヤー構造を維持してください：
+
+1. **プレゼンテーション層** - [components](mdc:components)
+   - UIの表示とユーザーインタラクション
+   - template、CSS、基本的なイベントハンドリングのみ
+   - ビジネスロジック、API通信は含めない
+
+2. **ビジネスロジック層** - [composables](mdc:composables)
+   - 再利用可能なビジネスロジック
+   - 状態管理、データ変換、バリデーション
+   - Vue Composition APIを活用
+
+3. **データアクセス層** - [server/api](mdc:server/api)
+   - 外部API、データベースへのアクセス
+   - データの永続化と取得
+
+4. **ユーティリティ層** - [utils](mdc:utils)
+   - 純粋関数によるデータ変換
+   - フォーマット処理、バリデーション関数
+
+## Vueコンポーネント設計パターン
+
+### 推奨されるコンポーネント構造
+```vue
+<template>
+  <!-- UIのみに集中 -->
+  <div>
+    <button @click="handleSubmit" :disabled="isLoading">
+      {{ isLoading ? '送信中...' : '送信' }}
+    </button>
+  </div>
+</template>
+
+<script setup lang="ts">
+// composableからロジックを取得
+const { isLoading, handleSubmit } = useFormSubmission()
+</script>
+```
+
+### 避けるべきパターン
+```vue
+<!-- ❌ 悪い例：コンポーネント内にビジネスロジックが混在 -->
+<script setup lang="ts">
+const handleSubmit = async () => {
+  // バリデーション、API通信、エラーハンドリングが混在
+  if (!formData.value.email.includes('@')) return
+  const response = await fetch('/api/submit', { ... })
+  // ...
+}
+</script>
+```
+
+### Composablesの設計原則
+
+#### 機能別分離
+- 一つのcomposableは一つの機能領域に集中してください
+- 例：[useLeafletMap.ts](mdc:composables/useLeafletMap.ts) - 地図操作のみ
+- 例：[useLoadingState.ts](mdc:composables/useLoadingState.ts) - ローディング状態のみ
+
+#### 依存関係の明確化
+```ts
+// ✅ 良い例：依存関係が明確
+export function useSnowReportForm() {
+  const { handleError } = useErrorHandler()
+  const router = useRouter()
+  // ...
+}
+```
+
+#### 副作用の分離
+```ts
+// ✅ 良い例：副作用のない純粋な処理
+export function useFormValidation(formData: Ref<FormData>) {
+  const errors = computed(() => validateForm(formData.value))
+  return { errors, isValid: computed(() => !errors.value.length) }
+}
+```
+
+## 状態管理パターン
+
+### ローカル状態 vs グローバル状態
+- **ローカル状態**: 単一コンポーネントで完結する状態は`ref`/`reactive`を使用
+- **グローバル状態**: 複数コンポーネント間で共有する状態は`useState`を使用
+- **永続化が必要な状態**: [useGeocodingCache.ts](mdc:composables/useGeocodingCache.ts)のようにlocalStorageと組み合わせ
+
+### 状態の正規化
+```ts
+// ✅ 良い例：状態を正規化
+interface AppState {
+  user: User | null
+  loading: {
+    user: boolean
+    data: boolean
+  }
+  errors: {
+    user: string | null
+    data: string | null
+  }
+}
+```
+
+## エラーハンドリングパターン
+
+### 集約エラーハンドリング
+- 共通のエラーハンドリングは[useErrorHandler.ts](mdc:composables/useErrorHandler.ts)を使用
+- コンポーネント固有のエラーは`useLoadingState`のエラー機能を活用
+
+### エラー境界の設定
+```ts
+// ✅ 良い例：適切なエラー境界
+export function useApiCall() {
+  const { setError, withLoading } = useLoadingState()
+  
+  const fetchData = async () => {
+    return withLoading(
+      async () => await apiCall(),
+      (error) => setError(error, 'データ取得に失敗しました')
+    )
+  }
+  
+  return { fetchData }
+}
+```
+
+## ファイル命名とディレクトリ構造
+
+### 責任ごとのディレクトリ分離
+```
+components/
+├── ui/              # 再利用可能なUIコンポーネント
+├── feature/         # 機能固有のコンポーネント
+└── dev-tools/       # 開発・デバッグ用コンポーネント
+
+composables/
+├── useApi*.ts       # API関連
+├── useForm*.ts      # フォーム関連
+└── use*.ts          # その他の機能別
+
+utils/
+├── formatters.ts    # フォーマット関数
+├── validators.ts    # バリデーション関数
+└── constants.ts     # 定数定義
+```
+
+### 命名規則
+- **Composables**: `use` + 機能名 (例: `useLeafletMap`, `useSnowReportForm`)
+- **コンポーネント**: PascalCase (例: `SnowLocationMap`, `AreaNameDisplay`)
+- **ユーティリティ**: 機能を表すcamelCase (例: `formatDateTime`, `validateEmail`)
+
+## テスタビリティの確保
+
+### ロジックの分離によるテスト容易性
+```ts
+// ✅ 良い例：テストしやすい構造
+// utils/validators.ts
+export function validateEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+// composables/useFormValidation.ts  
+export function useFormValidation(formData: Ref<FormData>) {
+  const isEmailValid = computed(() => validateEmail(formData.value.email))
+  return { isEmailValid }
+}
+```
+
+### モック可能な設計
+```ts
+// ✅ 良い例：依存性注入でモック可能
+export function useApiClient(baseUrl: string = '/api') {
+  const client = $fetch.create({ baseURL: baseUrl })
+  return { client }
+}
+```
+
+## パフォーマンス考慮事項
+
+### 適切な依存関係の管理
+- 不要な再計算を避けるため、`computed`の依存関係を最小化
+- `watch`の使用は必要最小限に留める
+- メモリリークを避けるため、`onBeforeUnmount`で適切にクリーンアップ
+
+### 遅延読み込み
+```ts
+// ✅ 良い例：重いライブラリの遅延読み込み
+export function useLeafletMap() {
+  const initializeMap = async () => {
+    const L = await import('leaflet').then(m => m.default || m)
+    // 初期化処理
+  }
+}
+```
+
+## コードレビューの観点
+
+### 関心の分離チェックリスト
+- [ ] コンポーネントはUIのみに集中しているか
+- [ ] ビジネスロジックはcomposablesに分離されているか
+- [ ] 副作用のない処理はutilsに配置されているか
+- [ ] 状態管理は適切なスコープで行われているか
+- [ ] エラーハンドリングは統一されているか
+- [ ] テストしやすい構造になっているか
+
+このガイドラインに従うことで、保守性が高く、テストしやすく、再利用可能なコードベースを維持できます。

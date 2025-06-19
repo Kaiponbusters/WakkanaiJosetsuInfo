@@ -1,7 +1,11 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
+---
+---
+description: Vue/Nuxt 3 style guide for this project
+globs: **/*.vue
 ---
 # Vue/Nuxt スタイルガイド
 

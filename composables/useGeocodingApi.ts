@@ -9,6 +9,14 @@ import { ref } from 'vue'
 import { logApiRequest } from '~/utils/apiMonitor'
 
 /**
+ * リクエストを追跡する構造
+ */
+interface PendingRequest {
+  promise: Promise<any>
+  controller: AbortController
+}
+
+/**
  * Nominatim APIへのリクエスト管理を提供するコンポーザブル
  */
 export function useGeocodingApi() {
@@ -16,7 +24,7 @@ export function useGeocodingApi() {
   const lastRequestTime = ref(0)
   
   // 進行中のリクエストを追跡
-  const pendingRequests = ref<Record<string, Promise<any>>>({})
+  const pendingRequests = ref<Record<string, PendingRequest>>({})
   
   // APIリクエストの統計情報
   const stats = ref({
@@ -39,7 +47,7 @@ export function useGeocodingApi() {
     // 既に同じエリアへのリクエストが進行中なら、それを返す
     if (area in pendingRequests.value) {
       console.debug(`[GeoApi] Reusing in-flight request for ${area}`)
-      return pendingRequests.value[area]
+      return pendingRequests.value[area].promise
     }
     
     const now = Date.now()
@@ -51,6 +59,9 @@ export function useGeocodingApi() {
       console.debug(`[GeoApi] Rate limiting in effect. Waiting ${delay}ms`)
       await new Promise(resolve => setTimeout(resolve, delay))
     }
+    
+    const controller = new AbortController()
+    const { signal } = controller
     
     const requestPromise = (async () => {
       // リトライ回数とバックオフ設定
@@ -70,7 +81,7 @@ export function useGeocodingApi() {
           }
           
           lastRequestTime.value = Date.now()
-          const response = await fetch(url)
+          const response = await fetch(url, { signal })
           const duration = Date.now() - startTime
           
           // 開発環境では詳細ログを表示
@@ -105,7 +116,7 @@ export function useGeocodingApi() {
       }
     })()
     
-    pendingRequests.value[area] = requestPromise
+    pendingRequests.value[area] = { promise: requestPromise, controller }
     return requestPromise
   }
 
@@ -122,6 +133,11 @@ export function useGeocodingApi() {
    */
   const cancelRequest = (area: string) => {
     if (area in pendingRequests.value) {
+      try {
+        pendingRequests.value[area].controller.abort()
+      } catch (err) {
+        console.warn('[GeoApi] Error aborting request:', err)
+      }
       delete pendingRequests.value[area]
       return true
     }
