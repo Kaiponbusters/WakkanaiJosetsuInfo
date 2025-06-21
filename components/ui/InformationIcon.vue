@@ -4,12 +4,11 @@
         <div class="w-full flex mt-4 mb-7 ml-2 mr-2 items-center justify-center">
             <img
                 :src="iconSrc"
-                class="w-17 h-16 w-max-[67px] h-max-[67px] p-1 mr-3"
+                class="w-[67px] h-[67px] p-1 mr-3"
                 :alt="iconAlt"
             />
             <h1
-                :class="textColorClass"
-                class="text-5xl font-bold font-['Noto Sans']"
+                :class="[textColorClass, 'text-5xl font-bold font-[\'Noto_Sans\']']"
             >
                 {{ title }}
             </h1>
@@ -25,16 +24,18 @@ import josetsuIcon from '@/assets/img/josetsuImg/josetsuIcon.png'
 
 // Props定義
 const props = withDefaults(defineProps<{
+    /** アイコンタイプ。未指定の場合は 'default' */
     type?: 'josetsu' | 'default'
+    /** タイトル文言（指定が無い場合は type から自動決定） */
     title?: string
+    /** カスタムアイコン画像（指定が無い場合は type から自動決定） */
     iconSrc?: string
+    /** img 要素の alt テキスト（指定が無い場合は type から自動決定） */
     iconAlt?: string
+    /** タイトルテキストのカラークラス（指定が無い場合は type から自動決定） */
     textColor?: string
 }>(), {
-    type: 'default',
-    title: 'デフォルト情報',
-    iconAlt: 'アイコン',
-    textColor: 'text-[#000000]'
+    type: 'default'
 })
 
 // アイコン設定のマッピング
@@ -54,8 +55,8 @@ const iconConfig = {
 }
 
 // 実際に使用する値を計算
-const iconSrc = computed(() => props.iconSrc || iconConfig[props.type]?.src || '')
-const iconAlt = computed(() => props.iconAlt || iconConfig[props.type]?.alt || 'アイコン')
-const title = computed(() => props.title || iconConfig[props.type]?.title || 'デフォルト情報')
-const textColorClass = computed(() => props.textColor || iconConfig[props.type]?.color || 'text-[#000000]')
+const iconSrc = computed(() => props.iconSrc ?? iconConfig[props.type]?.src ?? '')
+const iconAlt = computed(() => props.iconAlt ?? iconConfig[props.type]?.alt ?? 'アイコン')
+const title = computed(() => props.title ?? iconConfig[props.type]?.title ?? 'デフォルト情報')
+const textColorClass = computed(() => props.textColor ?? iconConfig[props.type]?.color ?? 'text-[#000000]')
 </script>
