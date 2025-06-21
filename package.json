@@ -15,8 +15,10 @@
   "dependencies": {
     "@nuxtjs/supabase": "^1.4.6",
     "@supabase/supabase-js": "^2.48.1",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/leaflet": "^1.9.16",
     "firebase": "^11.2.0",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "mysql2": "^3.12.0",
     "nuxt": "^3.14.159",

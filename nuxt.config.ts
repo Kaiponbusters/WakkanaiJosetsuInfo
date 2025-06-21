@@ -28,9 +28,11 @@ export default defineNuxtConfig({
     redirect: false
   },
   runtimeConfig: {
+    jwtSecret: process.env.JWT_SECRET,
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY,
     public: {
-      SUPABASE_URL: process.env.SUPABASE_URL,
-      SUPABASE_KEY: process.env.SUPABASE_KEY
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseKey: process.env.SUPABASE_KEY
     }
   }
 })
