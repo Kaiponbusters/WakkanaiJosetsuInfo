@@ -10,6 +10,18 @@ export interface Coordinates {
   lng: number
 }
 
+/**
+ * 座標取得の結果とメタデータ
+ */
+export interface CoordinateResult {
+  coordinates: Coordinates
+  isFromCache: boolean
+  isFromFallback: boolean
+  isFallbackUsed: boolean
+  errorMessage?: string
+  warningMessage?: string
+}
+
 interface CachedCoordinates extends Coordinates {
   timestamp: number // 保存時刻 (ms)
 }
@@ -41,7 +53,8 @@ const FALLBACK_COORDINATES: Record<string, Coordinates> = {
   '東': { lat: 45.4093, lng: 141.6839 },
   '西': { lat: 45.4093, lng: 141.6639 },
   '南': { lat: 45.3993, lng: 141.6739 },
-  '北': { lat: 45.4193, lng: 141.6739 }
+  '北': { lat: 45.4193, lng: 141.6739 },
+  'テスト地域': { lat: 45.4000, lng: 141.6700 }
 }
 
 /**
@@ -75,9 +88,120 @@ export function useGeocodingCache() {
   })
 
   /**
-   * フォールバック座標を取得
-   * @param area 地域名
-   * @returns フォールバック座標またはnull
+   * Extract Method: キャッシュヒット時の処理
+   */
+  const handleCacheHit = (area: string, cached: CachedCoordinates): CoordinateResult => {
+    stats.value.hits++
+    console.debug(`[GeoCache] Cache hit for ${area}`)
+    return {
+      coordinates: cached,
+      isFromCache: true,
+      isFromFallback: false,
+      isFallbackUsed: false
+    }
+  }
+
+  /**
+   * Extract Method: API成功時の処理
+   */
+  const handleApiSuccess = async (area: string, data: any[]): Promise<CoordinateResult> => {
+    const coords: CachedCoordinates = {
+      lat: parseFloat(data[0].lat),
+      lng: parseFloat(data[0].lon),
+      timestamp: Date.now()
+    }
+    
+    // キャッシュに保存
+    cache.value[area] = coords
+    await saveToLocalStorage()
+    
+    return {
+      coordinates: coords,
+      isFromCache: false,
+      isFromFallback: false,
+      isFallbackUsed: false
+    }
+  }
+
+  /**
+   * Extract Method: フォールバック処理
+   */
+  const handleFallback = async (area: string, error: unknown): Promise<CoordinateResult> => {
+    stats.value.apiErrors++
+    console.error(`[GeoCache] Error fetching coordinates for ${area}:`, error)
+    
+    const fallbackCoords = getFallbackCoordinates(area)
+    if (fallbackCoords) {
+      return await createFallbackResult(area, fallbackCoords, error)
+    }
+    
+    // デフォルトフォールバック
+    console.warn(`[GeoCache] No fallback found for ${area}, using default Wakkanai coordinates`)
+    return await createDefaultFallbackResult(area, error)
+  }
+
+  /**
+   * Extract Method: フォールバック結果の作成
+   */
+  const createFallbackResult = async (area: string, coordinates: Coordinates, error: unknown): Promise<CoordinateResult> => {
+    stats.value.fallbacks++
+    console.warn(`[GeoCache] Using fallback coordinates for ${area}:`, coordinates)
+    
+    await saveFallbackToCache(area, coordinates)
+    
+    return {
+      coordinates,
+      isFromCache: false,
+      isFromFallback: true,
+      isFallbackUsed: true,
+      warningMessage: `位置情報サービスが利用できないため、${area}の概算位置を表示しています`,
+      errorMessage: error instanceof Error ? error.message : 'API接続エラー'
+    }
+  }
+
+  /**
+   * Extract Method: デフォルトフォールバック結果の作成
+   */
+  const createDefaultFallbackResult = async (area: string, error: unknown): Promise<CoordinateResult> => {
+    stats.value.fallbacks++
+    
+    return {
+      coordinates: WAKKANAI_DEFAULT_COORDINATES,
+      isFromCache: false,
+      isFromFallback: true,
+      isFallbackUsed: true,
+      warningMessage: `${area}の位置情報が取得できないため、稚内市の中心部を表示しています`,
+      errorMessage: error instanceof Error ? error.message : 'API接続エラー'
+    }
+  }
+
+  /**
+   * Extract Method: フォールバック座標をキャッシュに保存
+   */
+  const saveFallbackToCache = async (area: string, coordinates: Coordinates): Promise<void> => {
+    const fallbackCached: CachedCoordinates = {
+      ...coordinates,
+      timestamp: Date.now() - (CACHE_TTL_MS * 0.9) // 90%期限切れとして扱う
+    }
+    cache.value[area] = fallbackCached
+    await saveToLocalStorage()
+  }
+
+  /**
+   * Extract Method: ローカルストレージへの保存
+   */
+  const saveToLocalStorage = async (): Promise<void> => {
+    if (process.client) {
+      try {
+        localStorage.setItem('geocoding-cache', JSON.stringify(cache.value))
+      } catch (error) {
+        console.warn('[GeoCache] Error saving to localStorage:', error)
+      }
+    }
+  }
+
+  /**
+   * Replace Nested Conditional with Guard Clauses: フォールバック座標を取得
    */
   const getFallbackCoordinates = (area: string): Coordinates | null => {
     // 完全一致
@@ -99,22 +223,27 @@ export function useGeocodingCache() {
   }
 
   /**
+   * Decompose Conditional: キャッシュの有効性チェック
+   */
+  const isCacheValid = (cached: CachedCoordinates): boolean => {
+    return Date.now() - cached.timestamp < CACHE_TTL_MS
+  }
+
+  /**
    * 座標情報をキャッシュから取得、なければAPIから取得してキャッシュする
    * @param area 地域名
    * @param useStrictFallback フォールバックを使用するかどうか（デフォルト: true）
-   * @returns 座標情報
+   * @returns 座標情報と取得状況
    */
-  const getCoordinates = async (area: string, useStrictFallback: boolean = true): Promise<Coordinates> => {
-    // キャッシュにあればそれを返す
+  const getCoordinates = async (area: string, useStrictFallback: boolean = true): Promise<CoordinateResult> => {
+    // Replace Nested Conditional with Guard Clauses
     const cached = cache.value[area]
-    if (cached) {
-      // TTL チェック
-      if (Date.now() - cached.timestamp < CACHE_TTL_MS) {
-        stats.value.hits++
-        console.debug(`[GeoCache] Cache hit for ${area}`)
-        return cached
-      }
-      // 期限切れ
+    if (cached && isCacheValid(cached)) {
+      return handleCacheHit(area, cached)
+    }
+    
+    // キャッシュ期限切れの場合は削除
+    if (cached && !isCacheValid(cached)) {
       console.debug(`[GeoCache] Cache expired for ${area}`)
       delete cache.value[area]
     }
@@ -122,73 +251,32 @@ export function useGeocodingCache() {
     stats.value.misses++
     console.debug(`[GeoCache] Cache miss for ${area}, fetching...`)
     
-    // キャッシュにない場合はAPIから取得（レート制限付き）
+    // API からの取得を試行
     try {
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area)}`
-      // レート制限とリトライ機能を持つfetch関数を使用
       const data = await fetchWithRateLimit(url, area)
       
       if (data && data[0]) {
-        const coords: CachedCoordinates = {
-          lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon),
-          timestamp: Date.now()
-        }
-        
-        // キャッシュに保存
-        cache.value[area] = coords
-        
-        // ローカルストレージにも保存
-        if (process.client) {
-          try {
-            localStorage.setItem('geocoding-cache', JSON.stringify(cache.value))
-          } catch (error) {
-            console.warn('[GeoCache] Error saving to localStorage:', error)
-          }
-        }
-        
-        return coords
+        return await handleApiSuccess(area, data)
       } else {
         throw new Error(`No coordinates found for ${area}`)
       }
     } catch (error) {
-      stats.value.apiErrors++
-      console.error(`[GeoCache] Error fetching coordinates for ${area}:`, error)
-      
-      // フォールバック機能を使用
       if (useStrictFallback) {
-        const fallbackCoords = getFallbackCoordinates(area)
-        if (fallbackCoords) {
-          stats.value.fallbacks++
-          console.warn(`[GeoCache] Using fallback coordinates for ${area}:`, fallbackCoords)
-          
-          // フォールバック座標をキャッシュに保存（短いTTL）
-          const fallbackCached: CachedCoordinates = {
-            ...fallbackCoords,
-            timestamp: Date.now() - (CACHE_TTL_MS * 0.9) // 90%期限切れとして扱う
-          }
-          cache.value[area] = fallbackCached
-          
-          if (process.client) {
-            try {
-              localStorage.setItem('geocoding-cache', JSON.stringify(cache.value))
-            } catch (storageError) {
-              console.warn('[GeoCache] Error saving fallback to localStorage:', storageError)
-            }
-          }
-          
-          return fallbackCoords
-        }
-        
-        // フォールバックも見つからない場合は稚内市のデフォルト座標を使用
-        console.warn(`[GeoCache] No fallback found for ${area}, using default Wakkanai coordinates`)
-        stats.value.fallbacks++
-        return WAKKANAI_DEFAULT_COORDINATES
+        return await handleFallback(area, error)
       }
-      
-      // useStrictFallback が false の場合はエラーを再スロー
       throw error
     }
+  }
+
+  /**
+   * 従来互換性のためのシンプルなgetCoordinates関数
+   * @param area 地域名
+   * @returns 座標情報のみ
+   */
+  const getCoordinatesSimple = async (area: string): Promise<Coordinates> => {
+    const result = await getCoordinates(area, true)
+    return result.coordinates
   }
 
   /**
@@ -240,6 +328,7 @@ export function useGeocodingCache() {
     clearCache,
     addFallbackCoordinates,
     getStats,
-    getFallbackCoordinates
+    getFallbackCoordinates,
+    getCoordinatesSimple
   }
 }
