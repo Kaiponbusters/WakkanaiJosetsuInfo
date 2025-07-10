@@ -15,24 +15,6 @@
       </div>
     </div>
     
-    <!-- 警告バナー（フォールバック使用時） -->
-    <div 
-      v-if="showWarningBanner && isMapInitialized" 
-      class="warning-banner"
-    >
-      <div class="warning-content">
-        <span class="warning-icon">⚠️</span>
-        <span class="warning-text">{{ warningMessage }}</span>
-        <button 
-          @click="dismissWarning" 
-          class="dismiss-btn"
-          aria-label="警告を閉じる"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-    
     <!-- エラー表示（API障害時） -->
     <div v-if="showError && isMapInitialized" class="error-display">
       <div class="error-content">
@@ -51,14 +33,6 @@
               class="retry-btn"
             >
               {{ isLoading ? '再試行中...' : '再読み込み' }}
-            </button>
-            
-            <button 
-              @click="showApproximateLocation" 
-              :disabled="isLoading"
-              class="fallback-btn"
-            >
-              概算位置で表示
             </button>
           </div>
         </div>
@@ -83,7 +57,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
-import { useGeocodingCache, type CoordinateResult } from '~/composables/useGeocodingCache'
+import { useGeocodingCache, type Coordinates } from '~/composables/useGeocodingCache'
 
 interface Props {
   area: string
@@ -101,17 +75,15 @@ const isLoading = ref(false)
 const map = ref<any>(null)
 const marker = ref<any>(null)
 
-// エラーハンドリング状態（TDD設計通り）
+// エラーハンドリング状態
 const showError = ref(false)
 const errorMessage = ref('')
-const warningMessage = ref('')
-const showWarningBanner = ref(false)
 
 // キャッシュ機能
-const { getCoordinates, getFallbackCoordinates } = useGeocodingCache()
+const { getCoordinates } = useGeocodingCache()
 
 /**
- * TDD設計：エラーメッセージの分類と表示
+ * エラーメッセージの分類と表示
  */
 const getErrorMessage = (rawError: string): string => {
   if (rawError.includes('timeout') || rawError.includes('TIMEOUT')) {
@@ -127,14 +99,7 @@ const getErrorMessage = (rawError: string): string => {
 }
 
 /**
- * TDD設計：警告バナーを閉じる
- */
-const dismissWarning = () => {
-  showWarningBanner.value = false
-}
-
-/**
- * TDD設計：地図の再読み込み
+ * 地図の再読み込み
  */
 const retryLoad = async () => {
   showError.value = false
@@ -143,70 +108,19 @@ const retryLoad = async () => {
 }
 
 /**
- * TDD設計：概算位置での表示（APIを使わず即座にフォールバック座標を表示）
+ * 座標データの取得とエラーハンドリング
  */
-const showApproximateLocation = async () => {
-  showError.value = false
-  isLoading.value = true
-  
-  try {
-    // APIを使わずに直接フォールバック座標を取得
-    const fallbackCoords = getFallbackCoordinates(props.area)
-    const coordinates = fallbackCoords || { lat: 45.4093, lng: 141.6739 } // 稚内市デフォルト
-    
-    // 警告メッセージを設定
-    warningMessage.value = `${props.area}の位置情報が取得できないため、概算位置を表示しています`
-    showWarningBanner.value = true
-    
-    // 地図を初期化または更新
-    if (!isMapInitialized.value) {
-      await initializeLeafletMap(coordinates.lat, coordinates.lng)
-      isMapInitialized.value = true
-    } else if (map.value) {
-      // 既存地図を更新
-      map.value.setView([coordinates.lat, coordinates.lng], 15)
-      if (marker.value) {
-        marker.value.setLatLng([coordinates.lat, coordinates.lng])
-        marker.value.bindPopup(`${props.area}<br/>緯度: ${coordinates.lat}<br/>経度: ${coordinates.lng}`)
-      }
-    }
-  } catch (error) {
-    console.error('[SnowLocationMap] Error showing approximate location:', error)
-    showError.value = true
-    errorMessage.value = '概算位置の表示に失敗しました'
-  } finally {
-    isLoading.value = false
-  }
-}
-
-/**
- * 座標データの取得とエラーハンドリング（TDD設計）
- */
-const loadMapData = async (): Promise<CoordinateResult | null> => {
+const loadMapData = async (): Promise<Coordinates | null> => {
   if (!props.area) return null
   
   isLoading.value = true
   
   try {
-    const result = await getCoordinates(props.area)
-    
-    // TDD設計：エラー情報の処理
-    if (result.warningMessage) {
-      warningMessage.value = result.warningMessage
-      showWarningBanner.value = true
-    }
-    
-    if (result.errorMessage) {
-      errorMessage.value = result.errorMessage
-      // API失敗時は常にエラー表示（フォールバック使用の有無に関わらず）
-      showError.value = true
-    }
-    
-    return result
+    const coordinates = await getCoordinates(props.area)
+    return coordinates
   } catch (error) {
-    // 完全にフォールバックが失敗した場合
     showError.value = true
-    errorMessage.value = error instanceof Error ? error.message : '不明なエラーが発生しました'
+    errorMessage.value = error instanceof Error ? getErrorMessage(error.message) : '不明なエラーが発生しました'
     return null
   } finally {
     isLoading.value = false
@@ -261,7 +175,7 @@ const initializeMap = async () => {
   if (!result) return
   
   try {
-    await initializeLeafletMap(result.coordinates.lat, result.coordinates.lng)
+    await initializeLeafletMap(result.lat, result.lng)
     isMapInitialized.value = true
   } catch (error) {
     console.error('[SnowLocationMap] Error initializing map:', error)
@@ -282,12 +196,12 @@ const updateMap = async () => {
   try {
     // 地図の中心を更新
     if (map.value) {
-      map.value.setView([result.coordinates.lat, result.coordinates.lng], 15)
+      map.value.setView([result.lat, result.lng], 15)
       
       // マーカーを更新
       if (marker.value) {
-        marker.value.setLatLng([result.coordinates.lat, result.coordinates.lng])
-        marker.value.bindPopup(`${props.area}<br/>緯度: ${result.coordinates.lat}<br/>経度: ${result.coordinates.lng}`)
+        marker.value.setLatLng([result.lat, result.lng])
+        marker.value.bindPopup(`${props.area}<br/>緯度: ${result.lat}<br/>経度: ${result.lng}`)
       }
     }
   } catch (error) {
@@ -384,45 +298,6 @@ onBeforeUnmount(() => {
   cursor: not-allowed;
 }
 
-/* 警告バナー */
-.warning-banner {
-  background: linear-gradient(90deg, #fed7d7 0%, #feb2b2 100%);
-  border-left: 4px solid #e53e3e;
-  padding: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.warning-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.warning-icon {
-  font-size: 1.25rem;
-  margin-right: 0.5rem;
-}
-
-.warning-text {
-  flex: 1;
-  color: #742a2a;
-  font-weight: 500;
-}
-
-.dismiss-btn {
-  background: none;
-  border: none;
-  color: #742a2a;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-}
-
-.dismiss-btn:hover {
-  background: rgba(116, 42, 42, 0.1);
-}
-
 /* エラー表示 */
 .error-display {
   background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
@@ -462,16 +337,13 @@ onBeforeUnmount(() => {
   flex-wrap: wrap;
 }
 
-.retry-btn, .fallback-btn {
+.retry-btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.375rem;
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.retry-btn {
   background: #3182ce;
   color: white;
 }
@@ -480,16 +352,7 @@ onBeforeUnmount(() => {
   background: #2c5aa0;
 }
 
-.fallback-btn {
-  background: #38a169;
-  color: white;
-}
-
-.fallback-btn:hover:not(:disabled) {
-  background: #2f855a;
-}
-
-.retry-btn:disabled, .fallback-btn:disabled {
+.retry-btn:disabled {
   background: #a0aec0;
   cursor: not-allowed;
 }
@@ -546,18 +409,8 @@ onBeforeUnmount(() => {
     flex-direction: column;
   }
   
-  .retry-btn, .fallback-btn {
+  .retry-btn {
     width: 100%;
-  }
-  
-  .warning-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .dismiss-btn {
-    align-self: flex-end;
   }
 }
 </style>
