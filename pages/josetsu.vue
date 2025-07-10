@@ -39,6 +39,11 @@
  * @vue-component
  */
 <script setup lang="ts">
+// ページメタ定義
+definePageMeta({
+  layout: 'default'
+})
+
 import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
 import { useSupabaseClient } from '#imports'
 import SnowLocationMap from '~/components/feature/snow/SnowLocationMap.vue'
