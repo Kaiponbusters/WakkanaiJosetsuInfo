@@ -20,7 +20,7 @@ alwaysApply: true
 ```bash
 # 必須ブランチワークフロー手順
 git fetch origin                    # 最新状態を取得
-git checkout origin/main            # mainブランチに切り替え
+git checkout main                   # mainブランチに切り替え
 git checkout -b fix/feature-name    # 新しいブランチを作成
 # 作業・修正を実行
 git add .                          # 変更をステージング
