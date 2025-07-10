@@ -114,7 +114,14 @@ export function useGeocodingApi() {
         }
         
         lastRequestTime.value = Date.now()
+        
+        // 10秒タイムアウトを設定（デフォルトは無制限のため）
+        const timeout = setTimeout(() => {
+          controller.abort()
+        }, 10000)
+        
         const response = await fetch(url, { signal: controller.signal })
+        clearTimeout(timeout)
         const duration = Date.now() - startTime
         
         // 開発環境では詳細ログを表示

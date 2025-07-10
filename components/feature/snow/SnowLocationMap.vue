@@ -14,7 +14,7 @@
         </button>
       </div>
     </div>
-
+    
     <!-- 警告バナー（フォールバック使用時） -->
     <div 
       v-if="showWarningBanner && isMapInitialized" 
@@ -32,7 +32,7 @@
         </button>
       </div>
     </div>
-
+    
     <!-- エラー表示（API障害時） -->
     <div v-if="showError && isMapInitialized" class="error-display">
       <div class="error-content">
@@ -108,7 +108,7 @@ const warningMessage = ref('')
 const showWarningBanner = ref(false)
 
 // キャッシュ機能
-const { getCoordinates } = useGeocodingCache()
+const { getCoordinates, getFallbackCoordinates } = useGeocodingCache()
 
 /**
  * TDD設計：エラーメッセージの分類と表示
@@ -143,11 +143,40 @@ const retryLoad = async () => {
 }
 
 /**
- * TDD設計：概算位置での表示
+ * TDD設計：概算位置での表示（APIを使わず即座にフォールバック座標を表示）
  */
 const showApproximateLocation = async () => {
   showError.value = false
-  await loadMapData()
+  isLoading.value = true
+  
+  try {
+    // APIを使わずに直接フォールバック座標を取得
+    const fallbackCoords = getFallbackCoordinates(props.area)
+    const coordinates = fallbackCoords || { lat: 45.4093, lng: 141.6739 } // 稚内市デフォルト
+    
+    // 警告メッセージを設定
+    warningMessage.value = `${props.area}の位置情報が取得できないため、概算位置を表示しています`
+    showWarningBanner.value = true
+    
+    // 地図を初期化または更新
+    if (!isMapInitialized.value) {
+      await initializeLeafletMap(coordinates.lat, coordinates.lng)
+      isMapInitialized.value = true
+    } else if (map.value) {
+      // 既存地図を更新
+      map.value.setView([coordinates.lat, coordinates.lng], 15)
+      if (marker.value) {
+        marker.value.setLatLng([coordinates.lat, coordinates.lng])
+        marker.value.bindPopup(`${props.area}<br/>緯度: ${coordinates.lat}<br/>経度: ${coordinates.lng}`)
+      }
+    }
+  } catch (error) {
+    console.error('[SnowLocationMap] Error showing approximate location:', error)
+    showError.value = true
+    errorMessage.value = '概算位置の表示に失敗しました'
+  } finally {
+    isLoading.value = false
+  }
 }
 
 /**
@@ -169,7 +198,8 @@ const loadMapData = async (): Promise<CoordinateResult | null> => {
     
     if (result.errorMessage) {
       errorMessage.value = result.errorMessage
-      showError.value = result.isFallbackUsed
+      // API失敗時は常にエラー表示（フォールバック使用の有無に関わらず）
+      showError.value = true
     }
     
     return result
