@@ -113,7 +113,7 @@
 
 <script setup lang="ts">
 
-definePageMeta({ layout: 'false' })
+definePageMeta({ layout: false })
 import { ref, onMounted } from 'vue'
 // import { serverSupabaseClient } from '#supabase/server' // serverSupabaseClientはクライアントサイドでは不要
 import { useRouter } from 'vue-router' // 追加
