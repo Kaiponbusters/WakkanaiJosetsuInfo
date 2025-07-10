@@ -6,16 +6,27 @@ alwaysApply: true
 
 ## ブランチ戦略の基本原則
 
+### 必須ブランチワークフロー
+- **どんなに小さな変更でも必ずブランチを切って作業すること**
+- **mainブランチへの直接コミットは絶対禁止**
+- **すべての変更はPull Requestを通してマージすること**
+- 1行の修正、タイポ修正、設定変更なども例外なくブランチ作業
+
 ### 新機能・修正ブランチの作成
 - **必ずmainブランチから派生させること**
 - 長期間のfeatureブランチからの派生は禁止
 - ブランチ作成前に必ず `git fetch origin` で最新状態を取得
 
 ```bash
-# 推奨されるブランチ作成手順
-git fetch origin
-git checkout origin/main
-git checkout -b fix/feature-name
+# 必須ブランチワークフロー手順
+git fetch origin                    # 最新状態を取得
+git checkout main                   # mainブランチに切り替え
+git checkout -b fix/feature-name    # 新しいブランチを作成
+# 作業・修正を実行
+git add .                          # 変更をステージング
+git commit -m "message"            # コミット
+git push origin fix/feature-name   # GitHubにpush
+gh pr create                       # PR作成（GitHub CLI使用）
 ```
 
 ### ブランチ命名規則
@@ -27,6 +38,11 @@ git checkout -b fix/feature-name
 - `chore/` - 設定変更・メンテナンス
 
 ## Pull Request作成前のチェックリスト
+
+### 必須チェック項目
+- [ ] **ブランチを切って作業したか（mainへの直接変更は禁止）**
+- [ ] **GitHub CLIまたはWeb UIでPRを作成したか**
+- [ ] **PR作成前にpushが完了しているか**
 
 ### コンフリクト回避のための事前確認
 - [ ] mainブランチから直接派生しているか確認
@@ -45,7 +61,10 @@ git diff --stat origin/main...HEAD
 
 ## 危険なブランチパターン
 
-### 避けるべきブランチ状況
+### 避けるべきブランチ状況（絶対禁止）
+- **mainブランチへの直接コミット**: 最も重要な禁止事項
+- **ブランチを切らずに作業**: たとえ1行の修正でも禁止
+- **PR作成を省略**: すべての変更はPR経由でマージすること
 - **古いfeatureブランチからの派生**: 大量のコンフリクトの原因
 - **複数機能の混在**: レビューが困難で競合しやすい
 - **長期間の未マージブランチ**: mainとの乖離が大きくなる
