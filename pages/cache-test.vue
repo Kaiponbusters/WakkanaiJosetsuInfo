@@ -49,8 +49,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import GeocodingCacheTest from '~/components/GeocodingCacheTest.vue'
-import SnowLocationMap from '~/components/SnowLocationMap.vue'
+import GeocodingCacheTest from '~/components/dev-tools/GeocodingCacheTest.vue'
+import SnowLocationMap from '~/components/feature/snow/SnowLocationMap.vue'
 
 const areaInputValue = ref('')
 const testArea = ref('')

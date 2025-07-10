@@ -1,0 +1,203 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: TypeScript coding standards and best practices for modern web development
+globs: **/*.ts, **/*.tsx, **/*.d.ts
+---
+# TypeScript コーディング規約
+
+## 型定義
+
+### 明示的な型付け
+- 関数には常に戻り値の型を明示してください
+```ts
+// 推奨
+function fetchData(): Promise<UserData[]> {
+  // ...
+}
+
+// 非推奨
+function fetchData() {
+  // ...
+}
+```
+
+### インターフェースと型エイリアス
+- オブジェクト構造にはインターフェースを使用してください
+- ユニオン型や複雑な型には型エイリアスを使用してください
+
+```ts
+// オブジェクト構造にはインターフェース
+interface SnowReport {
+  id: string
+  area: string
+  reportedAt: Date
+  details: string
+}
+
+// ユニオン型や複合型には型エイリアス
+type ApiResponse<T> = {
+  data: T
+  status: number
+} | {
+  error: string
+  status: number
+}
+```
+
+### 共通型の再利用
+- 複数の場所で使用される型定義は[server/types](mdc:server/types)ディレクトリで定義してください
+- コンポーネント固有の型はコンポーネントファイル内で定義してください
+
+### any型の使用禁止
+- `any`型の使用は避けてください
+- 型が不明な場合は`unknown`型を使用してください
+- `as any`型アサーションの使用は最小限に抑えてください
+
+```ts
+// 推奨
+function parseData(data: unknown): ParsedData {
+  if (isValidData(data)) {
+    return data as ParsedData
+  }
+  throw new Error('Invalid data format')
+}
+
+// 非推奨
+function parseData(data: any): ParsedData {
+  return data
+}
+```
+
+## null/undefinedの扱い
+
+### オプショナルチェーン
+- 値がnullまたはundefinedの可能性がある場合は、オプショナルチェーン演算子を使用してください
+```ts
+// 推奨
+const userName = user?.profile?.name
+
+// 非推奨
+const userName = user && user.profile && user.profile.name
+```
+
+### Null合体演算子
+- デフォルト値を設定する場合はNull合体演算子を使用してください
+```ts
+// 推奨
+const displayName = userName ?? 'ゲスト'
+
+// 非推奨
+const displayName = userName !== null && userName !== undefined ? userName : 'ゲスト'
+```
+
+## 非同期処理
+
+### async/await
+- コールバックやPromiseチェーンより`async/await`を優先してください
+```ts
+// 推奨
+async function loadData() {
+  try {
+    const response = await fetch('/api/data')
+    return await response.json()
+  } catch (error) {
+    console.error('データ取得エラー:', error)
+    throw error
+  }
+}
+
+// 非推奨
+function loadData() {
+  return fetch('/api/data')
+    .then(response => response.json())
+    .catch(error => {
+      console.error('データ取得エラー:', error)
+      throw error
+    })
+}
+```
+
+## エラーハンドリング
+
+### 型付きエラーハンドリング
+- エラーオブジェクトには適切な型チェックを行ってください
+```ts
+try {
+  await apiCall()
+} catch (error) {
+  if (error instanceof NetworkError) {
+    // ネットワークエラー処理
+  } else if (error instanceof ValidationError) {
+    // バリデーションエラー処理
+  } else if (error instanceof Error) {
+    // 一般的なエラー処理
+  } else {
+    // 未知のエラー処理
+  }
+}
+```
+
+## 関数とメソッド
+
+### 関数シグネチャ
+- 複数のオーバーロードパターンがある場合、最も一般的なケースが最後にくるようにしてください
+- 関数パラメータにはデフォルト値を設定することを検討してください
+
+```ts
+// 関数オーバーロード
+function formatDate(date: Date): string;
+function formatDate(timestamp: number): string;
+function formatDate(input: Date | number): string {
+  const date = typeof input === 'number' ? new Date(input) : input
+  // 実装
+}
+```
+
+### 純粋関数の使用
+- 可能な限り純粋関数を使用してください
+- 関数の副作用を最小限に抑えてください
+
+## コメント
+
+### TSDocコメント
+- 公開API関数には必ずTSDocコメントを付けてください
+```ts
+/**
+ * 日付を指定されたフォーマットで整形する
+ * 
+ * @param date - 整形する日付オブジェクト
+ * @param format - 日付フォーマット（例: 'yyyy-MM-dd'）
+ * @returns 整形された日付文字列
+ */
+export function formatDate(date: Date, format: string = 'yyyy-MM-dd'): string {
+  // 実装
+}
+```
+
+## インポート/エクスポート
+
+### 名前付きエクスポートの優先
+- デフォルトエクスポートより名前付きエクスポートを使用してください
+```ts
+// 推奨
+export function formatDate() { /* ... */ }
+export function parseDate() { /* ... */ }
+
+// 非推奨
+export default {
+  formatDate() { /* ... */ },
+  parseDate() { /* ... */ }
+}
+```
+
+### インポートの整理
+- インポートは以下の順序で整理してください:
+  1. Node.jsの組み込みモジュール
+  2. 外部ライブラリ
+  3. プロジェクト内モジュール
+  4. 相対パスのインポート
+- 各グループの間には空行を入れてください

@@ -1,0 +1,110 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: Vue/Nuxt 3 style guide for this project
+globs: **/*.vue
+---
+# Vue/Nuxt スタイルガイド
+
+## コンポーネント構造
+
+### Composition APIの使用
+- すべてのコンポーネントではComposition APIを使用してください
+- `<script setup lang="ts">` 形式を使用してください
+```vue
+<script setup lang="ts">
+// 推奨される形式
+</script>
+```
+
+### コンポーネント構成順序
+以下の順序でコンポーネントを構成してください：
+1. `<template>`
+2. `<script setup lang="ts">`
+3. `<style scoped>`
+
+### Props定義
+- 必ずTypeScriptの型定義を使用してください
+```vue
+const props = defineProps<{
+  area: string
+  isRequired: boolean
+  optionalProp?: string
+}>()
+```
+
+### エミット定義
+- `defineEmits`で明示的にイベントを定義してください
+```vue
+const emit = defineEmits<{
+  (e: 'update', value: string): void
+  (e: 'submit'): void
+}>()
+```
+
+## ロジック構成
+
+### コンポジションの分離
+- 複雑なロジックは[composables](mdc:composables)ディレクトリに配置してください
+- 再利用可能なロジックは適切な名前で分離してください
+
+### 状態管理
+- ローカルの状態は`ref`または`reactive`を使用してください
+- コンポーネント間で共有する状態は`useState`を使用してください
+
+```vue
+// ローカル状態
+const isLoading = ref(false)
+
+// 共有状態
+const user = useState('user', () => null)
+```
+
+### エラーハンドリング
+- try/catchブロックでエラーを適切に処理してください
+- エラーメッセージはユーザーフレンドリーなものにしてください
+
+```vue
+try {
+  await fetchData()
+} catch (error) {
+  errorMessage.value = error instanceof Error 
+    ? `データの取得に失敗しました: ${error.message}`
+    : 'データの取得中にエラーが発生しました'
+}
+```
+
+## スタイリング
+
+### スコープ付きCSS
+- コンポーネントには`<style scoped>`を使用してください
+- グローバルスタイルは[assets/css](mdc:assets/css)に配置してください
+
+### Tailwindの使用
+- UIコンポーネントにはTailwind CSSのクラスを使用してください
+- 複雑なスタイルの繰り返しは、コンポーネント内で@applyを使用するか、共通コンポーネントを作成してください
+
+## 命名規則
+
+### ファイル名
+- コンポーネントファイル: PascalCase.vue (例: `SnowLocationMap.vue`)
+- コンポジャブル: camelCase.ts (例: `useGeocodingCache.ts`)
+- ユーティリティ: camelCase.ts (例: `formatters.ts`)
+
+### 変数名
+- ref/reactive: camelCase (例: `isLoading`, `userData`)
+- 定数: SNAKE_CASE_CAPS (例: `API_URL`)
+- 関数: camelCase (例: `fetchData`, `formatDate`)
+
+## パフォーマンス最適化
+
+### レンダリング最適化
+- 不必要な再レンダリングを避けるために`computed`を使用してください
+- 大きなリストには`v-for`の`key`属性を正しく設定してください
+
+### Nuxtの機能活用
+- データフェッチには`useFetch`または`useAsyncData`を使用してください
+- ページ遷移にはNuxtLinkを使用してください

@@ -1,0 +1,276 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# プロジェクト構造とSupabase利用ガイドライン
+
+## プロジェクト全体構造
+
+### 基本ディレクトリ構成
+```
+WakkanaiJosetsuInfo/
+├── app.vue                    # アプリケーションエントリーポイント
+├── pages/                     # ページコンポーネント
+├── components/                # Vueコンポーネント
+│   ├── ui/                    # 汎用UIコンポーネント
+│   ├── feature/               # 機能固有コンポーネント
+│   │   └── snow/              # 除雪機能関連
+│   └── dev-tools/             # 開発・デバッグ用コンポーネント
+├── composables/               # Vue Composition API関数
+├── layouts/                   # ページレイアウト
+├── middleware/                # ルートミドルウェア
+├── server/                    # サーバーサイドAPI
+│   ├── api/                   # APIエンドポイント
+│   ├── db/                    # データベーススキーマ
+│   └── types/                 # サーバーサイド型定義
+├── utils/                     # ユーティリティ関数
+├── assets/                    # 静的リソース
+├── public/                    # 公開ファイル
+├── tests/                     # テストファイル
+│   ├── unit/                  # ユニットテスト
+│   └── playwright/            # E2Eテスト
+├── docker/                    # Docker関連ファイル
+├── docs/                      # プロジェクトドキュメント
+└── supabase/                  # Supabase設定
+```
+
+## コンポーネント分類戦略
+
+### components/ui/ - 汎用UIコンポーネント
+- 再利用可能なUIコンポーネントを配置
+- 特定の機能に依存しない汎用コンポーネント
+- 例: [AreaNameDisplay.vue](mdc:components/ui/AreaNameDisplay.vue), [InformationIcon.vue](mdc:components/ui/InformationIcon.vue)
+
+### components/feature/ - 機能固有コンポーネント
+- 特定の機能に特化したコンポーネントを機能別にグループ化
+- 現在の機能分類:
+  - `snow/` - 除雪情報関連コンポーネント
+  - 例: [SnowLocationMap.vue](mdc:components/feature/snow/SnowLocationMap.vue), [SnowReportForm.vue](mdc:components/feature/snow/SnowReportForm.vue)
+
+### components/dev-tools/ - 開発・デバッグ用
+- 開発時のテスト・デバッグ用コンポーネント
+- 本番環境では使用されないコンポーネント
+- 例: [GeocodingCacheTest.vue](mdc:components/dev-tools/GeocodingCacheTest.vue)
+
+## 関心の分離原則
+
+### UIコンポーネントの設計方針
+- **単一責任**: 各コンポーネントはUIの表示・操作のみに集中
+- **ロジック分離**: ビジネスロジックは[composables](mdc:composables)に移動
+- **純粋性**: propsとemitsによる明確なインターフェース
+
+### Composablesによるロジック分離
+- 再利用可能なビジネスロジックは`composables/`に配置
+- 機能別命名規則: `use{機能名}`
+- 例: [useLeafletMap.ts](mdc:composables/useLeafletMap.ts), [useSnowReportForm.ts](mdc:composables/useSnowReportForm.ts), [useLoadingState.ts](mdc:composables/useLoadingState.ts)
+
+### ユーティリティ関数
+- 純粋関数は[utils](mdc:utils)ディレクトリに配置
+- フォーマット処理は[formatters.ts](mdc:utils/formatters.ts)に集約
+- バリデーション関数の分離
+
+## APIエンドポイント設計
+
+### サーバーAPI構造
+- サーバーAPIは[server/api](mdc:server/api)ディレクトリに配置
+- 機能ごとのサブディレクトリで分類
+- 現在のAPI構造:
+  - `snow/` - 除雪情報関連API ([create.ts](mdc:server/api/snow/create.ts), [update.ts](mdc:server/api/snow/update.ts), [delete.ts](mdc:server/api/snow/delete.ts))
+
+### 今後のAPI拡張方針
+- 新機能追加時は機能別ディレクトリを作成
+- 予定機能:
+  - `auth/` - 認証認可API
+  - `notification/` - 通知機能API
+  - `admin/` - 管理機能API
+
+```ts
+// server/api/snow/report.post.ts
+export default defineEventHandler(async (event) => {
+  // POSTリクエストの処理
+})
+```
+
+## Supabaseの利用
+
+### クライアントの初期化
+- Supabaseクライアントの初期化には`useSupabaseClient()`コンポジャブルを使用
+- 直接`createClient`を使用せず、Nuxtのサポートを利用
+
+```ts
+// 推奨
+const supabase = useSupabaseClient()
+
+// 非推奨
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(...)
+```
+
+### データアクセスパターン
+- データアクセスロジックはコンポーネントから分離
+- 可能な限りサーバーサイドAPIを通じてデータアクセス
+
+```ts
+// サーバーAPIを通じたデータアクセス（推奨）
+const { data, error } = await useFetch('/api/snow/reports')
+
+// 直接クライアントからのアクセス（必要な場合のみ）
+const supabase = useSupabaseClient()
+const { data, error } = await supabase
+  .from('snow_reports')
+  .select('*')
+```
+
+### 認証処理
+- 認証には`useSupabaseUser()`を使用
+- 認証が必要なページには[middleware](mdc:middleware)を使用
+
+```ts
+// ユーザー情報の取得
+const user = useSupabaseUser()
+
+// 認証が必要なルートの保護（middleware/auth.ts）
+export default defineNuxtRouteMiddleware(() => {
+  const user = useSupabaseUser()
+  if (!user.value) {
+    return navigateTo('/login')
+  }
+})
+```
+
+## テスト戦略
+
+### テスト配置方針
+- ユニットテストは[tests/unit](mdc:tests/unit)ディレクトリに配置
+- E2Eテストは[tests/playwright](mdc:tests/playwright)ディレクトリに配置
+- テストファイル名は`.test.ts`または`.spec.ts`で終了
+
+### テスト対象の分離
+- Composablesの単体テスト
+- Utilsの純粋関数テスト
+- コンポーネントの統合テスト
+- APIエンドポイントのテスト
+
+### テストフレームワーク
+- ユニットテスト: Vitest + Vue Test Utils
+- E2Eテスト: Playwright
+- モック: 外部API通信は全てモック化
+
+## 開発環境とビルド
+
+### Docker環境
+- Docker関連ファイルは[docker](mdc:docker)ディレクトリに配置
+- [Dockerfile](mdc:docker/Dockerfile)と[docker-compose.yml](mdc:docker/docker-compose.yml)で環境構築
+
+### ドキュメント
+- プロジェクトドキュメントは[docs](mdc:docs)ディレクトリに配置
+- 技術仕様、設計書、運用手順の管理
+
+## 環境変数とシークレット
+
+### 環境変数の管理
+- 環境変数は`.env`ファイルで管理
+- 公開可能な環境変数は`NUXT_PUBLIC_`プレフィックス
+- シークレット情報は`.gitignore`に含める
+
+### 環境変数の取得
+```ts
+// サーバーサイド
+const apiKey = process.env.API_SECRET_KEY
+
+// クライアントサイド（公開可能な変数のみ）
+const config = useRuntimeConfig()
+const publicApiUrl = config.public.apiUrl
+```
+
+## 共通ユーティリティ
+
+### 再利用可能なロジック
+- 再利用可能なロジックは[utils](mdc:utils)ディレクトリに配置
+- 再利用可能なコンポジションロジックは[composables](mdc:composables)ディレクトリに配置
+
+### フォーマッター関数
+- 日付、通貨、その他のフォーマット機能は[formatters.ts](mdc:utils/formatters.ts)に集約
+- フォーマッター関数は純粋関数として実装
+
+```ts
+// utils/formatters.ts
+export function formatDateTimeForAPI(date: Date): string {
+  // API送信用フォーマット
+}
+
+export function formatDateTimeForDisplay(dateString: string): string {
+  // 表示用フォーマット
+}
+
+export function formatSnowDepth(depth: number): string {
+  return `${depth}cm`
+}
+```
+
+## 今後の開発方針
+
+### 機能拡張ロードマップ
+1. **認証認可機能** - ユーザー管理とアクセス制御
+2. **プッシュ通知機能** - スマートフォン通知対応
+3. **管理画面機能** - 除雪情報の管理・編集
+
+### 状態管理の検討
+- 現在はNuxtの`useState`とcomposablesで状態管理
+- 複雑な状態管理が必要になった場合はPinia導入を検討
+- グローバル状態とローカル状態の明確な分離
+
+### パフォーマンス最適化
+- コンポーネントの遅延読み込み
+- 重いライブラリの動的インポート
+- 適切なキャッシュ戦略
+
+### 開発効率化
+- TypeScript型定義の充実
+- コンポーネントストーリーブック導入検討
+- CI/CDパイプライン強化
+
+## コードレビュー観点
+
+### 設計原則チェック
+- [ ] 関心の分離が適切に行われているか
+- [ ] 適切なディレクトリに配置されているか
+- [ ] 命名規則が統一されているか
+- [ ] 再利用性とテスタビリティが確保されているか
+- [ ] 将来の機能拡張を考慮した設計か
+
+### ファイル配置チェック
+- [ ] UIコンポーネントとビジネスロジックが分離されているか
+- [ ] 機能固有コンポーネントが適切にグループ化されているか
+- [ ] 開発用コンポーネントが本番コードに混在していないか
+
+## ビルドコマンド
+
+### 開発サーバーの起動
+```bash
+npm run dev
+```
+
+### プロダクションビルド
+```bash
+npm run build
+```
+
+### Docker環境
+```bash
+# 開発環境起動
+cd docker && docker-compose up -d
+
+# 環境停止
+cd docker && docker-compose down
+```
+
+### テスト実行
+```bash
+# ユニットテスト
+npm run test
+
+# E2Eテスト
+npm run test:e2e
+```

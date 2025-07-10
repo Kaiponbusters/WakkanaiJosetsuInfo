@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { useState } from '#imports'
+import { useGeocodingApi } from '~/composables/useGeocodingApi'
 
 /**
  * 座標情報の型定義
@@ -9,12 +10,22 @@ export interface Coordinates {
   lng: number
 }
 
+interface CachedCoordinates extends Coordinates {
+  timestamp: number // 保存時刻 (ms)
+}
+
+// 1 週間 (7 * 24 * 60 * 60 * 1000)
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
+
 /**
  * 地名から座標へのキャッシュを管理するコンポーザブル
  */
 export function useGeocodingCache() {
+  // APIリクエスト管理機能を利用
+  const { fetchWithRateLimit } = useGeocodingApi()
+
   // グローバルステートでキャッシュを管理（アプリケーション全体で共有）
-  const cache = useState<Record<string, Coordinates>>('geocoding-cache', () => {
+  const cache = useState<Record<string, CachedCoordinates>>('geocoding-cache', () => {
     // 初期化時にローカルストレージから読み込む
     if (process.client) {
       try {
@@ -41,24 +52,33 @@ export function useGeocodingCache() {
    */
   const getCoordinates = async (area: string): Promise<Coordinates> => {
     // キャッシュにあればそれを返す
-    if (cache.value[area]) {
+    const cached = cache.value[area]
+    if (cached) {
+      // TTL チェック
+      if (Date.now() - cached.timestamp < CACHE_TTL_MS) {
       stats.value.hits++
       console.debug(`[GeoCache] Cache hit for ${area}`)
-      return cache.value[area]
+        return cached
+      }
+      // 期限切れ
+      console.debug(`[GeoCache] Cache expired for ${area}`)
+      delete cache.value[area]
     }
 
     stats.value.misses++
     console.debug(`[GeoCache] Cache miss for ${area}, fetching...`)
     
-    // キャッシュにない場合はAPIから取得
+    // キャッシュにない場合はAPIから取得（レート制限付き）
     try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area)}`)
-      const data = await response.json()
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(area)}`
+      // レート制限とリトライ機能を持つfetch関数を使用
+      const data = await fetchWithRateLimit(url, area)
       
       if (data && data[0]) {
-        const coords: Coordinates = {
+        const coords: CachedCoordinates = {
           lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon)
+          lng: parseFloat(data[0].lon),
+          timestamp: Date.now()
         }
         
         // キャッシュに保存
@@ -116,4 +136,4 @@ export function useGeocodingCache() {
     clearCache,
     getStats
   }
-} 
+}
