@@ -1,0 +1,2051 @@
+<testsuites id="" name="" tests="115" failures="39" skipped="0" errors="0" time="331.793672">
+<testsuite name="snow-crud-integration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="chromium" tests="5" failures="4" skipped="0" time="111.052" errors="0">
+<testcase name="除雪情報CRUD統合フロー › 完全なCRUDフローテスト" classname="snow-crud-integration.spec.ts" time="27.019">
+<failure message="snow-crud-integration.spec.ts:10:3 完全なCRUDフローテスト" type="FAILURE">
+<![CDATA[  [chromium] › snow-crud-integration.spec.ts:10:3 › 除雪情報CRUD統合フロー › 完全なCRUDフローテスト ──────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      71 |     // 削除確認ダイアログの処理
+      72 |     page.on('dialog', async dialog => {
+    > 73 |       expect(dialog.type()).toBe('confirm');
+         |                             ^
+      74 |       await dialog.accept();
+      75 |     });
+      76 |
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:73:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: getByRole('heading', { name: 'CRUD統合テスト_更新_地域_czdvia8cu1bmcwypvaa' })
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'CRUD統合テスト_更新_地域_czdvia8cu1bmcwypvaa' })
+        3 × locator resolved to <h3 class="text-lg font-bold">CRUD統合テスト_更新_地域_czdvia8cu1bmcwypvaa</h3>
+          - unexpected value "visible"
+
+
+      79 |
+      80 |     // 削除されたデータが表示されないことを確認
+    > 81 |     await expect(page.getByRole('heading', { name: testData.updated.area })).toBeHidden();
+         |                                                                              ^
+      82 |   });
+      83 |
+      84 |   test('複数データでのCRUD操作', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:81:78
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-chromium\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › 複数データでのCRUD操作" classname="snow-crud-integration.spec.ts" time="30.127">
+<failure message="snow-crud-integration.spec.ts:84:3 複数データでのCRUD操作" type="FAILURE">
+<![CDATA[  [chromium] › snow-crud-integration.spec.ts:84:3 › 除雪情報CRUD統合フロー › 複数データでのCRUD操作 ──────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: locator('.fixed.inset-0.bg-black.bg-opacity-50')
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for locator('.fixed.inset-0.bg-black.bg-opacity-50')
+        9 × locator resolved to <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4">…</div>
+          - unexpected value "visible"
+
+
+      115 |
+      116 |     await page.getByRole('button', { name: '更新' }).click();
+    > 117 |     await expect(modal).toBeHidden();
+          |                         ^
+      118 |
+      119 |     // 編集が反映されることを確認
+      120 |     await expect(page.getByRole('heading', { name: editedData.area })).toBeVisible();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:117:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › データ整合性の確認" classname="snow-crud-integration.spec.ts" time="20.267">
+<failure message="snow-crud-integration.spec.ts:137:3 データ整合性の確認" type="FAILURE">
+<![CDATA[  [chromium] › snow-crud-integration.spec.ts:137:3 › 除雪情報CRUD統合フロー › データ整合性の確認 ─────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveValue(expected)
+
+    Locator: getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+    Expected string: "2025-07-10T05:44"
+    Received string: ""
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+        9 × locator resolved to <input required="" aria-label="除雪開始時間" type="datetime-local" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"/>
+          - unexpected value ""
+
+
+      168 |
+      169 |     await expect(areaInput).toHaveValue(dataConsistencyTest.area);
+    > 170 |     await expect(startTimeInput).toHaveValue(dataConsistencyTest.startTime);
+          |                                  ^
+      171 |     await expect(endTimeInput).toHaveValue(dataConsistencyTest.endTime);
+      172 |
+      173 |     // キャンセルして閉じる
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:170:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › ナビゲーション統合テスト" classname="snow-crud-integration.spec.ts" time="15.579">
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › エラーハンドリング統合テスト" classname="snow-crud-integration.spec.ts" time="18.06">
+<failure message="snow-crud-integration.spec.ts:205:3 エラーハンドリング統合テスト" type="FAILURE">
+<![CDATA[  [chromium] › snow-crud-integration.spec.ts:205:3 › 除雪情報CRUD統合フロー › エラーハンドリング統合テスト ────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeDisabled()
+
+    Locator: getByRole('button', { name: '登録' })
+    Expected: disabled
+    Received: enabled
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: '登録' })
+        8 × locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+          - unexpected value "enabled"
+
+
+      216 |     // フォームバリデーションエラーの確認
+      217 |     const submitButton = page.getByRole('button', { name: '登録' });
+    > 218 |     await expect(submitButton).toBeDisabled();
+          |                                ^
+      219 |
+      220 |     // エラーメッセージの表示確認
+      221 |     const errorMessage = page.getByText('エラー').or(page.locator('.text-red-500')).first();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:218:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-list.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="chromium" tests="10" failures="2" skipped="0" time="143.906" errors="0">
+<testcase name="除雪情報一覧表示フロー › 一覧ページの基本表示" classname="snow-list.spec.ts" time="16.079">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 新規登録ボタンのナビゲーション" classname="snow-list.spec.ts" time="14.057">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報カードの表示内容" classname="snow-list.spec.ts" time="13.029">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルの表示と操作" classname="snow-list.spec.ts" time="13.284">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルのキャンセル機能" classname="snow-list.spec.ts" time="12.855">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報の編集処理" classname="snow-list.spec.ts" time="13.52">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 削除機能の確認" classname="snow-list.spec.ts" time="22.827">
+<failure message="snow-list.spec.ts:154:3 削除機能の確認" type="FAILURE">
+<![CDATA[  [chromium] › snow-list.spec.ts:154:3 › 除雪情報一覧表示フロー › 削除機能の確認 ─────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      167 |     // 削除確認ダイアログの処理
+      168 |     page.on('dialog', async dialog => {
+    > 169 |       expect(dialog.type()).toBe('confirm');
+          |                             ^
+      170 |       await dialog.accept();
+      171 |     });
+      172 |     
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:169:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveCount(expected)
+
+    Locator: locator('.bg-white.rounded-lg.shadow')
+    Expected: 60
+    Received: 61
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.bg-white.rounded-lg.shadow')
+        4 × locator resolved to 61 elements
+          - unexpected value "61"
+
+
+      174 |
+      175 |     // カードの数が減ることを確認
+    > 176 |     await expect(reportCards).toHaveCount(initialCount - 1);
+          |                               ^
+      177 |     
+      178 |     // 削除されたアイテムが表示されないことを確認
+      179 |     if (firstCardArea) {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:176:31
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-chromium\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 空のデータ状態の表示" classname="snow-list.spec.ts" time="12.819">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 日時フォーマットの表示確認" classname="snow-list.spec.ts" time="12.774">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › レスポンシブデザイン確認" classname="snow-list.spec.ts" time="12.662">
+<failure message="snow-list.spec.ts:212:3 レスポンシブデザイン確認" type="FAILURE">
+<![CDATA[  [chromium] › snow-list.spec.ts:212:3 › 除雪情報一覧表示フロー › レスポンシブデザイン確認 ────────────────────────────────
+
+    Error: locator.click: Error: strict mode violation: locator('.bg-white.rounded-lg.shadow').first().locator('text=編集') resolved to 2 elements:
+        1) <h3 class="text-lg font-bold">編集更新テスト_地域_p32u8n1c3xmcwyqqwp</h3> aka getByRole('heading', { name: '編集更新テスト_地域_p32u8n1c3xmcwyqqwp' })
+        2) <button aria-label="編集" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"> 編集 </button> aka locator('.px-3').first()
+
+    Call log:
+      - waiting for locator('.bg-white.rounded-lg.shadow').first().locator('text=編集')
+
+
+      227 |     // 編集モーダルのレスポンシブ確認
+      228 |     const editButton = reportCards.first().locator('text=編集');
+    > 229 |     await editButton.click();
+          |                      ^
+      230 |
+      231 |     const modal = page.locator('.fixed.inset-0.bg-black.bg-opacity-50');
+      232 |     await expect(modal).toBeVisible();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:229:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-registration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="chromium" tests="8" failures="2" skipped="0" time="126.352" errors="0">
+<testcase name="除雪情報登録フロー › 正常な除雪情報登録フロー" classname="snow-registration.spec.ts" time="13.915">
+</testcase>
+<testcase name="除雪情報登録フロー › 必須項目バリデーション" classname="snow-registration.spec.ts" time="12.907">
+</testcase>
+<testcase name="除雪情報登録フロー › 無効な時間範囲のバリデーション" classname="snow-registration.spec.ts" time="18.058">
+<failure message="snow-registration.spec.ts:72:3 無効な時間範囲のバリデーション" type="FAILURE">
+<![CDATA[  [chromium] › snow-registration.spec.ts:72:3 › 除雪情報登録フロー › 無効な時間範囲のバリデーション ────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      82 |     
+      83 |     // バリデーションエラーの確認
+    > 84 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+         |                                                                                   ^
+      85 |     await expect(submitButton).toBeDisabled();
+      86 |   });
+      87 |
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:84:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 空文字入力のバリデーション" classname="snow-registration.spec.ts" time="17.988">
+<failure message="snow-registration.spec.ts:88:3 空文字入力のバリデーション" type="FAILURE">
+<![CDATA[  [chromium] › snow-registration.spec.ts:88:3 › 除雪情報登録フロー › 空文字入力のバリデーション ──────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      100 |
+      101 |     // エラーメッセージの確認
+    > 102 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+          |                                                                                   ^
+      103 |   });
+      104 |
+      105 |   test('管理画面へ戻るボタン', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:102:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-chromium\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-chromium\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-chromium\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-chromium\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 管理画面へ戻るボタン" classname="snow-registration.spec.ts" time="13.926">
+</testcase>
+<testcase name="除雪情報登録フロー › フォームリセット機能" classname="snow-registration.spec.ts" time="16.875">
+</testcase>
+<testcase name="除雪情報登録フロー › レスポンシブデザイン確認" classname="snow-registration.spec.ts" time="17.686">
+</testcase>
+<testcase name="除雪情報登録フロー › 日本語入力処理" classname="snow-registration.spec.ts" time="14.997">
+</testcase>
+</testsuite>
+<testsuite name="snow-crud-integration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="firefox" tests="5" failures="5" skipped="0" time="148.853" errors="0">
+<testcase name="除雪情報CRUD統合フロー › 完全なCRUDフローテスト" classname="snow-crud-integration.spec.ts" time="31.495">
+<failure message="snow-crud-integration.spec.ts:10:3 完全なCRUDフローテスト" type="FAILURE">
+<![CDATA[  [firefox] › snow-crud-integration.spec.ts:10:3 › 除雪情報CRUD統合フロー › 完全なCRUDフローテスト ───────────────────
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '登録' })
+        - locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+      25 |
+      26 |     // 登録実行
+    > 27 |     await page.getByRole('button', { name: '登録' }).click();
+         |                                                    ^
+      28 |
+      29 |     // === 2. 読取 (Read) - 一覧ページでの確認 ===
+      30 |     await expect(page).toHaveURL('/snowlist');
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:27:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › 複数データでのCRUD操作" classname="snow-crud-integration.spec.ts" time="60.057">
+<failure message="snow-crud-integration.spec.ts:84:3 複数データでのCRUD操作" type="FAILURE">
+<![CDATA[  [firefox] › snow-crud-integration.spec.ts:84:3 › 除雪情報CRUD統合フロー › 複数データでのCRUD操作 ───────────────────
+
+    Test timeout of 30000ms exceeded.
+
+    Tearing down "context" exceeded the test timeout of 30000ms.
+
+    Error: browserContext._wrapApiCall: Test timeout of 30000ms exceeded.
+    Browser logs:
+
+    <launching> C:\Users\kaipo\AppData\Local\ms-playwright\firefox-1488\firefox\firefox.exe -no-remote -wait-for-browser -foreground -profile C:\Users\kaipo\AppData\Local\Temp\playwright_firefoxdev_profile-7nINzF -juggler-pipe -silent
+    <launched> pid=23276
+    [pid=23276][err] JavaScript warning: resource://services-settings/Utils.sys.mjs, line 116: unreachable code after return statement
+    [pid=23276][out] console.warn: services.settings: Ignoring preference override of remote settings server
+    [pid=23276][out] console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+    [pid=23276][out] 
+    [pid=23276][out] Juggler listening to the pipe
+    [pid=23276][out] console.error: "Warning: unrecognized command line flag" "-foreground"
+    [pid=23276][out] console.error: SearchEngineSelector: "Received empty search configuration!"
+    [pid=23276][out] console.error: "Received empty top sites configuration!"
+    [pid=23276][out] console.error: SearchEngineSelector: "Received empty search configuration!"
+    [pid=23276][out] console.error: SearchService: "#init: failure initializing search:" [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=23276][out] console.error: WebExtensions: 
+    [pid=23276][out]   Message: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=23276][out]   Stack:
+    [pid=23276][out]     getEngineConfiguration@resource://gre/modules/SearchEngineSelector.sys.mjs:100:24
+    [pid=23276][out] 
+    [pid=23276][out] console.error: "Received empty top sites configuration!"
+    [pid=23276][err] JavaScript error: chrome://juggler/content/Helper.js, line 82: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][out] console.error: URLBar - Provider.UrlbarProviderSearchTips: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=23276][out] console.error: SearchSettings: "_write: Could not write to settings file:" (new Error("cannot write without any engine.", "resource://gre/modules/SearchSettings.sys.mjs", 328))
+    [pid=23276][err] JavaScript warning: resource://gre/modules/UpdateService.sys.mjs, line 3878: unreachable code after return statement
+    [pid=23276] <gracefully close start>
+    [pid=23276] <kill>
+    [pid=23276] <will force kill>
+    [pid=23276] taskkill stdout: ����: PID 29412 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 35360 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 28708 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 26268 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 7024 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 31328 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 26288 �̃v���Z�X (PID 23276 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 23276 �̃v���Z�X (PID 29176 �̎q�v���Z�X) ���I�����܂����B
+
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Browser logs:
+
+    <launching> C:\Users\kaipo\AppData\Local\ms-playwright\firefox-1488\firefox\firefox.exe -no-remote -wait-for-browser -foreground -profile C:\Users\kaipo\AppData\Local\Temp\playwright_firefoxdev_profile-7nINzF -juggler-pipe -silent
+    <launched> pid=23276
+    [pid=23276][err] JavaScript warning: resource://services-settings/Utils.sys.mjs, line 116: unreachable code after return statement
+    [pid=23276][out] console.warn: services.settings: Ignoring preference override of remote settings server
+    [pid=23276][out] console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+    [pid=23276][out] 
+    [pid=23276][out] Juggler listening to the pipe
+    [pid=23276][out] console.error: "Warning: unrecognized command line flag" "-foreground"
+    [pid=23276][out] console.error: SearchEngineSelector: "Received empty search configuration!"
+    [pid=23276][out] console.error: "Received empty top sites configuration!"
+    [pid=23276][out] console.error: SearchEngineSelector: "Received empty search configuration!"
+    [pid=23276][out] console.error: SearchService: "#init: failure initializing search:" [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=23276][out] console.error: WebExtensions: 
+    [pid=23276][out]   Message: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=23276][out]   Stack:
+    [pid=23276][out]     getEngineConfiguration@resource://gre/modules/SearchEngineSelector.sys.mjs:100:24
+    [pid=23276][out] 
+    [pid=23276][out] console.error: "Received empty top sites configuration!"
+    [pid=23276][err] JavaScript error: chrome://juggler/content/Helper.js, line 82: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=23276][out] console.error: URLBar - Provider.UrlbarProviderSearchTips: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=23276][out] console.error: SearchSettings: "_write: Could not write to settings file:" (new Error("cannot write without any engine.", "resource://gre/modules/SearchSettings.sys.mjs", 328))
+    [pid=23276][err] JavaScript warning: resource://gre/modules/UpdateService.sys.mjs, line 3878: unreachable code after return statement
+    [pid=23276] <gracefully close start>
+    [pid=23276] <kill>
+    [pid=23276] <will force kill>
+    [pid=23276] taskkill stdout: ����: PID 29412 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 35360 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 28708 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 26268 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 7024 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 31328 �̃v���Z�X (PID 26288 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 26288 �̃v���Z�X (PID 23276 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 23276 �̃v���Z�X (PID 29176 �̎q�v���Z�X) ���I�����܂����B
+
+    Call log:
+      - waiting for getByRole('button', { name: '登録' })
+        - locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+        at [pid=23276][out]     getEngineConfiguration@resource://gre/modules/SearchEngineSelector.sys.mjs:100:24
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:96:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › データ整合性の確認" classname="snow-crud-integration.spec.ts" time="16.691">
+<failure message="snow-crud-integration.spec.ts:137:3 データ整合性の確認" type="FAILURE">
+<![CDATA[  [firefox] › snow-crud-integration.spec.ts:137:3 › 除雪情報CRUD統合フロー › データ整合性の確認 ──────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveValue(expected)
+
+    Locator: getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+    Expected string: "2025-07-10T05:44"
+    Received string: ""
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+        8 × locator resolved to <input required="" aria-label="除雪開始時間" type="datetime-local" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"/>
+          - unexpected value ""
+
+
+      168 |
+      169 |     await expect(areaInput).toHaveValue(dataConsistencyTest.area);
+    > 170 |     await expect(startTimeInput).toHaveValue(dataConsistencyTest.startTime);
+          |                                  ^
+      171 |     await expect(endTimeInput).toHaveValue(dataConsistencyTest.endTime);
+      172 |
+      173 |     // キャンセルして閉じる
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:170:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › ナビゲーション統合テスト" classname="snow-crud-integration.spec.ts" time="30.449">
+<failure message="snow-crud-integration.spec.ts:178:3 ナビゲーション統合テスト" type="FAILURE">
+<![CDATA[  [firefox] › snow-crud-integration.spec.ts:178:3 › 除雪情報CRUD統合フロー › ナビゲーション統合テスト ───────────────────
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '新規登録' }).or(getByRole('link', { name: '新規登録' })).first()
+        - locator resolved to <button aria-label="新規登録" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"> 新規登録 </button>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+
+
+      179 |     // 一覧ページから新規登録へ
+      180 |     await page.goto('/snowlist');
+    > 181 |     await page.getByRole('button', { name: '新規登録' }).or(page.getByRole('link', { name: '新規登録' })).first().click();
+          |                                                                                                           ^
+      182 |     await expect(page).toHaveURL('/create');
+      183 |
+      184 |     // 新規登録ページから管理画面へ戻る
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:181:107
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-ナビゲーション統合テスト-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-ナビゲーション統合テスト-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-ナビゲーション統合テスト-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-ナビゲーション統合テスト-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-ナビゲーション統合テスト-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-ナビゲーション統合テスト-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › エラーハンドリング統合テスト" classname="snow-crud-integration.spec.ts" time="10.161">
+<failure message="snow-crud-integration.spec.ts:205:3 エラーハンドリング統合テスト" type="FAILURE">
+<![CDATA[  [firefox] › snow-crud-integration.spec.ts:205:3 › 除雪情報CRUD統合フロー › エラーハンドリング統合テスト ─────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeDisabled()
+
+    Locator: getByRole('button', { name: '登録' })
+    Expected: disabled
+    Received: enabled
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: '登録' })
+        8 × locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+          - unexpected value "enabled"
+
+
+      216 |     // フォームバリデーションエラーの確認
+      217 |     const submitButton = page.getByRole('button', { name: '登録' });
+    > 218 |     await expect(submitButton).toBeDisabled();
+          |                                ^
+      219 |
+      220 |     // エラーメッセージの表示確認
+      221 |     const errorMessage = page.getByText('エラー').or(page.locator('.text-red-500')).first();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:218:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-list.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="firefox" tests="10" failures="2" skipped="0" time="139.597" errors="0">
+<testcase name="除雪情報一覧表示フロー › 一覧ページの基本表示" classname="snow-list.spec.ts" time="11.645">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 新規登録ボタンのナビゲーション" classname="snow-list.spec.ts" time="4.594">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報カードの表示内容" classname="snow-list.spec.ts" time="9.711">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルの表示と操作" classname="snow-list.spec.ts" time="4.967">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルのキャンセル機能" classname="snow-list.spec.ts" time="10.055">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報の編集処理" classname="snow-list.spec.ts" time="5.115">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 削除機能の確認" classname="snow-list.spec.ts" time="57.864">
+<failure message="snow-list.spec.ts:154:3 削除機能の確認" type="FAILURE">
+<![CDATA[  [firefox] › snow-list.spec.ts:154:3 › 除雪情報一覧表示フロー › 削除機能の確認 ──────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      167 |     // 削除確認ダイアログの処理
+      168 |     page.on('dialog', async dialog => {
+    > 169 |       expect(dialog.type()).toBe('confirm');
+          |                             ^
+      170 |       await dialog.accept();
+      171 |     });
+      172 |     
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:169:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveCount(expected)
+
+    Locator: locator('.bg-white.rounded-lg.shadow')
+    Expected: 61
+    Received: 62
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.bg-white.rounded-lg.shadow')
+        2 × locator resolved to 62 elements
+          - unexpected value "62"
+
+
+      174 |
+      175 |     // カードの数が減ることを確認
+    > 176 |     await expect(reportCards).toHaveCount(initialCount - 1);
+          |                               ^
+      177 |     
+      178 |     // 削除されたアイテムが表示されないことを確認
+      179 |     if (firstCardArea) {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:176:31
+
+    Error: browserContext._wrapApiCall: Test ended.
+    Browser logs:
+
+    <launching> C:\Users\kaipo\AppData\Local\ms-playwright\firefox-1488\firefox\firefox.exe -no-remote -wait-for-browser -foreground -profile C:\Users\kaipo\AppData\Local\Temp\playwright_firefoxdev_profile-SMBbxB -juggler-pipe -silent
+    <launched> pid=29252
+    [pid=29252][err] JavaScript warning: resource://services-settings/Utils.sys.mjs, line 116: unreachable code after return statement
+    [pid=29252][out] console.warn: services.settings: Ignoring preference override of remote settings server
+    [pid=29252][out] console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+    [pid=29252][out] 
+    [pid=29252][out] Juggler listening to the pipe
+    [pid=29252][out] console.error: "Warning: unrecognized command line flag" "-foreground"
+    [pid=29252][out] console.error: SearchEngineSelector: "Received empty search configuration!"
+    [pid=29252][out] console.error: "Received empty top sites configuration!"
+    [pid=29252][out] console.error: SearchEngineSelector: "Received empty search configuration!"
+    [pid=29252][out] console.error: SearchService: "#init: failure initializing search:" [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=29252][out] console.error: "Received empty top sites configuration!"
+    [pid=29252][out] console.error: WebExtensions: 
+    [pid=29252][out]   Message: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=29252][out]   Stack:
+    [pid=29252][out]     getEngineConfiguration@resource://gre/modules/SearchEngineSelector.sys.mjs:100:24
+    [pid=29252][out] 
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252][out] console.error: SearchSettings: "_write: Could not write to settings file:" (new Error("cannot write without any engine.", "resource://gre/modules/SearchSettings.sys.mjs", 328))
+    [pid=29252][err] JavaScript error: chrome://juggler/content/Helper.js, line 82: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+    [pid=29252][out] console.error: URLBar - Provider.UrlbarProviderSearchTips: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=29252][err] JavaScript error: chrome://juggler/content/Helper.js, line 82: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252][out] console.error: URLBar - Provider.UrlbarProviderSearchTips: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=29252][err] JavaScript error: chrome://juggler/content/Helper.js, line 82: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252][out] console.error: URLBar - Provider.UrlbarProviderSearchTips: [Exception... "Failed to get engine data from Remote Settings"  nsresult: "0x8000ffff (NS_ERROR_UNEXPECTED)"  location: "JS frame :: resource://gre/modules/SearchEngineSelector.sys.mjs :: getEngineConfiguration :: line 100"  data: no]
+    [pid=29252][err] JavaScript warning: resource://gre/modules/UpdateService.sys.mjs, line 3878: unreachable code after return statement
+    [pid=29252][err] JavaScript error: resource://gre/modules/SearchEngineSelector.sys.mjs, line 100: NS_ERROR_UNEXPECTED: Failed to get engine data from Remote Settings
+    [pid=29252] <gracefully close start>
+    [pid=29252] <kill>
+    [pid=29252] <will force kill>
+    [pid=29252] taskkill stdout: ����: PID 23880 �̃v���Z�X (PID 18072 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 5036 �̃v���Z�X (PID 18072 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 21348 �̃v���Z�X (PID 18072 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 4248 �̃v���Z�X (PID 18072 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 24172 �̃v���Z�X (PID 18072 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 24132 �̃v���Z�X (PID 18072 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 18072 �̃v���Z�X (PID 29252 �̎q�v���Z�X) ���I�����܂����B
+    ����: PID 29252 �̃v���Z�X (PID 21384 �̎q�v���Z�X) ���I�����܂����B
+
+    [pid=29252] <process did exit: exitCode=1, signal=null>
+    [pid=29252] starting temporary directories cleanup
+]]>
+</failure>
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 空のデータ状態の表示" classname="snow-list.spec.ts" time="2.51">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 日時フォーマットの表示確認" classname="snow-list.spec.ts" time="3.09">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › レスポンシブデザイン確認" classname="snow-list.spec.ts" time="30.046">
+<failure message="snow-list.spec.ts:212:3 レスポンシブデザイン確認" type="FAILURE">
+<![CDATA[  [firefox] › snow-list.spec.ts:212:3 › 除雪情報一覧表示フロー › レスポンシブデザイン確認 ─────────────────────────────────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+       7 |  */
+       8 | test.describe('除雪情報一覧表示フロー', () => {
+    >  9 |   test.beforeEach(async ({ page }) => {
+         |        ^
+      10 |     // 除雪情報一覧ページに遷移
+      11 |     await page.goto('/snowlist');
+      12 |     
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:9:8
+
+    Error: browserContext.newPage: Test timeout of 30000ms exceeded.
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="snow-registration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="firefox" tests="8" failures="3" skipped="0" time="83.538" errors="0">
+<testcase name="除雪情報登録フロー › 正常な除雪情報登録フロー" classname="snow-registration.spec.ts" time="20.947">
+</testcase>
+<testcase name="除雪情報登録フロー › 必須項目バリデーション" classname="snow-registration.spec.ts" time="4.582">
+</testcase>
+<testcase name="除雪情報登録フロー › 無効な時間範囲のバリデーション" classname="snow-registration.spec.ts" time="8.234">
+<failure message="snow-registration.spec.ts:72:3 無効な時間範囲のバリデーション" type="FAILURE">
+<![CDATA[  [firefox] › snow-registration.spec.ts:72:3 › 除雪情報登録フロー › 無効な時間範囲のバリデーション ─────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      82 |     
+      83 |     // バリデーションエラーの確認
+    > 84 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+         |                                                                                   ^
+      85 |     await expect(submitButton).toBeDisabled();
+      86 |   });
+      87 |
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:84:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 空文字入力のバリデーション" classname="snow-registration.spec.ts" time="8.003">
+<failure message="snow-registration.spec.ts:88:3 空文字入力のバリデーション" type="FAILURE">
+<![CDATA[  [firefox] › snow-registration.spec.ts:88:3 › 除雪情報登録フロー › 空文字入力のバリデーション ───────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      100 |
+      101 |     // エラーメッセージの確認
+    > 102 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+          |                                                                                   ^
+      103 |   });
+      104 |
+      105 |   test('管理画面へ戻るボタン', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:102:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-firefox\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-firefox\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-firefox\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-firefox\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-firefox\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-firefox\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 管理画面へ戻るボタン" classname="snow-registration.spec.ts" time="4.533">
+</testcase>
+<testcase name="除雪情報登録フロー › フォームリセット機能" classname="snow-registration.spec.ts" time="5.194">
+</testcase>
+<testcase name="除雪情報登録フロー › レスポンシブデザイン確認" classname="snow-registration.spec.ts" time="2.006">
+</testcase>
+<testcase name="除雪情報登録フロー › 日本語入力処理" classname="snow-registration.spec.ts" time="30.039">
+<failure message="snow-registration.spec.ts:148:3 日本語入力処理" type="FAILURE">
+<![CDATA[  [firefox] › snow-registration.spec.ts:148:3 › 除雪情報登録フロー › 日本語入力処理 ────────────────────────────────
+
+    Test timeout of 30000ms exceeded while running "beforeEach" hook.
+
+       7 |  */
+       8 | test.describe('除雪情報登録フロー', () => {
+    >  9 |   test.beforeEach(async ({ page }) => {
+         |        ^
+      10 |     // 除雪情報登録ページに遷移
+      11 |     await page.goto('/create');
+      12 |     
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:9:8
+
+    Error: browserContext.newPage: Test timeout of 30000ms exceeded.
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="snow-crud-integration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="webkit" tests="5" failures="3" skipped="0" time="89.25" errors="0">
+<testcase name="除雪情報CRUD統合フロー › 完全なCRUDフローテスト" classname="snow-crud-integration.spec.ts" time="24.213">
+<failure message="snow-crud-integration.spec.ts:10:3 完全なCRUDフローテスト" type="FAILURE">
+<![CDATA[  [webkit] › snow-crud-integration.spec.ts:10:3 › 除雪情報CRUD統合フロー › 完全なCRUDフローテスト ────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      71 |     // 削除確認ダイアログの処理
+      72 |     page.on('dialog', async dialog => {
+    > 73 |       expect(dialog.type()).toBe('confirm');
+         |                             ^
+      74 |       await dialog.accept();
+      75 |     });
+      76 |
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:73:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: getByRole('heading', { name: 'CRUD統合テスト_更新_地域_pxhjgmnevznmcwyslgk' })
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'CRUD統合テスト_更新_地域_pxhjgmnevznmcwyslgk' })
+        3 × locator resolved to <h3 class="text-lg font-bold">CRUD統合テスト_更新_地域_pxhjgmnevznmcwyslgk</h3>
+          - unexpected value "visible"
+
+
+      79 |
+      80 |     // 削除されたデータが表示されないことを確認
+    > 81 |     await expect(page.getByRole('heading', { name: testData.updated.area })).toBeHidden();
+         |                                                                              ^
+      82 |   });
+      83 |
+      84 |   test('複数データでのCRUD操作', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:81:78
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-webkit\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › 複数データでのCRUD操作" classname="snow-crud-integration.spec.ts" time="22.071">
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › データ整合性の確認" classname="snow-crud-integration.spec.ts" time="16.699">
+<failure message="snow-crud-integration.spec.ts:137:3 データ整合性の確認" type="FAILURE">
+<![CDATA[  [webkit] › snow-crud-integration.spec.ts:137:3 › 除雪情報CRUD統合フロー › データ整合性の確認 ───────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveValue(expected)
+
+    Locator: getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+    Expected string: "2025-07-10T05:46"
+    Received string: "2025-07-10T05:46:00+00:00"
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+        8 × locator resolved to <input required="" aria-label="除雪開始時間" type="datetime-local" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"/>
+          - unexpected value "2025-07-10T05:46:00+00:00"
+
+
+      168 |
+      169 |     await expect(areaInput).toHaveValue(dataConsistencyTest.area);
+    > 170 |     await expect(startTimeInput).toHaveValue(dataConsistencyTest.startTime);
+          |                                  ^
+      171 |     await expect(endTimeInput).toHaveValue(dataConsistencyTest.endTime);
+      172 |
+      173 |     // キャンセルして閉じる
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:170:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › ナビゲーション統合テスト" classname="snow-crud-integration.spec.ts" time="11.839">
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › エラーハンドリング統合テスト" classname="snow-crud-integration.spec.ts" time="14.428">
+<failure message="snow-crud-integration.spec.ts:205:3 エラーハンドリング統合テスト" type="FAILURE">
+<![CDATA[  [webkit] › snow-crud-integration.spec.ts:205:3 › 除雪情報CRUD統合フロー › エラーハンドリング統合テスト ──────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeDisabled()
+
+    Locator: getByRole('button', { name: '登録' })
+    Expected: disabled
+    Received: enabled
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: '登録' })
+        8 × locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+          - unexpected value "enabled"
+
+
+      216 |     // フォームバリデーションエラーの確認
+      217 |     const submitButton = page.getByRole('button', { name: '登録' });
+    > 218 |     await expect(submitButton).toBeDisabled();
+          |                                ^
+      219 |
+      220 |     // エラーメッセージの表示確認
+      221 |     const errorMessage = page.getByText('エラー').or(page.locator('.text-red-500')).first();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:218:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-list.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="webkit" tests="10" failures="2" skipped="0" time="113.807" errors="0">
+<testcase name="除雪情報一覧表示フロー › 一覧ページの基本表示" classname="snow-list.spec.ts" time="9.568">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 新規登録ボタンのナビゲーション" classname="snow-list.spec.ts" time="10.118">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報カードの表示内容" classname="snow-list.spec.ts" time="9.55">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルの表示と操作" classname="snow-list.spec.ts" time="10.379">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルのキャンセル機能" classname="snow-list.spec.ts" time="10.748">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報の編集処理" classname="snow-list.spec.ts" time="15.755">
+<failure message="snow-list.spec.ts:118:3 除雪情報の編集処理" type="FAILURE">
+<![CDATA[  [webkit] › snow-list.spec.ts:118:3 › 除雪情報一覧表示フロー › 除雪情報の編集処理 ─────────────────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: locator('.fixed.inset-0.bg-black.bg-opacity-50')
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for locator('.fixed.inset-0.bg-black.bg-opacity-50')
+        8 × locator resolved to <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4">…</div>
+          - unexpected value "visible"
+
+
+      146 |
+      147 |     // モーダルが閉じることを確認
+    > 148 |     await expect(modal).toBeHidden();
+          |                         ^
+      149 |
+      150 |     // 更新された情報が一覧に反映されることを確認
+      151 |     await expect(page.getByRole('heading', { name: updatedData.area })).toBeVisible();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:148:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-除雪情報の編集処理-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-除雪情報の編集処理-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-list-除雪情報一覧表示フロー-除雪情報の編集処理-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-除雪情報の編集処理-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-除雪情報の編集処理-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-除雪情報の編集処理-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 削除機能の確認" classname="snow-list.spec.ts" time="19.997">
+<failure message="snow-list.spec.ts:154:3 削除機能の確認" type="FAILURE">
+<![CDATA[  [webkit] › snow-list.spec.ts:154:3 › 除雪情報一覧表示フロー › 削除機能の確認 ───────────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      167 |     // 削除確認ダイアログの処理
+      168 |     page.on('dialog', async dialog => {
+    > 169 |       expect(dialog.type()).toBe('confirm');
+          |                             ^
+      170 |       await dialog.accept();
+      171 |     });
+      172 |     
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:169:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveCount(expected)
+
+    Locator: locator('.bg-white.rounded-lg.shadow')
+    Expected: 65
+    Received: 66
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.bg-white.rounded-lg.shadow')
+        3 × locator resolved to 66 elements
+          - unexpected value "66"
+
+
+      174 |
+      175 |     // カードの数が減ることを確認
+    > 176 |     await expect(reportCards).toHaveCount(initialCount - 1);
+          |                               ^
+      177 |     
+      178 |     // 削除されたアイテムが表示されないことを確認
+      179 |     if (firstCardArea) {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:176:31
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-webkit\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 空のデータ状態の表示" classname="snow-list.spec.ts" time="9.109">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 日時フォーマットの表示確認" classname="snow-list.spec.ts" time="9.086">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › レスポンシブデザイン確認" classname="snow-list.spec.ts" time="9.497">
+</testcase>
+</testsuite>
+<testsuite name="snow-registration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="webkit" tests="8" failures="2" skipped="0" time="100.638" errors="0">
+<testcase name="除雪情報登録フロー › 正常な除雪情報登録フロー" classname="snow-registration.spec.ts" time="11.824">
+</testcase>
+<testcase name="除雪情報登録フロー › 必須項目バリデーション" classname="snow-registration.spec.ts" time="10.427">
+</testcase>
+<testcase name="除雪情報登録フロー › 無効な時間範囲のバリデーション" classname="snow-registration.spec.ts" time="15.589">
+<failure message="snow-registration.spec.ts:72:3 無効な時間範囲のバリデーション" type="FAILURE">
+<![CDATA[  [webkit] › snow-registration.spec.ts:72:3 › 除雪情報登録フロー › 無効な時間範囲のバリデーション ──────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      82 |     
+      83 |     // バリデーションエラーの確認
+    > 84 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+         |                                                                                   ^
+      85 |     await expect(submitButton).toBeDisabled();
+      86 |   });
+      87 |
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:84:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 空文字入力のバリデーション" classname="snow-registration.spec.ts" time="15.922">
+<failure message="snow-registration.spec.ts:88:3 空文字入力のバリデーション" type="FAILURE">
+<![CDATA[  [webkit] › snow-registration.spec.ts:88:3 › 除雪情報登録フロー › 空文字入力のバリデーション ────────────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      100 |
+      101 |     // エラーメッセージの確認
+    > 102 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+          |                                                                                   ^
+      103 |   });
+      104 |
+      105 |   test('管理画面へ戻るボタン', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:102:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-webkit\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-webkit\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-webkit\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-webkit\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-webkit\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 管理画面へ戻るボタン" classname="snow-registration.spec.ts" time="11.366">
+</testcase>
+<testcase name="除雪情報登録フロー › フォームリセット機能" classname="snow-registration.spec.ts" time="14.387">
+</testcase>
+<testcase name="除雪情報登録フロー › レスポンシブデザイン確認" classname="snow-registration.spec.ts" time="10.183">
+</testcase>
+<testcase name="除雪情報登録フロー › 日本語入力処理" classname="snow-registration.spec.ts" time="10.94">
+</testcase>
+</testsuite>
+<testsuite name="snow-crud-integration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="Mobile Chrome" tests="5" failures="4" skipped="0" time="107.818" errors="0">
+<testcase name="除雪情報CRUD統合フロー › 完全なCRUDフローテスト" classname="snow-crud-integration.spec.ts" time="25.485">
+<failure message="snow-crud-integration.spec.ts:10:3 完全なCRUDフローテスト" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-crud-integration.spec.ts:10:3 › 除雪情報CRUD統合フロー › 完全なCRUDフローテスト ─────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      71 |     // 削除確認ダイアログの処理
+      72 |     page.on('dialog', async dialog => {
+    > 73 |       expect(dialog.type()).toBe('confirm');
+         |                             ^
+      74 |       await dialog.accept();
+      75 |     });
+      76 |
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:73:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: getByRole('heading', { name: 'CRUD統合テスト_更新_地域_spyf681ddomcwyu4ln' })
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'CRUD統合テスト_更新_地域_spyf681ddomcwyu4ln' })
+        4 × locator resolved to <h3 class="text-lg font-bold">CRUD統合テスト_更新_地域_spyf681ddomcwyu4ln</h3>
+          - unexpected value "visible"
+
+
+      79 |
+      80 |     // 削除されたデータが表示されないことを確認
+    > 81 |     await expect(page.getByRole('heading', { name: testData.updated.area })).toBeHidden();
+         |                                                                              ^
+      82 |   });
+      83 |
+      84 |   test('複数データでのCRUD操作', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:81:78
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-Mobile-Chrome\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › 複数データでのCRUD操作" classname="snow-crud-integration.spec.ts" time="29.14">
+<failure message="snow-crud-integration.spec.ts:84:3 複数データでのCRUD操作" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-crud-integration.spec.ts:84:3 › 除雪情報CRUD統合フロー › 複数データでのCRUD操作 ─────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: locator('.fixed.inset-0.bg-black.bg-opacity-50')
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for locator('.fixed.inset-0.bg-black.bg-opacity-50')
+        9 × locator resolved to <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4">…</div>
+          - unexpected value "visible"
+
+
+      115 |
+      116 |     await page.getByRole('button', { name: '更新' }).click();
+    > 117 |     await expect(modal).toBeHidden();
+          |                         ^
+      118 |
+      119 |     // 編集が反映されることを確認
+      120 |     await expect(page.getByRole('heading', { name: editedData.area })).toBeVisible();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:117:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-Mobile-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-Mobile-Chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-Mobile-Chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-Mobile-Chrome\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-複数データでのCRUD操作-Mobile-Chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › データ整合性の確認" classname="snow-crud-integration.spec.ts" time="19.13">
+<failure message="snow-crud-integration.spec.ts:137:3 データ整合性の確認" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-crud-integration.spec.ts:137:3 › 除雪情報CRUD統合フロー › データ整合性の確認 ────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveValue(expected)
+
+    Locator: getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+    Expected string: "2025-07-10T05:47"
+    Received string: ""
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+        9 × locator resolved to <input required="" aria-label="除雪開始時間" type="datetime-local" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"/>
+          - unexpected value ""
+
+
+      168 |
+      169 |     await expect(areaInput).toHaveValue(dataConsistencyTest.area);
+    > 170 |     await expect(startTimeInput).toHaveValue(dataConsistencyTest.startTime);
+          |                                  ^
+      171 |     await expect(endTimeInput).toHaveValue(dataConsistencyTest.endTime);
+      172 |
+      173 |     // キャンセルして閉じる
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:170:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Chrome\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › ナビゲーション統合テスト" classname="snow-crud-integration.spec.ts" time="16.167">
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › エラーハンドリング統合テスト" classname="snow-crud-integration.spec.ts" time="17.896">
+<failure message="snow-crud-integration.spec.ts:205:3 エラーハンドリング統合テスト" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-crud-integration.spec.ts:205:3 › 除雪情報CRUD統合フロー › エラーハンドリング統合テスト ───────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeDisabled()
+
+    Locator: getByRole('button', { name: '登録' })
+    Expected: disabled
+    Received: enabled
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: '登録' })
+        9 × locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+          - unexpected value "enabled"
+
+
+      216 |     // フォームバリデーションエラーの確認
+      217 |     const submitButton = page.getByRole('button', { name: '登録' });
+    > 218 |     await expect(submitButton).toBeDisabled();
+          |                                ^
+      219 |
+      220 |     // エラーメッセージの表示確認
+      221 |     const errorMessage = page.getByText('エラー').or(page.locator('.text-red-500')).first();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:218:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Chrome\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-list.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="Mobile Chrome" tests="10" failures="1" skipped="0" time="138.512" errors="0">
+<testcase name="除雪情報一覧表示フロー › 一覧ページの基本表示" classname="snow-list.spec.ts" time="13.286">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 新規登録ボタンのナビゲーション" classname="snow-list.spec.ts" time="14.044">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報カードの表示内容" classname="snow-list.spec.ts" time="12.653">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルの表示と操作" classname="snow-list.spec.ts" time="12.479">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルのキャンセル機能" classname="snow-list.spec.ts" time="12.745">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報の編集処理" classname="snow-list.spec.ts" time="13.676">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 削除機能の確認" classname="snow-list.spec.ts" time="22.882">
+<failure message="snow-list.spec.ts:154:3 削除機能の確認" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-list.spec.ts:154:3 › 除雪情報一覧表示フロー › 削除機能の確認 ────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      167 |     // 削除確認ダイアログの処理
+      168 |     page.on('dialog', async dialog => {
+    > 169 |       expect(dialog.type()).toBe('confirm');
+          |                             ^
+      170 |       await dialog.accept();
+      171 |     });
+      172 |     
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:169:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveCount(expected)
+
+    Locator: locator('.bg-white.rounded-lg.shadow')
+    Expected: 70
+    Received: 71
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.bg-white.rounded-lg.shadow')
+        4 × locator resolved to 71 elements
+          - unexpected value "71"
+
+
+      174 |
+      175 |     // カードの数が減ることを確認
+    > 176 |     await expect(reportCards).toHaveCount(initialCount - 1);
+          |                               ^
+      177 |     
+      178 |     // 削除されたアイテムが表示されないことを確認
+      179 |     if (firstCardArea) {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:176:31
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-Mobile-Chrome\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 空のデータ状態の表示" classname="snow-list.spec.ts" time="12.293">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 日時フォーマットの表示確認" classname="snow-list.spec.ts" time="12.42">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › レスポンシブデザイン確認" classname="snow-list.spec.ts" time="12.034">
+</testcase>
+</testsuite>
+<testsuite name="snow-registration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="Mobile Chrome" tests="8" failures="2" skipped="0" time="120.58" errors="0">
+<testcase name="除雪情報登録フロー › 正常な除雪情報登録フロー" classname="snow-registration.spec.ts" time="13.906">
+</testcase>
+<testcase name="除雪情報登録フロー › 必須項目バリデーション" classname="snow-registration.spec.ts" time="12.836">
+</testcase>
+<testcase name="除雪情報登録フロー › 無効な時間範囲のバリデーション" classname="snow-registration.spec.ts" time="18.214">
+<failure message="snow-registration.spec.ts:72:3 無効な時間範囲のバリデーション" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-registration.spec.ts:72:3 › 除雪情報登録フロー › 無効な時間範囲のバリデーション ───────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      82 |     
+      83 |     // バリデーションエラーの確認
+    > 84 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+         |                                                                                   ^
+      85 |     await expect(submitButton).toBeDisabled();
+      86 |   });
+      87 |
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:84:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Chrome\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 空文字入力のバリデーション" classname="snow-registration.spec.ts" time="18.234">
+<failure message="snow-registration.spec.ts:88:3 空文字入力のバリデーション" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › snow-registration.spec.ts:88:3 › 除雪情報登録フロー › 空文字入力のバリデーション ─────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      100 |
+      101 |     // エラーメッセージの確認
+    > 102 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+          |                                                                                   ^
+      103 |   });
+      104 |
+      105 |   test('管理画面へ戻るボタン', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:102:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Chrome\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Chrome\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Chrome\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Chrome\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Chrome\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 管理画面へ戻るボタン" classname="snow-registration.spec.ts" time="13.27">
+</testcase>
+<testcase name="除雪情報登録フロー › フォームリセット機能" classname="snow-registration.spec.ts" time="17.4">
+</testcase>
+<testcase name="除雪情報登録フロー › レスポンシブデザイン確認" classname="snow-registration.spec.ts" time="13.237">
+</testcase>
+<testcase name="除雪情報登録フロー › 日本語入力処理" classname="snow-registration.spec.ts" time="13.483">
+</testcase>
+</testsuite>
+<testsuite name="snow-crud-integration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="Mobile Safari" tests="5" failures="3" skipped="0" time="88.047" errors="0">
+<testcase name="除雪情報CRUD統合フロー › 完全なCRUDフローテスト" classname="snow-crud-integration.spec.ts" time="23.548">
+<failure message="snow-crud-integration.spec.ts:10:3 完全なCRUDフローテスト" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-crud-integration.spec.ts:10:3 › 除雪情報CRUD統合フロー › 完全なCRUDフローテスト ─────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      71 |     // 削除確認ダイアログの処理
+      72 |     page.on('dialog', async dialog => {
+    > 73 |       expect(dialog.type()).toBe('confirm');
+         |                             ^
+      74 |       await dialog.accept();
+      75 |     });
+      76 |
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:73:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeHidden()
+
+    Locator: getByRole('heading', { name: 'CRUD統合テスト_更新_地域_300v5pdytxvmcwyvhoj' })
+    Expected: hidden
+    Received: visible
+    Call log:
+      - Expect "toBeHidden" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'CRUD統合テスト_更新_地域_300v5pdytxvmcwyvhoj' })
+        3 × locator resolved to <h3 class="text-lg font-bold">CRUD統合テスト_更新_地域_300v5pdytxvmcwyvhoj</h3>
+          - unexpected value "visible"
+
+
+      79 |
+      80 |     // 削除されたデータが表示されないことを確認
+    > 81 |     await expect(page.getByRole('heading', { name: testData.updated.area })).toBeHidden();
+         |                                                                              ^
+      82 |   });
+      83 |
+      84 |   test('複数データでのCRUD操作', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:81:78
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-完全なCRUDフローテスト-Mobile-Safari\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › 複数データでのCRUD操作" classname="snow-crud-integration.spec.ts" time="21.786">
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › データ整合性の確認" classname="snow-crud-integration.spec.ts" time="16.741">
+<failure message="snow-crud-integration.spec.ts:137:3 データ整合性の確認" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-crud-integration.spec.ts:137:3 › 除雪情報CRUD統合フロー › データ整合性の確認 ────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveValue(expected)
+
+    Locator: getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+    Expected string: "2025-07-10T05:48"
+    Received string: "2025-07-10T05:48:00+00:00"
+    Call log:
+      - Expect "toHaveValue" with timeout 5000ms
+      - waiting for getByLabel('除雪開始時間').or(locator('input[type="datetime-local"]').first())
+        9 × locator resolved to <input required="" aria-label="除雪開始時間" type="datetime-local" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"/>
+          - unexpected value "2025-07-10T05:48:00+00:00"
+
+
+      168 |
+      169 |     await expect(areaInput).toHaveValue(dataConsistencyTest.area);
+    > 170 |     await expect(startTimeInput).toHaveValue(dataConsistencyTest.startTime);
+          |                                  ^
+      171 |     await expect(endTimeInput).toHaveValue(dataConsistencyTest.endTime);
+      172 |
+      173 |     // キャンセルして閉じる
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:170:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Safari\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-データ整合性の確認-Mobile-Safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › ナビゲーション統合テスト" classname="snow-crud-integration.spec.ts" time="11.614">
+</testcase>
+<testcase name="除雪情報CRUD統合フロー › エラーハンドリング統合テスト" classname="snow-crud-integration.spec.ts" time="14.358">
+<failure message="snow-crud-integration.spec.ts:205:3 エラーハンドリング統合テスト" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-crud-integration.spec.ts:205:3 › 除雪情報CRUD統合フロー › エラーハンドリング統合テスト ───────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeDisabled()
+
+    Locator: getByRole('button', { name: '登録' })
+    Expected: disabled
+    Received: enabled
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: '登録' })
+        9 × locator resolved to <button type="submit" class="bg-gray-500 font-['Noto Sans'] text-black py-3 px-10 rounded transition hover:bg-gray-600">登録</button>
+          - unexpected value "enabled"
+
+
+      216 |     // フォームバリデーションエラーの確認
+      217 |     const submitButton = page.getByRole('button', { name: '登録' });
+    > 218 |     await expect(submitButton).toBeDisabled();
+          |                                ^
+      219 |
+      220 |     // エラーメッセージの表示確認
+      221 |     const errorMessage = page.getByText('エラー').or(page.locator('.text-red-500')).first();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-crud-integration.spec.ts:218:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Safari\video.webm]]
+
+[[ATTACHMENT|test-results\snow-crud-integration-除雪情報CRUD統合フロー-エラーハンドリング統合テスト-Mobile-Safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-list.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="Mobile Safari" tests="10" failures="2" skipped="0" time="106.058" errors="0">
+<testcase name="除雪情報一覧表示フロー › 一覧ページの基本表示" classname="snow-list.spec.ts" time="9.064">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 新規登録ボタンのナビゲーション" classname="snow-list.spec.ts" time="9.932">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報カードの表示内容" classname="snow-list.spec.ts" time="9.405">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルの表示と操作" classname="snow-list.spec.ts" time="9.468">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 編集モーダルのキャンセル機能" classname="snow-list.spec.ts" time="9.947">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 除雪情報の編集処理" classname="snow-list.spec.ts" time="10.679">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 削除機能の確認" classname="snow-list.spec.ts" time="19.975">
+<failure message="snow-list.spec.ts:154:3 削除機能の確認" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-list.spec.ts:154:3 › 除雪情報一覧表示フロー › 削除機能の確認 ────────────────────────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "confirm"
+    Received: "alert"
+
+      167 |     // 削除確認ダイアログの処理
+      168 |     page.on('dialog', async dialog => {
+    > 169 |       expect(dialog.type()).toBe('confirm');
+          |                             ^
+      170 |       await dialog.accept();
+      171 |     });
+      172 |     
+        at Page.<anonymous> (C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:169:29)
+
+    Error: Timed out 5000ms waiting for expect(locator).toHaveCount(expected)
+
+    Locator: locator('.bg-white.rounded-lg.shadow')
+    Expected: 74
+    Received: 75
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.bg-white.rounded-lg.shadow')
+        3 × locator resolved to 75 elements
+          - unexpected value "75"
+
+
+      174 |
+      175 |     // カードの数が減ることを確認
+    > 176 |     await expect(reportCards).toHaveCount(initialCount - 1);
+          |                               ^
+      177 |     
+      178 |     // 削除されたアイテムが表示されないことを確認
+      179 |     if (firstCardArea) {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:176:31
+
+    attachment #1: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-削除機能の確認-Mobile-Safari\video.webm]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 空のデータ状態の表示" classname="snow-list.spec.ts" time="9.016">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › 日時フォーマットの表示確認" classname="snow-list.spec.ts" time="9.179">
+</testcase>
+<testcase name="除雪情報一覧表示フロー › レスポンシブデザイン確認" classname="snow-list.spec.ts" time="9.393">
+<failure message="snow-list.spec.ts:212:3 レスポンシブデザイン確認" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-list.spec.ts:212:3 › 除雪情報一覧表示フロー › レスポンシブデザイン確認 ───────────────────────────
+
+    Error: locator.click: Error: strict mode violation: locator('.bg-white.rounded-lg.shadow').first().locator('text=編集') resolved to 2 elements:
+        1) <h3 class="text-lg font-bold">編集更新テスト_地域_fgxwsf0siz7mcwyw7wr</h3> aka getByRole('heading', { name: '編集更新テスト_地域_fgxwsf0siz7mcwyw7wr' })
+        2) <button aria-label="編集" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"> 編集 </button> aka locator('.px-3').first()
+
+    Call log:
+      - waiting for locator('.bg-white.rounded-lg.shadow').first().locator('text=編集')
+
+
+      227 |     // 編集モーダルのレスポンシブ確認
+      228 |     const editButton = reportCards.first().locator('text=編集');
+    > 229 |     await editButton.click();
+          |                      ^
+      230 |
+      231 |     const modal = page.locator('.fixed.inset-0.bg-black.bg-opacity-50');
+      232 |     await expect(modal).toBeVisible();
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-list.spec.ts:229:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-Mobile-Safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-Mobile-Safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-Mobile-Safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-Mobile-Safari\video.webm]]
+
+[[ATTACHMENT|test-results\snow-list-除雪情報一覧表示フロー-レスポンシブデザイン確認-Mobile-Safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="snow-registration.spec.ts" timestamp="2025-07-10T05:43:46.595Z" hostname="Mobile Safari" tests="8" failures="2" skipped="0" time="97.008" errors="0">
+<testcase name="除雪情報登録フロー › 正常な除雪情報登録フロー" classname="snow-registration.spec.ts" time="11.596">
+</testcase>
+<testcase name="除雪情報登録フロー › 必須項目バリデーション" classname="snow-registration.spec.ts" time="10.364">
+</testcase>
+<testcase name="除雪情報登録フロー › 無効な時間範囲のバリデーション" classname="snow-registration.spec.ts" time="15.386">
+<failure message="snow-registration.spec.ts:72:3 無効な時間範囲のバリデーション" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-registration.spec.ts:72:3 › 除雪情報登録フロー › 無効な時間範囲のバリデーション ───────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      82 |     
+      83 |     // バリデーションエラーの確認
+    > 84 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+         |                                                                                   ^
+      85 |     await expect(submitButton).toBeDisabled();
+      86 |   });
+      87 |
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:84:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Safari\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-無効な時間範囲のバリデーション-Mobile-Safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 空文字入力のバリデーション" classname="snow-registration.spec.ts" time="14.922">
+<failure message="snow-registration.spec.ts:88:3 空文字入力のバリデーション" type="FAILURE">
+<![CDATA[  [Mobile Safari] › snow-registration.spec.ts:88:3 › 除雪情報登録フロー › 空文字入力のバリデーション ─────────────────────
+
+    Error: Timed out 5000ms waiting for expect(locator).toBeVisible()
+
+    Locator: getByText('エラー').or(locator('.text-red-500')).first()
+    Expected: visible
+    Received: <element(s) not found>
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('エラー').or(locator('.text-red-500')).first()
+
+
+      100 |
+      101 |     // エラーメッセージの確認
+    > 102 |     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
+          |                                                                                   ^
+      103 |   });
+      104 |
+      105 |   test('管理画面へ戻るボタン', async ({ page }) => {
+        at C:\WakkanaiJosetsuSystem\tests\playwright\specs\snow-registration.spec.ts:102:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Safari\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    tests\playwright\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Safari\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\artifacts\test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Safari\error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Safari\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Safari\video.webm]]
+
+[[ATTACHMENT|test-results\snow-registration-除雪情報登録フロー-空文字入力のバリデーション-Mobile-Safari\error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="除雪情報登録フロー › 管理画面へ戻るボタン" classname="snow-registration.spec.ts" time="11.007">
+</testcase>
+<testcase name="除雪情報登録フロー › フォームリセット機能" classname="snow-registration.spec.ts" time="13.758">
+</testcase>
+<testcase name="除雪情報登録フロー › レスポンシブデザイン確認" classname="snow-registration.spec.ts" time="10.02">
+</testcase>
+<testcase name="除雪情報登録フロー › 日本語入力処理" classname="snow-registration.spec.ts" time="9.955">
+</testcase>
+</testsuite>
+</testsuites>

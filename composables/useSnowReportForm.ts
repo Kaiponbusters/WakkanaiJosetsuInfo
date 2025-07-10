@@ -2,11 +2,27 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useErrorHandler } from '~/composables/useErrorHandler'
 import { formatDateTimeForAPI } from '~/utils/formatters'
+import { 
+  validateRequired, 
+  validateTimeRange, 
+  validateStringLength,
+  type ValidationResult 
+} from '~/utils/validators'
 
 export interface SnowReportFormData {
   area: string
   start_time: string
   end_time: string
+}
+
+/**
+ * フォームフィールドごとのバリデーションエラー
+ */
+export interface FormValidationErrors {
+  area?: string
+  start_time?: string
+  end_time?: string
+  time_range?: string
 }
 
 /**
@@ -26,8 +42,79 @@ export function useSnowReportForm() {
   // 送信中の状態
   const isSubmitting = ref(false)
   
-  // バリデーションエラー
-  const validationErrors = ref<Partial<Record<keyof SnowReportFormData, string>>>({})
+  /**
+   * 地域名のバリデーション（リアクティブ）
+   */
+  const areaValidation = computed((): ValidationResult => {
+    const requiredResult = validateRequired(formData.value.area)
+    if (!requiredResult.isValid) return requiredResult
+    
+    return validateStringLength(formData.value.area.trim(), { 
+      min: 1, 
+      max: 100 
+    })
+  })
+  
+  /**
+   * 開始時間のバリデーション（リアクティブ）
+   */
+  const startTimeValidation = computed((): ValidationResult => {
+    return validateRequired(formData.value.start_time)
+  })
+  
+  /**
+   * 終了時間のバリデーション（リアクティブ）
+   */
+  const endTimeValidation = computed((): ValidationResult => {
+    return validateRequired(formData.value.end_time)
+  })
+  
+  /**
+   * 時間範囲のバリデーション（リアクティブ）
+   */
+  const timeRangeValidation = computed((): ValidationResult => {
+    // Guard Clause: 個別フィールドが無効な場合はスキップ
+    if (!startTimeValidation.value.isValid || !endTimeValidation.value.isValid) {
+      return { isValid: true, message: '' }
+    }
+    
+    return validateTimeRange(formData.value.start_time, formData.value.end_time)
+  })
+  
+  /**
+   * 全てのバリデーションエラー（リアクティブ）
+   */
+  const validationErrors = computed((): FormValidationErrors => {
+    const errors: FormValidationErrors = {}
+    
+    if (!areaValidation.value.isValid) {
+      errors.area = areaValidation.value.message
+    }
+    
+    if (!startTimeValidation.value.isValid) {
+      errors.start_time = startTimeValidation.value.message
+    }
+    
+    if (!endTimeValidation.value.isValid) {
+      errors.end_time = endTimeValidation.value.message
+    }
+    
+    if (!timeRangeValidation.value.isValid) {
+      errors.time_range = timeRangeValidation.value.message
+    }
+    
+    return errors
+  })
+  
+  /**
+   * フォームの有効性（リアクティブ）
+   */
+  const isFormValid = computed((): boolean => {
+    return areaValidation.value.isValid &&
+           startTimeValidation.value.isValid &&
+           endTimeValidation.value.isValid &&
+           timeRangeValidation.value.isValid
+  })
   
   /**
    * フォームデータをリセット
@@ -38,51 +125,14 @@ export function useSnowReportForm() {
       start_time: '',
       end_time: ''
     }
-    validationErrors.value = {}
   }
   
   /**
-   * フォームのバリデーション
+   * 手動バリデーション実行（送信時の最終チェック用）
    */
   const validateForm = (): boolean => {
-    validationErrors.value = {}
-    
-    if (!formData.value.area.trim()) {
-      validationErrors.value.area = '地域を入力してください'
-    }
-    
-    if (!formData.value.start_time) {
-      validationErrors.value.start_time = '開始時間を入力してください'
-    }
-    
-    if (!formData.value.end_time) {
-      validationErrors.value.end_time = '終了時間を入力してください'
-    }
-    
-    // 開始時間と終了時間の妥当性チェック
-    if (formData.value.start_time && formData.value.end_time) {
-      const start = new Date(formData.value.start_time)
-      const end = new Date(formData.value.end_time)
-      
-      if (start >= end) {
-        validationErrors.value.end_time = '終了時間は開始時間より後にしてください'
-      }
-    }
-    
-    return Object.keys(validationErrors.value).length === 0
+    return isFormValid.value
   }
-  
-  /**
-   * フォームの有効性
-   */
-  const isFormValid = computed(() => {
-    return !!(
-      formData.value.area.trim() &&
-      formData.value.start_time &&
-      formData.value.end_time &&
-      Object.keys(validationErrors.value).length === 0
-    )
-  })
   
   /**
    * フォームを送信
@@ -137,6 +187,11 @@ export function useSnowReportForm() {
     resetForm,
     validateForm,
     submitForm,
-    navigateToList
+    navigateToList,
+    // 個別バリデーション結果（デバッグ・テスト用）
+    areaValidation,
+    startTimeValidation,
+    endTimeValidation,
+    timeRangeValidation
   }
 } 
