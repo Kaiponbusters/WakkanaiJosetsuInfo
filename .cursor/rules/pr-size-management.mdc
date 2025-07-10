@@ -1,0 +1,207 @@
+# Pull Request サイズ管理ガイドライン
+
+## PR サイズの基準
+
+### 推奨サイズ指標
+- **ファイル数**: 10ファイル以内（理想は5ファイル以内）
+- **変更行数**: 500行以内（理想は200行以内）
+- **レビュー時間**: 30分以内で完了可能
+- **目的**: 1つの明確な目的に集中
+
+### サイズ判定コマンド
+```bash
+# 現在のブランチとmainの差分を確認
+git diff --stat origin/main...HEAD
+
+# 詳細な変更内容確認
+git diff --numstat origin/main...HEAD | awk '{added+=$1; deleted+=$2; files++} END {print "Files:", files, "Added:", added, "Deleted:", deleted, "Total:", added+deleted}'
+```
+
+## 大きなPRの分割戦略
+
+### 機能別分割
+```
+# 例：ユーザー管理機能の場合
+1. feat: ユーザー型定義とバリデーション関数を追加
+2. feat: ユーザー登録APIエンドポイントを追加  
+3. feat: ユーザー登録フォームコンポーネントを追加
+4. feat: ユーザー一覧表示機能を追加
+```
+
+### レイヤー別分割
+```
+# 例：データベース → API → フロントエンド
+1. chore: データベーススキーマを追加
+2. feat: REST APIエンドポイントを実装
+3. feat: フロントエンドUIコンポーネントを実装
+4. feat: E2Eテストを追加
+```
+
+### 依存関係の管理
+- **前提条件**: 依存するPRを明記
+- **段階的マージ**: 依存関係順にマージ実行
+- **ブランチ戦略**: 各PRは独立したブランチで管理
+
+## PR作成前チェックリスト
+
+### 自動チェック項目
+```bash
+#!/bin/bash
+# .scripts/pr-check.sh
+
+echo "=== PR Size Check ==="
+STATS=$(git diff --numstat origin/main...HEAD | awk '{added+=$1; deleted+=$2; files++} END {print files, added+deleted}')
+FILES=$(echo $STATS | cut -d' ' -f1)
+LINES=$(echo $STATS | cut -d' ' -f2)
+
+echo "Changed files: $FILES"
+echo "Changed lines: $LINES"
+
+if [ "$FILES" -gt 10 ]; then
+    echo "❌ Too many files changed ($FILES > 10)"
+    exit 1
+fi
+
+if [ "$LINES" -gt 500 ]; then
+    echo "❌ Too many lines changed ($LINES > 500)"
+    exit 1
+fi
+
+echo "✅ PR size is appropriate"
+```
+
+### 手動確認項目
+- [ ] 変更が1つの目的に集中しているか
+- [ ] 不要なファイル変更（フォーマット、空白など）が含まれていないか
+- [ ] テストが適切に追加されているか
+- [ ] ドキュメントの更新が必要な場合は含まれているか
+
+## コンフリクト防止のための事前確認
+
+### ブランチの健全性チェック
+```bash
+# mainとの差分確認
+git log --oneline HEAD..origin/main
+
+# コンフリクト可能性の事前チェック
+git merge-tree $(git merge-base HEAD origin/main) HEAD origin/main
+```
+
+### 影響範囲の分析
+- **型定義変更**: 影響を受けるファイルを事前に確認
+- **共通コンポーネント**: 利用箇所の動作確認
+- **API変更**: フロントエンドとの整合性確認
+
+## PR説明文のテンプレート
+
+### 基本テンプレート
+```markdown
+## 修正内容
+<!-- 何を修正したかを簡潔に記述 -->
+
+### 変更ファイル
+- `path/to/file1.ts`: 説明
+- `path/to/file2.vue`: 説明
+
+## 修正理由
+<!-- なぜこの修正が必要だったかを記述 -->
+
+## テスト内容
+- [ ] ユニットテスト追加
+- [ ] 手動テスト実施
+- [ ] 既存機能への影響確認
+
+## 関連Issue
+refs #123
+
+## 注意点
+<!-- レビュワーが注意すべき点があれば記述 -->
+```
+
+### 大きなPRの場合の追加項目
+```markdown
+## 分割理由
+<!-- なぜ分割できなかったかを説明 -->
+
+## 依存関係
+<!-- 他のPRとの依存関係を明記 -->
+
+## レビュー観点
+<!-- 重点的にレビューしてほしい箇所を明記 -->
+```
+
+## レビュープロセスの最適化
+
+### レビュワー向けガイドライン
+- **小さなPR**: 即座にレビュー実施
+- **中サイズPR**: 24時間以内にレビュー
+- **大きなPR**: 分割提案またはペアレビュー実施
+
+### レビュー効率化のツール
+```bash
+# 変更の概要を素早く把握
+git diff --stat origin/main...HEAD
+
+# ファイル別の変更を確認
+git diff --name-only origin/main...HEAD | xargs -I {} sh -c 'echo "=== {} ===" && git diff origin/main...HEAD -- {}'
+```
+
+## 緊急時の大きなPR対応
+
+### 緊急リリース時の例外対応
+- **クリティカルバグ**: 即座にホットフィックス作成
+- **セキュリティ修正**: 最小限の変更で対応
+- **データ損失防止**: 緊急メンテナンス対応
+
+### 事後対応
+1. **技術的負債の記録**: Issue作成
+2. **分割可能性の検討**: 後続PRでの分割実施
+3. **プロセス改善**: 再発防止策の検討
+
+## メトリクス監視
+
+### 定期的な確認項目
+- **平均PR サイズ**: 月次で確認
+- **レビュー時間**: PRサイズとの相関確認
+- **マージ率**: 分割後の承認率向上確認
+
+### ダッシュボード項目
+```bash
+# 直近10個のPRサイズ確認
+gh pr list --limit 10 --json number,title,additions,deletions
+```
+
+## 自動化ツールの導入
+
+### GitHub Actions での自動チェック
+```yaml
+# .github/workflows/pr-size-check.yml
+name: PR Size Check
+on: [pull_request]
+jobs:
+  size-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check PR size
+        run: |
+          FILES=$(git diff --name-only origin/main...HEAD | wc -l)
+          LINES=$(git diff --numstat origin/main...HEAD | awk '{added+=$1; deleted+=$2} END {print added+deleted}')
+          
+          if [ "$FILES" -gt 10 ] || [ "$LINES" -gt 500 ]; then
+            echo "::error::PR is too large. Consider splitting."
+            exit 1
+          fi
+```
+
+### PRテンプレートの活用
+```markdown
+<!-- .github/pull_request_template.md -->
+## PRサイズチェック
+- [ ] ファイル数 ≤ 10
+- [ ] 変更行数 ≤ 500  
+- [ ] 目的が明確で単一
+- [ ] 分割可能性を検討済み
+```
+
+このガイドラインに従うことで、レビュー効率を向上させ、コンフリクトリスクを最小化できます。

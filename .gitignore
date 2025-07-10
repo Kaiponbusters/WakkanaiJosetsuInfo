@@ -22,3 +22,8 @@ logs
 .env
 .env.*
 !.env.example
+
+# Playwright test artifacts
+tests/playwright/artifacts/
+test-results/
+playwright-report/
