@@ -47,7 +47,7 @@
               v-model="formData.end_time"
               type="datetime-local"
               class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5"
-              :class="{ 'border-red-500': validationErrors.end_time }"
+              :class="{ 'border-red-500': validationErrors.end_time || validationErrors.time_range }"
               aria-label="除雪終了時間"
               required
             />
@@ -55,6 +55,12 @@
               {{ validationErrors.end_time }}
             </p>
           </div>
+        </div>
+        <!-- 時間範囲エラーの表示（グリッド外で両フィールドに関連） -->
+        <div v-if="validationErrors.time_range" class="mt-2">
+          <p class="text-red-500 text-sm text-center">
+            {{ validationErrors.time_range }}
+          </p>
         </div>
       </div>
 
