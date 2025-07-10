@@ -6,7 +6,7 @@
 
     <form @submit.prevent="submitForm" class="mt-8">
       <div class="w-full h-auto mb-10 bg-[#D9D9D9] flex flex-col items-center p-4 rounded-md">
-        <label for="area" class="text-black text-[24px] font-['Noto Sans'] mb-2">・地域を入力</label>
+        <label for="area" class="text-black text-[24px] font-['Noto Sans'] mb-2">地域名</label>
         <input
           id="area"
           v-model="formData.area"
@@ -14,6 +14,7 @@
           placeholder="例: 稚内市..."
           class="w-full max-w-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5"
           :class="{ 'border-red-500': validationErrors.area }"
+          aria-label="地域名"
           required
         />
         <p v-if="validationErrors.area" class="text-red-500 text-sm mt-1">
@@ -25,13 +26,14 @@
         <label class="text-black text-[24px] font-['Noto Sans'] mb-2">除雪時間</label>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label for="start_time">開始時間</label>
+            <label for="start_time">除雪開始時間</label>
             <input
               id="start_time"
               v-model="formData.start_time"
               type="datetime-local"
               class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5"
               :class="{ 'border-red-500': validationErrors.start_time }"
+              aria-label="除雪開始時間"
               required
             />
             <p v-if="validationErrors.start_time" class="text-red-500 text-sm mt-1">
@@ -39,13 +41,14 @@
             </p>
           </div>
           <div>
-            <label for="end_time">終了時間</label>
+            <label for="end_time">除雪終了時間</label>
             <input
               id="end_time"
               v-model="formData.end_time"
               type="datetime-local"
               class="w-full bg-gray-50 border border-gray-300 rounded-lg p-2.5"
               :class="{ 'border-red-500': validationErrors.end_time }"
+              aria-label="除雪終了時間"
               required
             />
             <p v-if="validationErrors.end_time" class="text-red-500 text-sm mt-1">

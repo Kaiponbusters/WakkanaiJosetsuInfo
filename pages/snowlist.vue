@@ -9,6 +9,7 @@
       <button
         @click="router.push('/create')"
         class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
+        aria-label="新規登録"
       >
         新規登録
       </button>
@@ -34,12 +35,14 @@
             <button
               @click="handleEdit(report)"
               class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+              aria-label="編集"
             >
               編集
             </button>
             <button
               @click="handleDelete(report.id)"
               class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+              aria-label="削除"
             >
               削除
             </button>
@@ -55,29 +58,32 @@
         <form @submit.prevent="handleUpdate">
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700">地域</label>
+              <label class="block text-sm font-medium text-gray-700">地域名</label>
               <input
                 v-model="editingReport.area"
                 type="text"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                aria-label="地域名"
                 required
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">開始時間</label>
+              <label class="block text-sm font-medium text-gray-700">除雪開始時間</label>
               <input
                 v-model="editingReport.start_time"
                 type="datetime-local"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                aria-label="除雪開始時間"
                 required
               />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">終了時間</label>
+              <label class="block text-sm font-medium text-gray-700">除雪終了時間</label>
               <input
                 v-model="editingReport.end_time"
                 type="datetime-local"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                aria-label="除雪終了時間"
                 required
               />
             </div>
@@ -87,12 +93,14 @@
               type="button"
               @click="showEditModal = false"
               class="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
+              aria-label="キャンセル"
             >
               キャンセル
             </button>
             <button
               type="submit"
               class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+              aria-label="更新"
             >
               更新
             </button>
