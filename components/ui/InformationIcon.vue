@@ -1,27 +1,30 @@
 <template>
-    <div class="flex">
-        <!-- 画面情報表示部分 -->
-        <div class="w-full flex mt-4 mb-7 ml-2 mr-2 items-center justify-center">
-            <img
-                :src="iconSrc"
-                class="w-17 h-16 w-max-[67px] h-max-[67px] p-1 mr-3"
-                :alt="iconAlt"
-            />
-            <h1
-                :class="textColorClass"
-                class="text-5xl font-bold font-['Noto Sans']"
-            >
-                {{ title }}
-            </h1>
+    <!-- 画面情報表示部分 -->
+    <div class="w-full flex mt-4 mb-7 ml-2 mr-2 items-center justify-center">
+        <img
+            v-if="iconSrc"
+            :src="iconSrc"
+            class="w-16 h-16 max-w-[67px] max-h-[67px] p-1 mr-3"
+            :alt="iconAlt"
+            loading="lazy"
+        />
+        <div v-else class="w-16 h-16 max-w-[67px] max-h-[67px] p-1 mr-3 bg-blue-100 border border-gray-300 flex items-center justify-center text-xs text-gray-500">
+            アイコンなし
         </div>
+        <h1
+            :class="textColorClass"
+            class="text-5xl font-bold font-['Noto Sans']"
+        >
+            {{ title }}
+        </h1>
     </div>
 </template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 
-// 画像をインポート
-import josetsuIcon from '@/assets/img/josetsuImg/josetsuIcon.png'
+// 画像のパスを修正（Nuxt 3のassetsディレクトリから読み込み）
+import josetsuIconUrl from '~/assets/img/josetsuImg/josetsuIcon.png'
+const josetsuIcon = josetsuIconUrl
 
 // Props定義
 const props = withDefaults(defineProps<{
@@ -31,10 +34,7 @@ const props = withDefaults(defineProps<{
     iconAlt?: string
     textColor?: string
 }>(), {
-    type: 'default',
-    title: 'デフォルト情報',
-    iconAlt: 'アイコン',
-    textColor: 'text-[#000000]'
+    type: 'default'
 })
 
 // アイコン設定のマッピング

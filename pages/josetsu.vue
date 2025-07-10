@@ -46,6 +46,11 @@ import AreaNameDisplay from '~/components/ui/AreaNameDisplay.vue'
 import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
 import { useErrorHandler } from '~/composables/useErrorHandler'
 
+// レイアウトを明示的に指定
+definePageMeta({
+  layout: 'default'
+})
+
 /**
  * @interface SnowReport
  * @description 除雪情報のデータ構造を定義するインターフェース

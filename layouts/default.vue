@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import InformationIcon from '~/components/ui/InformationIcon.vue'
 
 const route = useRoute()
 
@@ -29,6 +30,5 @@ const iconType = computed(() => {
                     "Hiragino Sans",
                     "Meiryo",
                     "sans-serif",
-                    "Noto Sans JP",;
-    }
+                    "Noto Sans JP";    }
 </style>

@@ -16,13 +16,14 @@ export default defineNuxtConfig({
     },
   },
   components: ["@/components"],
-  watchers: {
-    webpack: {
-      aggregateTimeout: 300,
-      poll: 1000
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+        interval: 1000,
+      },
     },
-  },
-  supabase: {
+  },  supabase: {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_KEY,
     redirect: false

@@ -56,11 +56,10 @@ export function useGeocodingCache() {
     if (cached) {
       // TTL チェック
       if (Date.now() - cached.timestamp < CACHE_TTL_MS) {
-      stats.value.hits++
-      console.debug(`[GeoCache] Cache hit for ${area}`)
+        stats.value.hits++
+        console.debug(`[GeoCache] Cache hit for ${area}`)
         return cached
-      }
-      // 期限切れ
+      }      // 期限切れ
       console.debug(`[GeoCache] Cache expired for ${area}`)
       delete cache.value[area]
     }

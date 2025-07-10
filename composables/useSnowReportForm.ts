@@ -157,13 +157,13 @@ export function useSnowReportForm() {
         body: submitData
       })
       
-      alert('除雪情報を登録しました')
+      // 中央化された通知システムまたはトースト通知を使用
+      // 例: useNotification()やuseToast()の活用を検討
       resetForm()
       
       // 一覧画面へ遷移
       await router.push('/snowlist')
-      return true
-      
+      return true      
     } catch (error) {
       handleError(error, '除雪情報の登録')
       return false

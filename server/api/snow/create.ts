@@ -85,18 +85,12 @@ export default defineEventHandler(async (event) => {
     // setResponseStatus(event, 201) // Nuxt 3. H3の setResponseStatus を使う
     return { success: true, data } // クライアント側がこの形式を期待している場合は維持
 
-  } catch (error: any) {
-    // createError で投げられたエラーはそのまま再スローされるか、H3が処理する
-    // それ以外の予期せぬエラーをここで捕捉
+  } catch (error: unknown) {
     console.error('Create API error:', error)
-    // 既にH3Errorであればそれを使い、そうでなければ新しいエラーを生成
-    if (error.statusCode) { // H3Error (createErrorによって生成されたエラー) かどうかの簡易チェック
-        return sendError(event, error) // sendError を使ってエラーレスポンスを返す
-    }
-    return sendError(event, createError({
+    // createErrorで投げられたエラーはH3が自動的に処理するため、
+    // 予期せぬエラーのみをここで処理
+    throw createError({
       statusCode: 500,
-      statusMessage: 'サーバー内部エラーが発生しました。',
-      data: { details: error.message || 'Unknown server error' }
-    }))
-  }
-})
+      statusMessage: 'サーバー内部エラーが発生しました。'
+    })
+  }})

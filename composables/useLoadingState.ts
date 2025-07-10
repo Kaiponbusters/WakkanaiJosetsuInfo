@@ -5,6 +5,15 @@ export interface LoadingStateOptions {
   errorMessage?: string
 }
 
+// 型定義を追加
+type LoadingResult<T> = {
+  success: true
+  data: T
+} | {
+  success: false
+  error: Error
+}
+
 /**
  * ローディング状態とエラー状態を管理するコンポーザブル
  */
@@ -62,25 +71,27 @@ export function useLoadingState(options: LoadingStateOptions = {}) {
    * 非同期処理をラップしてローディング状態を管理
    */
   const withLoading = async <T>(
-    asyncFn: () => Promise<T>,
-    errorHandler?: (error: unknown) => void
-  ): Promise<T | null> => {
-    startLoading()
-    
-    try {
-      const result = await asyncFn()
-      stopLoading()
-      return result
-    } catch (err) {
-      if (errorHandler) {
-        errorHandler(err)
-      } else {
-        setError(err)
-      }
-      return null
+  asyncFn: () => Promise<T>,
+  errorHandler?: (error: unknown) => void
+): Promise<LoadingResult<T>> => {
+  startLoading()
+
+  try {
+    const result = await asyncFn()
+    stopLoading()
+    return { success: true, data: result }
+  } catch (err) {
+    if (errorHandler) {
+      errorHandler(err)
+    } else {
+      setError(err)
+    }
+    return {
+      success: false,
+      error: err instanceof Error ? err : new Error(String(err))
     }
   }
-
+}
   return {
     isLoading,
     hasError,

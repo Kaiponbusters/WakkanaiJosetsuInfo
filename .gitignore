@@ -25,5 +25,4 @@ logs
 
 # Playwright test artifacts
 tests/playwright/artifacts/
-test-results/
-playwright-report/
+tests/playwright/artifacts/**

@@ -34,11 +34,9 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(page.getByRole('heading', { name: testData.initial.area })).toBeVisible();
     
     // 詳細情報の確認
-    const reportCard = page.locator('.bg-white.rounded-lg.shadow').filter({ hasText: testData.initial.area });
+    const reportCard = page.locator('[data-testid="snow-report-card"]').filter({ hasText: testData.initial.area });
     await expect(reportCard.getByText('除雪開始:', { exact: false })).toBeVisible();
-    await expect(reportCard.getByText('除雪終了:', { exact: false })).toBeVisible();
-
-    // === 3. 更新 (Update) ===
+    await expect(reportCard.getByText('除雪終了:', { exact: false })).toBeVisible();    // === 3. 更新 (Update) ===
     // 編集ボタンをクリック
     await reportCard.getByRole('button', { name: '編集' }).click();
 
@@ -218,9 +216,8 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(submitButton).toBeDisabled();
 
     // エラーメッセージの表示確認
-    const errorMessage = page.getByText('エラー').or(page.locator('.text-red-500')).first();
+    const errorMessage = page.getByText('除雪終了時間は開始時間より後に設定してください');
     await expect(errorMessage).toBeVisible();
-
     // 正しいデータに修正
     await page.getByLabel('除雪終了時間').fill('2024-01-15T17:00');
     await expect(submitButton).not.toBeDisabled();
@@ -230,4 +227,4 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(page).toHaveURL('/snowlist');
     await expect(page.getByRole('heading', { name: errorTestData.area })).toBeVisible();
   });
-}); 
+});
