@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validateRequired, validateTimeRange } from './validators'
+import { validateRequired, validateTimeRange, validateStringLength } from './validators'
 
 describe('validateRequired', () => {
   it('空文字列の場合はfalseを返す', () => {
@@ -60,5 +60,49 @@ describe('validateTimeRange', () => {
     const result = validateTimeRange('', '2024-01-15T20:00')
     expect(result.isValid).toBe(false)
     expect(result.message).toBe('正しい日時形式で入力してください')
+  })
+})
+
+describe('validateStringLength', () => {
+  it('最小長未満の場合はfalseを返す', () => {
+    const result = validateStringLength('a', { min: 2, max: 10 })
+    expect(result.isValid).toBe(false)
+    expect(result.message).toBe('2文字以上で入力してください')
+  })
+
+  it('最大長超過の場合はfalseを返す', () => {
+    const result = validateStringLength('あいうえおかきくけこさしすせそ', { min: 1, max: 10 })
+    expect(result.isValid).toBe(false)
+    expect(result.message).toBe('10文字以下で入力してください')
+  })
+
+  it('範囲内の場合はtrueを返す', () => {
+    const result = validateStringLength('稚内市', { min: 2, max: 10 })
+    expect(result.isValid).toBe(true)
+    expect(result.message).toBe('')
+  })
+
+  it('最小長のみ指定の場合', () => {
+    const result = validateStringLength('test', { min: 3 })
+    expect(result.isValid).toBe(true)
+    expect(result.message).toBe('')
+  })
+
+  it('最大長のみ指定の場合', () => {
+    const result = validateStringLength('test', { max: 5 })
+    expect(result.isValid).toBe(true)
+    expect(result.message).toBe('')
+  })
+
+  it('空文字列は必須チェックに委ねる', () => {
+    const result = validateStringLength('', { min: 1, max: 10 })
+    expect(result.isValid).toBe(true)
+    expect(result.message).toBe('')
+  })
+
+  it('日本語文字列の長さを正しくカウント', () => {
+    const result = validateStringLength('あいうえお', { min: 3, max: 10 })
+    expect(result.isValid).toBe(true)
+    expect(result.message).toBe('')
   })
 }) 
