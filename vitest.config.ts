@@ -19,6 +19,10 @@ export default defineConfig({
     alias: {
       '~': resolve(__dirname, '.'),
       '@': resolve(__dirname, '.'),
+      '#imports': resolve(__dirname, '.nuxt/imports.d.ts'),
     },
+  },
+  define: {
+    'process.env.NODE_ENV': '"test"',
   },
 }) 
