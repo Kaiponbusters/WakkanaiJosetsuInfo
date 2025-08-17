@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MainNavigation />
     <InformationIcon :type="iconType" />
     <!-- 下記slotはNuxtLayoutコンポーネントの子要素に差し替わる -->
     <slot />
@@ -10,6 +11,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import InformationIcon from '~/components/ui/InformationIcon.vue'
+import MainNavigation from '~/components/ui/MainNavigation.vue'
 
 const route = useRoute()
 

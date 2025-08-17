@@ -7,6 +7,13 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/supabase'
   ],
+  supabase: {
+    redirectOptions: {
+      login: '/josetsu',
+      callback: '/josetsu',
+      exclude: ['/', '/josetsu', '/notifications', '/create', '/snowlist', '/cache-test']
+    }
+  },
   ssr: false,
   css: ["~/assets/css/main.css"],
   postcss: {
@@ -16,17 +23,22 @@ export default defineNuxtConfig({
     },
   },
   components: ["@/components"],
-  watchers: {
-    webpack: {
-      aggregateTimeout: 300,
-      poll: 1000
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+        interval: 1000
+      }
     },
+    optimizeDeps: {
+      include: ['leaflet'],
+      exclude: []
+    },
+    ssr: {
+      noExternal: ['leaflet']
+    }
   },
-  supabase: {
-    url: process.env.SUPABASE_URL,
-    key: process.env.SUPABASE_KEY,
-    redirect: false
-  },
+  // Supabase configuration is handled by the @nuxtjs/supabase module
   runtimeConfig: {
     public: {
       SUPABASE_URL: process.env.SUPABASE_URL,

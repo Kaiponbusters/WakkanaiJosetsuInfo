@@ -114,7 +114,7 @@ describe('SnowLocationMap - TDDエラーハンドリング', () => {
 
     // この時点で警告バナーは非表示になる
     // 実際のコンポーネントでは showWarningBanner が false になることをテスト
-    expect(mapManager.showWarningBanner.value).toBe(false)
+    expect((mapManager as any).showWarningBanner.value).toBe(false)
   })
 
   it('【RED → GREEN】再読み込み機能が動作すべき', async () => {

@@ -15,7 +15,9 @@
       "Bash(npm install:*)",
       "Bash(npx:*)",
       "WebFetch(domain:operations.osmfoundation.org)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr edit:*)"
     ],
     "deny": []
   },

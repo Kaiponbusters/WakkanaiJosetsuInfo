@@ -1,4 +1,5 @@
 import { serverSupabaseClient } from '#supabase/server'
+import { defineEventHandler, readBody, createError, sendError } from 'h3'
 
 /**
  * 除雪情報作成APIモジュール

@@ -1,5 +1,5 @@
 <template>
-  <div class="snow-location-map">
+  <div class="snow-location-map" data-testid="snow-location-map">
     <!-- 地図読み込みボタン（遅延読み込み機能） -->
     <div v-if="!isMapInitialized && !autoLoad" class="map-placeholder">
       <div class="placeholder-content">
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
-import { useGeocodingCache, type Coordinates } from '~/composables/useGeocodingCache'
+import { useGeocodingCache, type Coordinates } from '~/composables/geocoding/useGeocodingCache'
 
 interface Props {
   area: string
@@ -131,9 +131,16 @@ const loadMapData = async (): Promise<Coordinates | null> => {
  * Leaflet地図の初期化
  */
 const initializeLeafletMap = async (lat: number, lng: number) => {
-  // Leafletの動的インポート（サーバーサイドレンダリング対応）
-  const L = await import('leaflet').then(m => m.default || m)
-  await import('leaflet/dist/leaflet.css')
+  // Leafletの動的インポート（修正版）
+  let L: any
+  try {
+    const leafletModule = await import('leaflet')
+    L = leafletModule.default || leafletModule
+  } catch (error) {
+    console.error('[SnowLocationMap] Failed to import Leaflet:', error)
+    throw new Error('地図ライブラリの読み込みに失敗しました')
+  }
+  // CSS import is handled by Nuxt configuration
   
   await nextTick()
   
