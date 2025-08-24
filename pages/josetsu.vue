@@ -1,29 +1,42 @@
 <template>
   <div>
-      <div v-if="loading">Loading...</div>
+      <div v-if="loading" data-testid="loading-spinner">Loading...</div>
       <div v-else>
+        <!-- データが存在しない場合のメッセージ -->
+        <div v-if="groupedReports.length === 0" data-testid="no-data-message" class="text-center p-8 text-gray-500">
+          除雪情報がありません
+        </div>
+        
         <!-- 日付ごとにグループ化された除雪情報を表示 -->
-        <div v-for="(group, index) in groupedReports" :key="index" class="mb-4">
-          <div
-            @click="toggleGroup(index)"
-            class="text-3xl bg-[#578cff] text-white p-4 rounded-t cursor-pointer flex justify-center items-center"
+        <div v-else data-testid="snow-report-list">
+          <div 
+            v-for="(group, index) in groupedReports" 
+            :key="index" 
+            class="mb-4"
+            data-testid="date-group"
+            :data-testid="`date-group-${group.date}`"
           >
-            <span class="font-bold">{{ formatDate(group.date) }}</span>
-            <span class="">{{ openGroups.has(index) ? '     ▼' : '     ▶' }}</span>
-          </div>
-
-          <div v-if="openGroups.has(index)">
             <div
-              v-for="report in group.reports"
-              :key="report.id"
-              class="border-x border-b p-4 bg-white"
+              @click="toggleGroup(index)"
+              class="text-3xl bg-[#578cff] text-white p-4 rounded-t cursor-pointer flex justify-center items-center"
             >
-              <AreaNameDisplay :area="report.area" />
-              <SnowLocationMap :area="report.area" />
-              <div class="mt-2 space-y-1 text-gray-600">
-                <p>除雪開始: {{ formatDateTime(report.start_time) }}</p>
-                <p>除雪終了: {{ formatDateTime(report.end_time) }}</p>
-                <p class="text-sm text-gray-500">登録日時: {{ formatDateTime(report.created_at) }}</p>
+              <span class="font-bold">{{ formatDate(group.date) }}</span>
+              <span class="">{{ openGroups.has(index) ? '     ▼' : '     ▶' }}</span>
+            </div>
+
+            <div v-if="openGroups.has(index)">
+              <div
+                v-for="report in group.reports"
+                :key="report.id"
+                class="border-x border-b p-4 bg-white"
+              >
+                <AreaNameDisplay :area="report.area" />
+                <SnowLocationMap :area="report.area" :auto-load="false" />
+                <div class="mt-2 space-y-1 text-gray-600">
+                  <p>除雪開始: {{ formatDateTime(report.start_time) }}</p>
+                  <p>除雪終了: {{ formatDateTime(report.end_time) }}</p>
+                  <p class="text-sm text-gray-500">登録日時: {{ formatDateTime(report.created_at) }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -32,24 +45,17 @@
   </div>
 </template>
 
-/**
- * @fileoverview 路面除雪情報ページのコンポーネント
- * @description 稚内市の路面除雪状況をリアルタイムで表示するページコンポーネント
- * @module josetsu
- * @vue-component
- */
 <script setup lang="ts">
-// ページメタ定義
-definePageMeta({
-  layout: 'default'
-})
-
-import { ref, computed, onMounted, watch, onBeforeUnmount } from 'vue'
-import { useSupabaseClient } from '#imports'
+import { ref, computed, onMounted } from 'vue'
 import SnowLocationMap from '~/components/feature/snow/SnowLocationMap.vue'
 import AreaNameDisplay from '~/components/ui/AreaNameDisplay.vue'
 import { formatDate, formatDateTime, compareDates } from '~/utils/formatters'
 import { useErrorHandler } from '~/composables/useErrorHandler'
+
+// ページメタ定義
+definePageMeta({
+  layout: 'default'
+})
 
 /**
  * @interface SnowReport
@@ -149,8 +155,8 @@ const fetchSnowReports = async () => {
 onMounted(() => {
   fetchSnowReports()
 })
-
 </script>
+
 <style scoped>
 .map-container {
   margin: 1rem 0;

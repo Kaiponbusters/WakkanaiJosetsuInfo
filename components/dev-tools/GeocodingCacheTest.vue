@@ -59,10 +59,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useGeocodingCache } from '~/composables/useGeocodingCache'
+import { useGeocodingCache } from '~/composables/geocoding/useGeocodingCache'
 
 const areaName = ref('')
-const result = ref(null)
+const result = ref<any>(null)
 const loading = ref(false)
 const stats = ref({
   size: 0,

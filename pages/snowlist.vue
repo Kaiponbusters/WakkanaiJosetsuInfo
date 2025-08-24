@@ -60,7 +60,7 @@
             <div>
               <label class="block text-sm font-medium text-gray-700">地域名</label>
               <input
-                v-model="editingReport.area"
+                v-model="editingReport!.area"
                 type="text"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 aria-label="地域名"
@@ -70,7 +70,7 @@
             <div>
               <label class="block text-sm font-medium text-gray-700">除雪開始時間</label>
               <input
-                v-model="editingReport.start_time"
+                v-model="editingReport!.start_time"
                 type="datetime-local"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 aria-label="除雪開始時間"
@@ -80,7 +80,7 @@
             <div>
               <label class="block text-sm font-medium text-gray-700">除雪終了時間</label>
               <input
-                v-model="editingReport.end_time"
+                v-model="editingReport!.end_time"
                 type="datetime-local"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 aria-label="除雪終了時間"
@@ -113,12 +113,14 @@
 
 <script setup lang="ts">
 
-definePageMeta({ layout: false })
 import { ref, onMounted } from 'vue'
+// definePageMeta is auto-imported by Nuxt
+
+definePageMeta({ layout: false })
 // import { serverSupabaseClient } from '#supabase/server' // serverSupabaseClientはクライアントサイドでは不要
 import { useRouter } from 'vue-router' // 追加
 // import { supabase } from '~/utils/supabaseClient'  // ★ 削除：supabaseClientのインポートを削除
-import { useSupabaseClient } from '#imports' // ★ 追加：Nuxt3のコンポーザブルを使用
+// useSupabaseClient is auto-imported by Nuxt
 import { formatDateTime } from '~/utils/formatters' // ★ 追加
 import { useErrorHandler } from '~/composables/useErrorHandler' // 追加
 

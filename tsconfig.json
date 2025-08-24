@@ -11,5 +11,10 @@
   "include": [
     "./**/*.ts",
     "./**/*.vue"
+  ],
+  "exclude": [
+    "tests/playwright/**/*",
+    "playwright.config.ts",
+    "server/**/*"
   ]
 }

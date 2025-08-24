@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "npx",
+      "args": [
+        "mcp-server-fetch@latest"
+      ],
+      "env": {},
+      "disabled": true,
+      "autoApprove": []
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "env": {},
+      "disabled": false,
+      "autoApprove": [
+        "browser_navigate",
+        "browser_snapshot",
+        "browser_type",
+        "browser_click",
+        "browser_press_key",
+        "browser_close",
+        "browser_evaluate",
+        "browser_wait_for",
+        "browser_wait_for",
+        "browser_resize"
+      ]
+    }
+  }
+}

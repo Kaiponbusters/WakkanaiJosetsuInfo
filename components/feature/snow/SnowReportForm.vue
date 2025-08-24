@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSnowReportForm } from '~/composables/useSnowReportForm'
+import { useSnowReportForm } from '~/composables/forms/useSnowReportForm'
 
 // フォーム管理のcomposableを使用
 const {
