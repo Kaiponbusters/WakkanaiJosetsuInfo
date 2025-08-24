@@ -1,0 +1,179 @@
+<mxfile host="65bd71144e">
+    <diagram name="システム構成図" id="system-architecture">
+        <mxGraphModel dx="1994" dy="1679" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="frontend-container" value="フロントエンド層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;fontColor=#000000;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="110" y="-60" width="180" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="FE_Auth" value="認証処理&lt;br/&gt;Nuxt Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;" parent="frontend-container" vertex="1">
+                    <mxGeometry x="20" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="FE1" value="SPA Application&lt;br/&gt;Nuxt 3 + Vue 3&lt;br/&gt;(Leaflet.js 統合)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;" parent="frontend-container" vertex="1">
+                    <mxGeometry x="20" y="140" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="api-container" value="API Gateway層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;fontColor=#000000;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="120" width="240" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="API1" value="API Endpoints&lt;br/&gt;/api/*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;" parent="api-container" vertex="1">
+                    <mxGeometry x="60" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="business-container" value="ビジネスロジック層 (Composables)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontColor=#000000;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="350" width="800" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL1" value="除雪情報管理&lt;br/&gt;CRUD Operations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="business-container" vertex="1">
+                    <mxGeometry x="40" y="40" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL4" value="ユーザー管理&lt;br/&gt;Authentication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="business-container" vertex="1">
+                    <mxGeometry x="190" y="40" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL5" value="除雪情報参照" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="business-container" vertex="1">
+                    <mxGeometry x="340" y="40" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL2" value="通知管理&lt;br/&gt;Push Notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="business-container" vertex="1">
+                    <mxGeometry x="490" y="40" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL3" value="地理情報処理&lt;br/&gt;Geocoding Cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="business-container" vertex="1">
+                    <mxGeometry x="640" y="40" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="business-container" source="FE1" target="DA1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-80" y="-120" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-80" y="-120"/>
+                            <mxPoint x="-80" y="220"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;除雪情報&lt;/span&gt;&lt;div&gt;表示データ取得&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="18">
+                    <mxGeometry x="-0.1051" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="data-container" value="データアクセス層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontColor=#000000;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="190" y="520" width="600" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA1" value="Supabase Client&lt;br/&gt;JavaScript SDK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;" parent="data-container" vertex="1">
+                    <mxGeometry x="60" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA2" value="外部API Client&lt;br/&gt;Nominatim Wrapper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;" parent="data-container" vertex="1">
+                    <mxGeometry x="240" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA3" value="キャッシュ層&lt;br/&gt;LocalStorage + Memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;" parent="data-container" vertex="1">
+                    <mxGeometry x="420" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="database-container" value="データベース層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#a5d6a7;strokeColor=#0d5016;fontColor=#000000;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="680" width="300" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB1" value="PostgreSQL&lt;br/&gt;Supabase Managed" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=30;fillColor=#a5d6a7;strokeColor=#0d5016;" parent="database-container" vertex="1">
+                    <mxGeometry x="50" y="40" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="external-container" value="外部サービス" style="swimlane;whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ff6f00;fontColor=#000000;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="-60" width="600" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT_AUTH" value="Supabase Auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ff6f00;" parent="external-container" vertex="1">
+                    <mxGeometry x="40" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT3" value="地図タイル&lt;br/&gt;OpenStreetMap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ff6f00;" parent="external-container" vertex="1">
+                    <mxGeometry x="440" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT1" value="地理情報API&lt;br/&gt;Nominatim OSM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffecb3;strokeColor=#ff6f00;" parent="external-container" vertex="1">
+                    <mxGeometry x="230" y="40" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-FE_Auth-EXT_AUTH" value="ログイン要求" style="endArrow=classic;html=1;rounded=0;" parent="1" source="FE_Auth" target="EXT_AUTH" edge="1">
+                    <mxGeometry x="0.0513" y="5" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-FE1-FE_Auth" value="" style="endArrow=classic;html=1;rounded=0;startArrow=classic;startFill=1;" parent="1" source="FE1" target="FE_Auth" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-FE1-API1" value="認証情報付きリクエスト" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="FE1" target="API1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-API1-BL1" value="CRUDリクエスト" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="API1" target="BL1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-API1-BL4" value="認証リクエスト" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="API1" target="BL4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-API1-BL5" value="参照リクエスト" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="API1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="500" y="390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-API1-BL2" value="通知リクエスト" style="endArrow=classic;html=1;rounded=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="API1" target="BL2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL1-DA1" value="除雪情報&lt;div&gt;読み取り/書き込み&lt;/div&gt;" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="BL1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="260" y="550" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-BL4-DA1" value="ユーザー情報&lt;div&gt;読み取り&lt;/div&gt;" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="BL4">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="330" y="560" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-BL5-DA1" value="除雪情報&lt;div&gt;読み取り&lt;/div&gt;" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="BL5" target="DA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL2-DA1" value="通知設定&lt;div&gt;読み取り&lt;/div&gt;" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="BL2" target="DA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL3-DA2" value="地理情報API呼び出し" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="BL3" target="DA2">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="540" y="550"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge-BL3-DA3" value="キャッシュ読み取り/書き込み" style="endArrow=classic;html=1;rounded=0;entryX=0.93;entryY=0.029;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="BL3" target="DA3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-DA2-EXT1" value="地理情報呼び出し" style="endArrow=classic;html=1;rounded=0;startArrow=classic;startFill=1;" parent="1" source="DA2" target="EXT1" edge="1">
+                    <mxGeometry x="0.3612" y="-1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" style="edgeStyle=none;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="EXT_AUTH" target="FE_Auth" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="認証" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="14" connectable="0" vertex="1">
+                    <mxGeometry x="-0.0975" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.126;entryY=0.961;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="FE1" target="EXT3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="地図取得" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="16" connectable="0" vertex="1">
+                    <mxGeometry x="-0.0055" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" style="edgeStyle=none;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.273;entryY=0.04;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="DA1" target="DB1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="各種データ&lt;div&gt;書き込み&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="22" connectable="0" vertex="1">
+                    <mxGeometry x="-0.2237" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.573;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="360" y="720" as="sourcePoint"/>
+                        <mxPoint x="360.22" y="620" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="25" value="各種データ&lt;div&gt;読み取り&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="23" connectable="0" vertex="1">
+                    <mxGeometry x="0.3255" y="-1" relative="1" as="geometry">
+                        <mxPoint y="6" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

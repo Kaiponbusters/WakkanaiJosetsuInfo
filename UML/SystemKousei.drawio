@@ -1,0 +1,356 @@
+<mxfile host="65bd71144e">
+    <diagram name="システム構成図 - わっかない除雪情報システム" id="system-architecture">
+        <mxGraphModel dx="2800" dy="3200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1600" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                
+                <!-- クライアント層 -->
+                <mxCell id="client-layer" value="クライアント層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="50" width="1800" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="C1" value="Webブラウザ&lt;br/&gt;Chrome/Firefox/Safari&lt;br/&gt;JavaScript ES2022" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=12;" parent="client-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="C2" value="モバイルブラウザ&lt;br/&gt;iOS Safari/Android Chrome&lt;br/&gt;PWA対応" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=12;" parent="client-layer" vertex="1">
+                    <mxGeometry x="270" y="40" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="C3" value="デスクトップ&lt;br/&gt;Windows/macOS/Linux&lt;br/&gt;レスポンシブ対応" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3f2fd;strokeColor=#1976d2;fontSize=12;" parent="client-layer" vertex="1">
+                    <mxGeometry x="490" y="40" width="200" height="70" as="geometry"/>
+                </mxCell>
+
+                <!-- フロントエンド アプリケーション層 -->
+                <mxCell id="frontend-layer" value="フロントエンド アプリケーション層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="200" width="1800" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="F1" value="Nuxt 3 Application&lt;br/&gt;v3.14.159&lt;br/&gt;app.vue&lt;br/&gt;SSR無効化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="F2" value="Vue 3 Framework&lt;br/&gt;latest&lt;br/&gt;Composition API&lt;br/&gt;TypeScript" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="250" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="F3" value="Tailwind CSS&lt;br/&gt;v3.4.14&lt;br/&gt;ユーティリティファースト&lt;br/&gt;レスポンシブデザイン" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="450" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="F4" value="UI Components&lt;br/&gt;components/ui/&lt;br/&gt;AreaNameDisplay.vue&lt;br/&gt;InformationIcon.vue&lt;br/&gt;MainNavigation.vue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="650" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="F5" value="地図コンポーネント&lt;br/&gt;SnowLocationMap.vue&lt;br/&gt;Leaflet.js v1.9.4&lt;br/&gt;nuxt-leaflet v0.0.27" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="870" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="F6" value="フォームコンポーネント&lt;br/&gt;SnowReportForm.vue&lt;br/&gt;バリデーション付き&lt;br/&gt;TypeScript型安全" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="1090" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="F7" value="通知コンポーネント&lt;br/&gt;NotificationHistory.vue&lt;br/&gt;NotificationSettings.vue&lt;br/&gt;NotificationToast.vue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;" parent="frontend-layer" vertex="1">
+                    <mxGeometry x="1310" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- ページルーティング層 -->
+                <mxCell id="pages-layer" value="ページルーティング層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="410" width="1800" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="P1" value="index.vue&lt;br/&gt;ホームページ&lt;br/&gt;メイン画面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;" parent="pages-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="P2" value="josetsu.vue&lt;br/&gt;除雪情報ページ&lt;br/&gt;地図表示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;" parent="pages-layer" vertex="1">
+                    <mxGeometry x="220" y="40" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="P3" value="create.vue&lt;br/&gt;情報登録ページ&lt;br/&gt;フォーム画面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;" parent="pages-layer" vertex="1">
+                    <mxGeometry x="390" y="40" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="P4" value="snowlist.vue&lt;br/&gt;管理画面&lt;br/&gt;CRUD操作" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;" parent="pages-layer" vertex="1">
+                    <mxGeometry x="560" y="40" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="P5" value="notifications.vue&lt;br/&gt;通知設定&lt;br/&gt;購読管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;" parent="pages-layer" vertex="1">
+                    <mxGeometry x="730" y="40" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="P6" value="cache-test.vue&lt;br/&gt;開発テスト&lt;br/&gt;キャッシュ検証" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#f57c00;fontSize=12;" parent="pages-layer" vertex="1">
+                    <mxGeometry x="900" y="40" width="150" height="70" as="geometry"/>
+                </mxCell>
+
+                <!-- ビジネスロジック層 (Composables) -->
+                <mxCell id="business-layer" value="ビジネスロジック層 (Composables)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="560" width="1800" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL1" value="useSnowReportForm.ts&lt;br/&gt;除雪報告フォーム&lt;br/&gt;バリデーション&lt;br/&gt;送信処理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL2" value="useLeafletMap.ts&lt;br/&gt;地図初期化・操作&lt;br/&gt;マーカー管理&lt;br/&gt;イベント処理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="250" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL3" value="useGeocodingService.ts&lt;br/&gt;住所⇔座標変換&lt;br/&gt;Nominatim API&lt;br/&gt;レート制限" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="450" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL4" value="useGeocodingCache.ts&lt;br/&gt;座標キャッシュ&lt;br/&gt;localStorage&lt;br/&gt;パフォーマンス向上" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="650" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL5" value="useNotificationManager.ts&lt;br/&gt;通知作成・管理&lt;br/&gt;リアルタイム配信" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="850" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL6" value="useNotificationHistoryService.ts&lt;br/&gt;履歴管理&lt;br/&gt;永続化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="1070" y="40" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL7" value="useRealtimeListener.ts&lt;br/&gt;Supabase Realtime&lt;br/&gt;WebSocket接続" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="1310" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL8" value="usePushNotificationService.ts&lt;br/&gt;Firebase FCM&lt;br/&gt;ブラウザ通知" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="1530" y="40" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL9" value="useLoadingState.ts&lt;br/&gt;ローディング管理&lt;br/&gt;エラーハンドリング" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="50" y="140" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="BL10" value="useErrorHandler.ts&lt;br/&gt;エラーメッセージ&lt;br/&gt;ユーザー通知" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#7b1fa2;fontSize=12;" parent="business-layer" vertex="1">
+                    <mxGeometry x="250" y="140" width="180" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- サーバーAPI層 -->
+                <mxCell id="api-layer" value="サーバーAPI層 (Nuxt Server)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="790" width="1800" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="API1" value="/api/snow/create.ts&lt;br/&gt;POST&lt;br/&gt;除雪情報登録&lt;br/&gt;バリデーション付き" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=12;" parent="api-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="API2" value="/api/snow/update.ts&lt;br/&gt;PUT&lt;br/&gt;情報更新&lt;br/&gt;認証チェック" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=12;" parent="api-layer" vertex="1">
+                    <mxGeometry x="250" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="API3" value="/api/snow/delete.ts&lt;br/&gt;DELETE&lt;br/&gt;情報削除&lt;br/&gt;権限確認" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=12;" parent="api-layer" vertex="1">
+                    <mxGeometry x="450" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="API4" value="/api/test/cleanup.ts&lt;br/&gt;テストデータクリア&lt;br/&gt;開発環境専用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=12;" parent="api-layer" vertex="1">
+                    <mxGeometry x="650" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="API5" value="認証ミドルウェア&lt;br/&gt;JWT検証&lt;br/&gt;Supabase Auth&lt;br/&gt;セッション管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=12;" parent="api-layer" vertex="1">
+                    <mxGeometry x="850" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="API6" value="APIモニタリング&lt;br/&gt;リクエスト監視&lt;br/&gt;パフォーマンス計測" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#0277bd;fontSize=12;" parent="api-layer" vertex="1">
+                    <mxGeometry x="1050" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- データアクセス層 -->
+                <mxCell id="data-layer" value="データアクセス層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="970" width="1800" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA1" value="@nuxtjs/supabase&lt;br/&gt;v1.4.6&lt;br/&gt;useSupabaseClient()&lt;br/&gt;useSupabaseUser()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=12;" parent="data-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA2" value="@supabase/supabase-js&lt;br/&gt;v2.48.1&lt;br/&gt;RESTクライアント&lt;br/&gt;Realtimeクライアント" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=12;" parent="data-layer" vertex="1">
+                    <mxGeometry x="270" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA3" value="Nominatim Wrapper&lt;br/&gt;providers/NominatimProvider.ts&lt;br/&gt;レート制限付き&lt;br/&gt;エラーハンドリング" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=12;" parent="data-layer" vertex="1">
+                    <mxGeometry x="490" y="40" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA4" value="OpenStreetMap&lt;br/&gt;地図タイル取得&lt;br/&gt;HTTPS通信&lt;br/&gt;CDN配信" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=12;" parent="data-layer" vertex="1">
+                    <mxGeometry x="730" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA5" value="localStorage&lt;br/&gt;地理情報キャッシュ&lt;br/&gt;ブラウザ永続化&lt;br/&gt;容量制限管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=12;" parent="data-layer" vertex="1">
+                    <mxGeometry x="950" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DA6" value="メモリキャッシュ&lt;br/&gt;一時的データ保存&lt;br/&gt;セッション内有効&lt;br/&gt;高速アクセス" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2f1;strokeColor=#00695c;fontSize=12;" parent="data-layer" vertex="1">
+                    <mxGeometry x="1170" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- データベース層 -->
+                <mxCell id="database-layer" value="データベース層 (Supabase)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="1180" width="1800" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB1" value="PostgreSQL&lt;br/&gt;Supabase Managed&lt;br/&gt;v15+&lt;br/&gt;ACID準拠" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=30;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="200" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB2" value="snow_reports&lt;br/&gt;除雪情報テーブル&lt;br/&gt;id, area, start_time,&lt;br/&gt;end_time, created_at" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="280" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB3" value="auth.users&lt;br/&gt;認証ユーザー&lt;br/&gt;Supabase Auth&lt;br/&gt;自動管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="500" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB4" value="notification_settings&lt;br/&gt;通知設定&lt;br/&gt;user_id, areas,&lt;br/&gt;enabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="720" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB5" value="user_profiles&lt;br/&gt;ユーザープロファイル&lt;br/&gt;権限・設定情報" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="940" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB6" value="Row Level Security&lt;br/&gt;RLS有効&lt;br/&gt;ユーザー別&lt;br/&gt;アクセス制御" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="1160" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="DB7" value="Realtime&lt;br/&gt;リアルタイム配信&lt;br/&gt;WebSocket&lt;br/&gt;変更通知" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;" parent="database-layer" vertex="1">
+                    <mxGeometry x="1380" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- 外部サービス層 -->
+                <mxCell id="external-layer" value="外部サービス層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ef6c00;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="1900" y="200" width="400" height="600" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT1" value="Supabase Auth&lt;br/&gt;JWT認証&lt;br/&gt;ソーシャルログイン&lt;br/&gt;セッション管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ef6c00;fontSize=12;" parent="external-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT2" value="Nominatim API&lt;br/&gt;OpenStreetMap&lt;br/&gt;住所ジオコーディング&lt;br/&gt;逆ジオコーディング" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ef6c00;fontSize=12;" parent="external-layer" vertex="1">
+                    <mxGeometry x="50" y="140" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT3" value="OpenStreetMap&lt;br/&gt;地図タイル配信&lt;br/&gt;オープンソース&lt;br/&gt;無料利用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ef6c00;fontSize=12;" parent="external-layer" vertex="1">
+                    <mxGeometry x="50" y="240" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="EXT4" value="Firebase FCM&lt;br/&gt;v11.2.0&lt;br/&gt;プッシュ通知&lt;br/&gt;クロスプラットフォーム" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff8e1;strokeColor=#ef6c00;fontSize=12;" parent="external-layer" vertex="1">
+                    <mxGeometry x="50" y="340" width="180" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- インフラ・開発環境層 -->
+                <mxCell id="infra-layer" value="インフラ・開発環境層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="1900" y="830" width="400" height="550" as="geometry"/>
+                </mxCell>
+                <mxCell id="INF1" value="Docker&lt;br/&gt;Dockerfile&lt;br/&gt;docker-compose.yml&lt;br/&gt;開発環境統一" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=12;" parent="infra-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="INF2" value="Vite&lt;br/&gt;高速ビルド&lt;br/&gt;HMR対応&lt;br/&gt;最適化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=12;" parent="infra-layer" vertex="1">
+                    <mxGeometry x="50" y="140" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="INF3" value="Node.js&lt;br/&gt;v18+&lt;br/&gt;npm&lt;br/&gt;依存関係管理" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=12;" parent="infra-layer" vertex="1">
+                    <mxGeometry x="50" y="240" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="INF4" value="Vitest&lt;br/&gt;v3.1.3&lt;br/&gt;ユニットテスト&lt;br/&gt;カバレッジ計測" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=12;" parent="infra-layer" vertex="1">
+                    <mxGeometry x="50" y="340" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="INF5" value="Playwright&lt;br/&gt;v1.54.1&lt;br/&gt;E2Eテスト&lt;br/&gt;クロスブラウザ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=12;" parent="infra-layer" vertex="1">
+                    <mxGeometry x="250" y="340" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="INF6" value="TypeScript&lt;br/&gt;型安全性&lt;br/&gt;開発効率&lt;br/&gt;エラー防止" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#c2185b;fontSize=12;" parent="infra-layer" vertex="1">
+                    <mxGeometry x="250" y="240" width="130" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- ユーティリティ・ツール層 -->
+                <mxCell id="utility-layer" value="ユーティリティ・ツール層" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f;fontColor=#000000;fontSize=16;fontStyle=1;startSize=30;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="1410" width="1800" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="UTIL1" value="formatters.ts&lt;br/&gt;日付・時刻フォーマット&lt;br/&gt;データ表示用&lt;br/&gt;国際化対応" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f;fontSize=12;" parent="utility-layer" vertex="1">
+                    <mxGeometry x="50" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="UTIL2" value="validators.ts&lt;br/&gt;入力値検証&lt;br/&gt;セキュリティ&lt;br/&gt;データ整合性" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f;fontSize=12;" parent="utility-layer" vertex="1">
+                    <mxGeometry x="270" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="UTIL3" value="TokenBucketRateLimiter.ts&lt;br/&gt;API呼び出し制限&lt;br/&gt;レート制御&lt;br/&gt;サービス保護" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f;fontSize=12;" parent="utility-layer" vertex="1">
+                    <mxGeometry x="490" y="40" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="UTIL4" value="apiMonitor.ts&lt;br/&gt;API監視&lt;br/&gt;パフォーマンス&lt;br/&gt;ログ収集" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f;fontSize=12;" parent="utility-layer" vertex="1">
+                    <mxGeometry x="730" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="UTIL5" value="notificationUtils.ts&lt;br/&gt;通知ヘルパー&lt;br/&gt;共通処理&lt;br/&gt;再利用性" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f8e9;strokeColor=#558b2f;fontSize=12;" parent="utility-layer" vertex="1">
+                    <mxGeometry x="950" y="40" width="200" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- 接続線の定義 -->
+                <!-- クライアント ↔ フロントエンド -->
+                <mxCell id="edge-C1-F1" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#1976d2;" edge="1" parent="1" source="C1" target="F1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-C2-F1" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#1976d2;" edge="1" parent="1" source="C2" target="F1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-C3-F1" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#1976d2;" edge="1" parent="1" source="C3" target="F1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- フロントエンド内部接続 -->
+                <mxCell id="edge-F1-F2" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#2e7d32;" edge="1" parent="1" source="F1" target="F2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-F2-F5" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#2e7d32;" edge="1" parent="1" source="F2" target="F5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-F2-F6" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#2e7d32;" edge="1" parent="1" source="F2" target="F6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-F2-F7" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#2e7d32;" edge="1" parent="1" source="F2" target="F7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ページ ↔ ビジネスロジック -->
+                <mxCell id="edge-P2-BL2" value="地図操作" style="endArrow=classic;html=1;rounded=0;strokeColor=#7b1fa2;" edge="1" parent="1" source="P2" target="BL2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-P3-BL1" value="フォーム処理" style="endArrow=classic;html=1;rounded=0;strokeColor=#7b1fa2;" edge="1" parent="1" source="P3" target="BL1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-P5-BL5" value="通知管理" style="endArrow=classic;html=1;rounded=0;strokeColor=#7b1fa2;" edge="1" parent="1" source="P5" target="BL5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ビジネスロジック ↔ API -->
+                <mxCell id="edge-BL1-API1" value="CRUD要求" style="endArrow=classic;html=1;rounded=0;strokeColor=#0277bd;" edge="1" parent="1" source="BL1" target="API1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL5-API1" value="データ要求" style="endArrow=classic;html=1;rounded=0;strokeColor=#0277bd;" edge="1" parent="1" source="BL5" target="API1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- API ↔ データアクセス -->
+                <mxCell id="edge-API1-DA1" value="DB接続" style="endArrow=classic;html=1;rounded=0;strokeColor=#00695c;" edge="1" parent="1" source="API1" target="DA1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ビジネスロジック ↔ データアクセス（直接） -->
+                <mxCell id="edge-BL2-DA4" value="地図タイル" style="endArrow=classic;html=1;rounded=0;strokeColor=#00695c;" edge="1" parent="1" source="BL2" target="DA4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL3-DA3" value="API呼び出し" style="endArrow=classic;html=1;rounded=0;strokeColor=#00695c;" edge="1" parent="1" source="BL3" target="DA3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL4-DA5" value="キャッシュ" style="endArrow=classic;html=1;rounded=0;strokeColor=#00695c;" edge="1" parent="1" source="BL4" target="DA5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL7-DA2" value="リアルタイム" style="endArrow=classic;html=1;rounded=0;strokeColor=#00695c;" edge="1" parent="1" source="BL7" target="DA2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- データアクセス ↔ データベース -->
+                <mxCell id="edge-DA1-DB1" value="SQL実行" style="endArrow=classic;html=1;rounded=0;strokeColor=#1b5e20;" edge="1" parent="1" source="DA1" target="DB1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-DA2-DB1" value="リアルタイム接続" style="endArrow=classic;html=1;rounded=0;strokeColor=#1b5e20;" edge="1" parent="1" source="DA2" target="DB1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- データアクセス ↔ 外部サービス -->
+                <mxCell id="edge-DA1-EXT1" value="認証" style="endArrow=classic;html=1;rounded=0;strokeColor=#ef6c00;" edge="1" parent="1" source="DA1" target="EXT1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-DA3-EXT2" value="ジオコーディング" style="endArrow=classic;html=1;rounded=0;strokeColor=#ef6c00;" edge="1" parent="1" source="DA3" target="EXT2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-DA4-EXT3" value="地図タイル取得" style="endArrow=classic;html=1;rounded=0;strokeColor=#ef6c00;" edge="1" parent="1" source="DA4" target="EXT3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL8-EXT4" value="プッシュ通知" style="endArrow=classic;html=1;rounded=0;strokeColor=#ef6c00;" edge="1" parent="1" source="BL8" target="EXT4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- ビジネスロジック ↔ ユーティリティ -->
+                <mxCell id="edge-BL1-UTIL1" value="フォーマット" style="endArrow=classic;html=1;rounded=0;strokeColor=#558b2f;" edge="1" parent="1" source="BL1" target="UTIL1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL1-UTIL2" value="バリデーション" style="endArrow=classic;html=1;rounded=0;strokeColor=#558b2f;" edge="1" parent="1" source="BL1" target="UTIL2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL3-UTIL3" value="レート制限" style="endArrow=classic;html=1;rounded=0;strokeColor=#558b2f;" edge="1" parent="1" source="BL3" target="UTIL3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-BL5-UTIL5" value="通知処理" style="endArrow=classic;html=1;rounded=0;strokeColor=#558b2f;" edge="1" parent="1" source="BL5" target="UTIL5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- API ↔ ユーティリティ -->
+                <mxCell id="edge-API1-UTIL4" value="監視" style="endArrow=classic;html=1;rounded=0;strokeColor=#558b2f;" edge="1" parent="1" source="API1" target="UTIL4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- 開発環境接続（点線） -->
+                <mxCell id="edge-F1-INF2" value="開発ビルド" style="endArrow=classic;html=1;rounded=0;strokeColor=#c2185b;dashed=1;" edge="1" parent="1" source="F1" target="INF2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-INF4-F4" value="テスト" style="endArrow=classic;html=1;rounded=0;strokeColor=#c2185b;dashed=1;" edge="1" parent="1" source="INF4" target="F4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge-INF5-P1" value="E2Eテスト" style="endArrow=classic;html=1;rounded=0;strokeColor=#c2185b;dashed=1;" edge="1" parent="1" source="INF5" target="P1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
