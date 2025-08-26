@@ -1,0 +1,271 @@
+<mxfile host="app.diagrams.net" modified="2024-12-19T12:00:00.000Z" agent="5.0" etag="drawio-version" version="24.7.17">
+  <diagram name="わっかない除雪情報システム - ユースケース図" id="usecase-diagram">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- システム境界 -->
+        <mxCell id="system-boundary" value="わっかない除雪情報システム" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;fontSize=16;fontStyle=1;swimlaneFillColor=#ffffff;startSize=30;" parent="1" vertex="1">
+          <mxGeometry x="200" y="50" width="950" height="750" as="geometry"/>
+        </mxCell>
+        
+        <!-- アクター：一般利用者 -->
+        <mxCell id="actor-user" value="一般利用者" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e1f5fe;strokeColor=#01579b;" parent="1" vertex="1">
+          <mxGeometry x="50" y="200" width="30" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- アクター：管理者 -->
+        <mxCell id="actor-admin" value="管理者" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="1" vertex="1">
+          <mxGeometry x="50" y="400" width="30" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- アクター：システム -->
+        <mxCell id="actor-system" value="システム" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#f3e5f5;strokeColor=#4a148c;" parent="1" vertex="1">
+          <mxGeometry x="50" y="650" width="30" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- 認証機能グループ -->
+        <mxCell id="auth-group" value="認証機能" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;fontSize=12;fontStyle=1;swimlaneFillColor=#f8f8f8;" parent="system-boundary" vertex="1">
+          <mxGeometry x="50" y="50" width="200" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：ログイン -->
+        <mxCell id="uc-login" value="ログイン" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="auth-group" vertex="1">
+          <mxGeometry x="20" y="40" width="80" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：ログアウト -->
+        <mxCell id="uc-logout" value="ログアウト" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#2e7d32;" parent="auth-group" vertex="1">
+          <mxGeometry x="110" y="40" width="80" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：認証確認 -->
+        <mxCell id="uc-auth-check" value="認証確認" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="system-boundary" vertex="1">
+          <mxGeometry x="700" y="650" width="80" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- 情報閲覧機能グループ -->
+        <mxCell id="view-group" value="情報閲覧機能" style="swimlane;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;fontSize=12;fontStyle=1;swimlaneFillColor=#f8f8f8;" parent="system-boundary" vertex="1">
+          <mxGeometry x="300" y="50" width="280" height="150" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：除雪情報を閲覧する -->
+        <mxCell id="uc-view-snow" value="除雪情報を&lt;br&gt;閲覧する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;" parent="view-group" vertex="1">
+          <mxGeometry x="20" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：地図上で除雪エリアを確認する -->
+        <mxCell id="uc-view-map" value="地図上で除雪&lt;br&gt;エリアを確認する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;" parent="view-group" vertex="1">
+          <mxGeometry x="110" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：除雪履歴を確認する -->
+        <mxCell id="uc-view-history" value="除雪履歴を&lt;br&gt;確認する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1f5fe;strokeColor=#01579b;" parent="view-group" vertex="1">
+          <mxGeometry x="200" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- 通知機能グループ -->
+        <mxCell id="notification-group" value="通知機能" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff6f00;fontSize=12;fontStyle=1;swimlaneFillColor=#f8f8f8;" parent="system-boundary" vertex="1">
+          <mxGeometry x="640" y="50" width="280" height="150" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：通知設定を管理する -->
+        <mxCell id="uc-manage-notification" value="通知設定を&lt;br&gt;管理する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff6f00;" parent="notification-group" vertex="1">
+          <mxGeometry x="20" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：通知履歴を確認する -->
+        <mxCell id="uc-view-notification-history" value="通知履歴を&lt;br&gt;確認する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff6f00;" parent="notification-group" vertex="1">
+          <mxGeometry x="110" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：リアルタイム通知を受信する -->
+        <mxCell id="uc-receive-notification" value="リアルタイム通知&lt;br&gt;を受信する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#ff6f00;" parent="notification-group" vertex="1">
+          <mxGeometry x="200" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- 管理機能グループ -->
+        <mxCell id="admin-group" value="管理機能" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;fontSize=12;fontStyle=1;swimlaneFillColor=#f8f8f8;" parent="system-boundary" vertex="1">
+          <mxGeometry x="50" y="250" width="300" height="180" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：除雪情報を登録する -->
+        <mxCell id="uc-create-snow" value="除雪情報を&lt;br&gt;登録する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;" parent="admin-group" vertex="1">
+          <mxGeometry x="20" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：除雪情報を編集する -->
+        <mxCell id="uc-edit-snow" value="除雪情報を&lt;br&gt;編集する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;" parent="admin-group" vertex="1">
+          <mxGeometry x="110" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：除雪情報を削除する -->
+        <mxCell id="uc-delete-snow" value="除雪情報を&lt;br&gt;削除する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;" parent="admin-group" vertex="1">
+          <mxGeometry x="200" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：ユーザーを管理する -->
+        <mxCell id="uc-manage-users" value="ユーザーを&lt;br&gt;管理する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;" parent="admin-group" vertex="1">
+          <mxGeometry x="110" y="110" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- システム機能グループ -->
+        <mxCell id="system-group" value="システム機能" style="swimlane;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;fontSize=12;fontStyle=1;swimlaneFillColor=#f8f8f8;" parent="system-boundary" vertex="1">
+          <mxGeometry x="400" y="480" width="520" height="180" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：リアルタイム通知を配信する -->
+        <mxCell id="uc-send-notification" value="リアルタイム通知&lt;br&gt;を配信する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;" parent="system-group" vertex="1">
+          <mxGeometry x="20" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：地理情報をキャッシュする -->
+        <mxCell id="uc-cache-geo" value="地理情報を&lt;br&gt;キャッシュする" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;" parent="system-group" vertex="1">
+          <mxGeometry x="110" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：認証状態を維持する -->
+        <mxCell id="uc-maintain-auth" value="認証状態を&lt;br&gt;維持する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#1b5e20;" parent="system-group" vertex="1">
+          <mxGeometry x="200" y="40" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ユースケース：通知設定を確認する -->
+        <mxCell id="uc-check-notification-settings" value="通知設定を&lt;br&gt;確認する" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="system-group" vertex="1">
+          <mxGeometry x="320" y="110" width="80" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- アクター接続：一般利用者 -->
+        <mxCell id="user-login" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-login" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-logout" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-logout" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-view-snow" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-view-snow" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-view-map" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-view-map" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-view-history" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-view-history" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-manage-notification" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-manage-notification" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-view-notification-history" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-view-notification-history" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user-receive-notification" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-user" target="uc-receive-notification" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- アクター接続：管理者 -->
+        <mxCell id="admin-login" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-login" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-logout" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-logout" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-view-snow" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-view-snow" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-view-map" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-view-map" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-view-history" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-view-history" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-manage-notification" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-manage-notification" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-view-notification-history" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-view-notification-history" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-receive-notification" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-receive-notification" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-create-snow" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-create-snow" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-edit-snow" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-edit-snow" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-delete-snow" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-delete-snow" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="admin-manage-users" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-admin" target="uc-manage-users" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- アクター接続：システム -->
+        <mxCell id="system-send-notification" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-system" target="uc-send-notification" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="system-cache-geo" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-system" target="uc-cache-geo" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="system-maintain-auth" style="endArrow=none;html=1;rounded=0;" parent="1" source="actor-system" target="uc-maintain-auth" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Include関係 -->
+        <mxCell id="include-create-auth" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=open;dashed=1;html=1;rounded=0;dashPattern=5 5;" parent="1" source="uc-create-snow" target="uc-auth-check" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="include-edit-auth" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=open;dashed=1;html=1;rounded=0;dashPattern=5 5;" parent="1" source="uc-edit-snow" target="uc-auth-check" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="include-delete-auth" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=open;dashed=1;html=1;rounded=0;dashPattern=5 5;" parent="1" source="uc-delete-snow" target="uc-auth-check" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="include-manage-users-auth" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=open;dashed=1;html=1;rounded=0;dashPattern=5 5;" parent="1" source="uc-manage-users" target="uc-auth-check" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="include-send-notification-check" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="endArrow=open;dashed=1;html=1;rounded=0;dashPattern=5 5;" parent="1" source="uc-send-notification" target="uc-check-notification-settings" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Extend関係 -->
+        <mxCell id="extend-cache-map" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="endArrow=open;dashed=1;html=1;rounded=0;dashPattern=5 5;" parent="1" source="uc-cache-geo" target="uc-view-map" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- 注釈 -->
+        <mxCell id="note-1" value="認証機能は将来実装予定&lt;br&gt;現在は無効化されている" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;size=10;" parent="1" vertex="1">
+          <mxGeometry x="1250" y="100" width="120" height="60" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="note-2" value="管理者は一般利用者の&lt;br&gt;すべての機能を継承" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;size=10;" parent="1" vertex="1">
+          <mxGeometry x="1250" y="200" width="120" height="60" as="geometry"/>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
