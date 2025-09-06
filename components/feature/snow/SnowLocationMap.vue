@@ -39,19 +39,21 @@
       </div>
     </div>
 
-    <!-- 地図コンテナ -->
-    <div 
-      v-show="isMapInitialized && !showError"
-      ref="mapContainer" 
-      class="map-container"
-      :class="{ 'map-loading': isLoading }"
-    ></div>
+    <!-- 地図コンテナ（クライアント限定） -->
+    <ClientOnly>
+      <div 
+        v-show="isMapInitialized && !showError"
+        ref="mapContainer" 
+        class="map-container"
+        :class="{ 'map-loading': isLoading }"
+      ></div>
 
-    <!-- ローディング表示 -->
-    <div v-if="isLoading && isMapInitialized" class="loading-overlay">
-      <div class="loading-spinner"></div>
-      <p class="loading-text">地図を読み込んでいます...</p>
-    </div>
+      <!-- ローディング表示 -->
+      <div v-if="isLoading && isMapInitialized" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">地図を読み込んでいます...</p>
+      </div>
+    </ClientOnly>
   </div>
 </template>
 
@@ -170,6 +172,12 @@ const initializeLeafletMap = async (lat: number, lng: number) => {
     .addTo(map.value)
     .bindPopup(`${props.area}<br/>緯度: ${lat}<br/>経度: ${lng}`)
     .openPopup()
+
+  // 初期化直後にサイズ再計算（非表示初期化対策）
+  await nextTick()
+  if (map.value) {
+    map.value.invalidateSize(true)
+  }
 }
 
 /**
@@ -184,6 +192,11 @@ const initializeMap = async () => {
   try {
     await initializeLeafletMap(result.lat, result.lng)
     isMapInitialized.value = true
+    // 可視化直後の再計算
+    await nextTick()
+    if (map.value) {
+      map.value.invalidateSize(true)
+    }
   } catch (error) {
     console.error('[SnowLocationMap] Error initializing map:', error)
     showError.value = true
@@ -210,6 +223,9 @@ const updateMap = async () => {
         marker.value.setLatLng([result.lat, result.lng])
         marker.value.bindPopup(`${props.area}<br/>緯度: ${result.lat}<br/>経度: ${result.lng}`)
       }
+
+      // 更新後にサイズ再計算（親の表示状態変化等に対応）
+      map.value.invalidateSize(true)
     }
   } catch (error) {
     console.error('[SnowLocationMap] Error updating map:', error)
@@ -244,6 +260,16 @@ onBeforeUnmount(() => {
   }
   if (marker.value) {
     marker.value = null
+  }
+})
+
+// エラー解除等で再表示された際に再計算
+watch(() => showError.value, async (newVal, oldVal) => {
+  if (oldVal === true && newVal === false && isMapInitialized.value) {
+    await nextTick()
+    if (map.value) {
+      map.value.invalidateSize(true)
+    }
   }
 })
 </script>
