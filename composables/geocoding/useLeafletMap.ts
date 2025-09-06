@@ -62,6 +62,9 @@ export function useLeafletMap() {
       }).addTo(mapInstance.value as any)
 
       isMapReady.value = true
+
+      // 初期化直後にサイズ再計算（非表示状態での初期化対策）
+      ;(mapInstance.value as any)?.invalidateSize?.(true)
     } catch (error) {
       console.error('[useLeafletMap] Error initializing map:', error)
       throw new Error('マップの初期化に失敗しました')
@@ -118,6 +121,9 @@ export function useLeafletMap() {
     } else {
       mapInstance.value.setView(center)
     }
+
+    // ビュー更新後にもサイズ再計算してタイルの再描画を促す
+    ;(mapInstance.value as any)?.invalidateSize?.(true)
   }
 
   /**
