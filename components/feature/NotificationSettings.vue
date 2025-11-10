@@ -174,12 +174,10 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useNotificationManager } from '~/composables/notifications/useNotificationManager'
 import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { WAKKANAI_AREAS } from '~/constants/areas'
 
-// Available areas (this would typically come from an API or store)
-const availableAreas = ref([
-  '中央区', '港区', '朝日区', '富岡区', '宗谷区', '恵北区',
-  '声問区', '増幌区', '沼川区', '豊富区', '猿払区', '浜頓別区'
-])
+// Available areas (imported from shared constants)
+const availableAreas = ref([...WAKKANAI_AREAS])
 
 // Component state
 const searchQuery = ref('')

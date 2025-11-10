@@ -99,6 +99,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import type { NotificationHistoryItem } from '~/types/notification'
+import { getTypeLabel, getSeverityLabel, getSeverityClass } from '~/utils/notificationHelpers'
 
 // Icons (you might want to use a proper icon library)
 const CheckCircleIcon = {
@@ -263,28 +264,6 @@ const getToastClass = (type: string) => {
   return type === 'start'
     ? 'border-l-4 border-green-400'
     : 'border-l-4 border-purple-400'
-}
-
-const getTypeLabel = (type: string) => {
-  return type === 'start' ? '開始' : '完了'
-}
-
-const getSeverityLabel = (severity: string) => {
-  const labels = {
-    low: '軽微',
-    medium: '通常',
-    high: '重要'
-  }
-  return labels[severity as keyof typeof labels] || severity
-}
-
-const getSeverityClass = (severity: string) => {
-  const classes = {
-    low: 'text-green-600',
-    medium: 'text-yellow-600',
-    high: 'text-red-600'
-  }
-  return classes[severity as keyof typeof classes] || 'text-gray-600'
 }
 
 const getProgressWidth = (toast: ToastNotification) => {
