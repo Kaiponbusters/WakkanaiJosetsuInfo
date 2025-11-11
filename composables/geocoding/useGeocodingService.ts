@@ -3,7 +3,7 @@
  * ジオコーディングサービス - レート制限とキャッシュ機能付き
  */
 
-import type { NominatimProvider, Coordinates } from '../../providers/NominatimProvider'
+import type { NominatimProvider, Coordinates } from './NominatimProvider'
 import type { TokenBucketRateLimiter } from '../../utils/TokenBucketRateLimiter'
 
 export interface GeocodingResult {
