@@ -17,7 +17,18 @@
       "WebFetch(domain:operations.osmfoundation.org)",
       "Bash(npm test:*)",
       "Bash(gh pr view:*)",
-      "Bash(gh pr edit:*)"
+      "Bash(gh pr edit:*)",
+      "MCP(serena:*)",
+      "mcp__serena__get_current_config",
+      "mcp__serena__activate_project",
+      "mcp__serena__list_dir",
+      "mcp__serena__think_about_collected_information",
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(npm run build:*)",
+      "Bash(tree:*)",
+      "Bash(npm run test:*)"
     ],
     "deny": []
   },
