@@ -1,5 +1,5 @@
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import type { SnowReport } from '~/server/types/snow'
+import type { SnowReport } from '~/types/snow'
 
 /**
  * リアルタイムイベントの型定義
