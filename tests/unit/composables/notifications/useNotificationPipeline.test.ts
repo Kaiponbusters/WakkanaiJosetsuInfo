@@ -238,14 +238,19 @@ describe('useNotificationPipeline', () => {
       const pipeline = useNotificationPipeline()
       
       const newConfig = {
-        maxRetries: 5,
-        retryDelay: 2000
+        retryConfig: {
+          maxRetries: 5,
+          baseDelay: 2000,
+          maxDelay: 10000,
+          backoffMultiplier: 2,
+          jitterFactor: 0.1
+        }
       }
-      
+
       pipeline.updateConfig(newConfig)
-      
-      expect(pipeline.config.value.maxRetries).toBe(5)
-      expect(pipeline.config.value.retryDelay).toBe(2000)
+
+      expect(pipeline.config.value.retryConfig.maxRetries).toBe(5)
+      expect(pipeline.config.value.retryConfig.baseDelay).toBe(2000)
     })
 
     it('配信統計をリセットできる', async () => {

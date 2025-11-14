@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
   }
 
-  const client = serverSupabaseClient(event)
+  const client = await serverSupabaseClient(event)
   // snow_reportsテーブルの全データ削除
   const { error } = await client.from('snow_reports').delete().neq('id', '')
   if (error) {

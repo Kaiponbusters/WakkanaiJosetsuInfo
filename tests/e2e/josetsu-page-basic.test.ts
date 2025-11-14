@@ -12,8 +12,8 @@ describe('/josetsuページ - 基本ページロードとデータ表示テス�
   beforeEach(async () => {
     playwright = new PlaywrightTestBase()
     dbUtil = new DatabaseTestUtil()
-    apiClient = new ApiTestClient()
-    
+    apiClient = new ApiTestClient('http://localhost:3000')
+
     await playwright.setup()
     await dbUtil.setupTestData(testId)
   })

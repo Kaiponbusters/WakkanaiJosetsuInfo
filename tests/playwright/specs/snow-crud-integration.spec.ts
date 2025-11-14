@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page, type Dialog } from '@playwright/test';
 import { generateSnowReportData, generateMultipleSnowReportData } from '../utils/testData';
 
 /**
@@ -7,7 +7,7 @@ import { generateSnowReportData, generateMultipleSnowReportData } from '../utils
  */
 test.describe('除雪情報CRUD統合フロー', () => {
 
-  test('完全なCRUDフローテスト', async ({ page }) => {
+  test('完全なCRUDフローテスト', async ({ page }: { page: Page }) => {
     // ユニークなテストデータを生成
     const testData = {
       initial: generateSnowReportData('CRUD統合テスト_初期'),
@@ -69,7 +69,7 @@ test.describe('除雪情報CRUD統合フロー', () => {
     const updatedCard = page.locator('.bg-white.rounded-lg.shadow').filter({ hasText: testData.updated.area });
     
     // 削除確認ダイアログの処理
-    page.on('dialog', async dialog => {
+    page.on('dialog', async (dialog: Dialog) => {
       expect(dialog.type()).toBe('confirm');
       await dialog.accept();
     });
@@ -81,7 +81,7 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(page.getByRole('heading', { name: testData.updated.area })).toBeHidden();
   });
 
-  test('複数データでのCRUD操作', async ({ page }) => {
+  test('複数データでのCRUD操作', async ({ page }: { page: Page }) => {
     // ユニークな複数データを生成
     const multipleData = generateMultipleSnowReportData('複数CRUD操作テスト', 3);
 
@@ -122,7 +122,7 @@ test.describe('除雪情報CRUD統合フロー', () => {
     // 最初のデータを削除
     const firstCard = page.locator('.bg-white.rounded-lg.shadow').filter({ hasText: multipleData[0].area });
     
-    page.on('dialog', async dialog => {
+    page.on('dialog', async (dialog: Dialog) => {
       await dialog.accept();
     });
 
@@ -134,7 +134,7 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(page.getByRole('heading', { name: multipleData[2].area })).toBeVisible();
   });
 
-  test('データ整合性の確認', async ({ page }) => {
+  test('データ整合性の確認', async ({ page }: { page: Page }) => {
     // ユニークなテストデータの作成
     await page.goto('/create');
     
@@ -175,7 +175,7 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(modal).toBeHidden();
   });
 
-  test('ナビゲーション統合テスト', async ({ page }) => {
+  test('ナビゲーション統合テスト', async ({ page }: { page: Page }) => {
     // 一覧ページから新規登録へ
     await page.goto('/snowlist');
     await page.getByRole('button', { name: '新規登録' }).or(page.getByRole('link', { name: '新規登録' })).first().click();
@@ -202,7 +202,7 @@ test.describe('除雪情報CRUD統合フロー', () => {
     await expect(page.getByRole('heading', { name: navigationTestData.area })).toBeVisible();
   });
 
-  test('エラーハンドリング統合テスト', async ({ page }) => {
+  test('エラーハンドリング統合テスト', async ({ page }: { page: Page }) => {
     // 不正なデータでの登録試行
     await page.goto('/create');
 

@@ -130,8 +130,10 @@ describe('ApiTestClient', () => {
 
     it('500エラーレスポンスを処理する', async () => {
       // サーバーエラーをシミュレート
-      const response = await apiClient.createSnowReport({ 
-        area: 'SERVER_ERROR_TRIGGER' 
+      const response = await apiClient.createSnowReport({
+        area: 'SERVER_ERROR_TRIGGER',
+        start_time: '2024-01-01T09:00:00Z',
+        end_time: '2024-01-01T12:00:00Z'
       })
       
       expect(response.success).toBe(false)

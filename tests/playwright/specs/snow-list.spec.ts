@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page, type Dialog } from '@playwright/test';
 import { generateSnowReportData } from '../utils/testData';
 
 /**
@@ -6,7 +6,7 @@ import { generateSnowReportData } from '../utils/testData';
  * @description 除雪情報の一覧表示・編集・削除機能を統合的にテストする
  */
 test.describe('除雪情報一覧表示フロー', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }: { page: Page }) => {
     // 除雪情報一覧ページに遷移
     await page.goto('/snowlist');
     
@@ -14,7 +14,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(page.locator('h1')).toContainText('除雪情報管理');
   });
 
-  test('一覧ページの基本表示', async ({ page }) => {
+  test('一覧ページの基本表示', async ({ page }: { page: Page }) => {
     // ページタイトルの確認
     await expect(page.getByRole('heading', { level: 1 })).toContainText('除雪情報管理');
 
@@ -29,7 +29,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(loadingText).toBeHidden({ timeout: 10000 });
   });
 
-  test('新規登録ボタンのナビゲーション', async ({ page }) => {
+  test('新規登録ボタンのナビゲーション', async ({ page }: { page: Page }) => {
     const newButton = page.getByRole('button', { name: '新規登録' }).or(page.getByRole('link', { name: '新規登録' }));
     
     await newButton.first().click();
@@ -39,7 +39,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('除雪情報登録');
   });
 
-  test('除雪情報カードの表示内容', async ({ page }) => {
+  test('除雪情報カードの表示内容', async ({ page }: { page: Page }) => {
     // データが読み込まれるまで待機
     await page.waitForSelector('.bg-white.rounded-lg.shadow', { timeout: 10000 });
 
@@ -63,7 +63,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(firstCard.getByRole('button', { name: '削除' })).toBeVisible();
   });
 
-  test('編集モーダルの表示と操作', async ({ page }) => {
+  test('編集モーダルの表示と操作', async ({ page }: { page: Page }) => {
     // データが読み込まれるまで待機
     await page.waitForSelector('.bg-white.rounded-lg.shadow', { timeout: 10000 });
 
@@ -94,7 +94,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(page.getByRole('button', { name: '更新' })).toBeVisible();
   });
 
-  test('編集モーダルのキャンセル機能', async ({ page }) => {
+  test('編集モーダルのキャンセル機能', async ({ page }: { page: Page }) => {
     // データが読み込まれるまで待機
     await page.waitForSelector('.bg-white.rounded-lg.shadow', { timeout: 10000 });
 
@@ -115,7 +115,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(modal).toBeHidden();
   });
 
-  test('除雪情報の編集処理', async ({ page }) => {
+  test('除雪情報の編集処理', async ({ page }: { page: Page }) => {
     // データが読み込まれるまで待機
     await page.waitForSelector('.bg-white.rounded-lg.shadow', { timeout: 10000 });
 
@@ -151,7 +151,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     await expect(page.getByRole('heading', { name: updatedData.area })).toBeVisible();
   });
 
-  test('削除機能の確認', async ({ page }) => {
+  test('削除機能の確認', async ({ page }: { page: Page }) => {
     // データが読み込まれるまで待機
     await page.waitForSelector('.bg-white.rounded-lg.shadow', { timeout: 10000 });
 
@@ -165,7 +165,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     const deleteButton = reportCards.first().getByRole('button', { name: '削除' });
     
     // 削除確認ダイアログの処理
-    page.on('dialog', async dialog => {
+    page.on('dialog', async (dialog: Dialog) => {
       expect(dialog.type()).toBe('confirm');
       await dialog.accept();
     });
@@ -181,7 +181,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     }
   });
 
-  test('空のデータ状態の表示', async ({ page }) => {
+  test('空のデータ状態の表示', async ({ page }: { page: Page }) => {
     // すべてのデータを削除した後の状態をテスト
     // または、テスト用の空データセットでテスト
     
@@ -193,7 +193,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     // await expect(noDataMessage).toBeVisible();
   });
 
-  test('日時フォーマットの表示確認', async ({ page }) => {
+  test('日時フォーマットの表示確認', async ({ page }: { page: Page }) => {
     // データが読み込まれるまで待機
     await page.waitForSelector('.bg-white.rounded-lg.shadow', { timeout: 10000 });
 
@@ -209,7 +209,7 @@ test.describe('除雪情報一覧表示フロー', () => {
     expect(endTimeText).toMatch(/\d{4}\/\d{2}\/\d{2}/);
   });
 
-  test('レスポンシブデザイン確認', async ({ page }) => {
+  test('レスポンシブデザイン確認', async ({ page }: { page: Page }) => {
     // モバイルサイズに変更
     await page.setViewportSize({ width: 375, height: 667 });
 

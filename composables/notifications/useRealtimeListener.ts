@@ -246,7 +246,7 @@ export const useRealtimeListener = () => {
   const unsubscribe = async (): Promise<void> => {
     try {
       if (channel.value) {
-        await supabase.removeChannel(channel.value)
+        await supabase.removeChannel(channel.value as any)
         channel.value = null
       }
       

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { generateSnowReportData, generateInvalidSnowReportData } from '../utils/testData';
 
 /**
@@ -6,7 +6,7 @@ import { generateSnowReportData, generateInvalidSnowReportData } from '../utils/
  * @description 除雪情報の登録機能を統合的にテストする
  */
 test.describe('除雪情報登録フロー', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }: { page: Page }) => {
     // 除雪情報登録ページに遷移
     await page.goto('/create');
     
@@ -14,7 +14,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(page.locator('h1')).toContainText('除雪情報登録');
   });
 
-  test('正常な除雪情報登録フロー', async ({ page }) => {
+  test('正常な除雪情報登録フロー', async ({ page }: { page: Page }) => {
     // ユニークなテストデータを生成
     const testData = generateSnowReportData('正常登録テスト');
 
@@ -49,7 +49,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(page.getByRole('heading', { name: testData.area })).toBeVisible();
   });
 
-  test('必須項目バリデーション', async ({ page }) => {
+  test('必須項目バリデーション', async ({ page }: { page: Page }) => {
     const testData = generateSnowReportData('必須項目テスト');
     const submitButton = page.getByRole('button', { name: '登録' });
 
@@ -69,7 +69,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(submitButton).not.toBeDisabled();
   });
 
-  test('無効な時間範囲のバリデーション', async ({ page }) => {
+  test('無効な時間範囲のバリデーション', async ({ page }: { page: Page }) => {
     // 無効なテストデータを生成
     const invalidData = generateInvalidSnowReportData('時間範囲テスト');
     
@@ -85,7 +85,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(submitButton).toBeDisabled();
   });
 
-  test('空文字入力のバリデーション', async ({ page }) => {
+  test('空文字入力のバリデーション', async ({ page }: { page: Page }) => {
     // 無効なテストデータを生成
     const invalidData = generateInvalidSnowReportData('空文字テスト');
     const testData = generateSnowReportData('空文字テスト');
@@ -102,7 +102,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(page.getByText('エラー').or(page.locator('.text-red-500')).first()).toBeVisible();
   });
 
-  test('管理画面へ戻るボタン', async ({ page }) => {
+  test('管理画面へ戻るボタン', async ({ page }: { page: Page }) => {
     const backButton = page.getByRole('button', { name: '管理画面へ戻る' }).or(page.getByRole('link', { name: '管理画面へ戻る' }));
     
     await expect(backButton.first()).toBeVisible();
@@ -112,7 +112,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(page).toHaveURL('/snowlist');
   });
 
-  test('フォームリセット機能', async ({ page }) => {
+  test('フォームリセット機能', async ({ page }: { page: Page }) => {
     const testData = generateSnowReportData('リセットテスト');
     
     // フォームに入力
@@ -130,7 +130,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(page.getByLabel('除雪終了時間')).toHaveValue('');
   });
 
-  test('レスポンシブデザイン確認', async ({ page }) => {
+  test('レスポンシブデザイン確認', async ({ page }: { page: Page }) => {
     // モバイルサイズに変更
     await page.setViewportSize({ width: 375, height: 667 });
 
@@ -145,7 +145,7 @@ test.describe('除雪情報登録フロー', () => {
     await expect(submitButton).toBeVisible();
   });
 
-  test('日本語入力処理', async ({ page }) => {
+  test('日本語入力処理', async ({ page }: { page: Page }) => {
     const japaneseText = 'あいうえお漢字カタカナ';
 
     // 日本語テキストの入力

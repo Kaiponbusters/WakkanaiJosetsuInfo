@@ -1,7 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 
 test.describe('地図自動読み込み修正テスト', () => {
-  test('02/07のデータで地図が自動読み込みされることを確認', async ({ page }) => {
+  test('02/07のデータで地図が自動読み込みされることを確認', async ({ page }: { page: Page }) => {
     // テストデータを準備 (02/07のデータ)
     const testData = {
       area: '稚内駅前',
@@ -46,7 +46,7 @@ test.describe('地図自動読み込み修正テスト', () => {
     console.log('✅ 02/07の地図自動読み込み修正が正常に動作しています')
   })
 
-  test('修正後も手動読み込み機能が正常に動作することを確認', async ({ page }) => {
+  test('修正後も手動読み込み機能が正常に動作することを確認', async ({ page }: { page: Page }) => {
     // キャッシュテストページにアクセス（手動読み込みテスト用）
     await page.goto('/cache-test')
     
