@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { formatDateTime, formatDate, parseDate, compareDates } from './formatters'
+import { formatDateTime, formatDate, parseDate, compareDates } from '~/utils/formatters'
 
 describe('formatDateTime', () => {
   it('should format a valid ISO string correctly', () => {

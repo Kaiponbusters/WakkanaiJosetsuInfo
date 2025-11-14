@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { TokenBucketRateLimiter } from './TokenBucketRateLimiter'
+import { TokenBucketRateLimiter } from '~/utils/TokenBucketRateLimiter'
 
 describe('TokenBucketRateLimiter', () => {
   let rateLimiter: TokenBucketRateLimiter

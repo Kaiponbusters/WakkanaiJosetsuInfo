@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useNotificationManager } from './useNotificationManager'
+import { useNotificationManager } from '~/composables/notifications/useNotificationManager'
 
 // Mock the dependencies
-vi.mock('./useNotificationStorage', () => ({
+vi.mock('~/composables/notifications/useNotificationStorage', () => ({
   useNotificationStorage: () => ({
     getPreferences: vi.fn().mockResolvedValue(null),
     savePreferences: vi.fn().mockResolvedValue(undefined),
@@ -13,7 +13,7 @@ vi.mock('./useNotificationStorage', () => ({
   })
 }))
 
-vi.mock('./useNotificationLogger', () => ({
+vi.mock('~/composables/notifications/useNotificationLogger', () => ({
   useNotificationLogger: () => ({
     debug: vi.fn(),
     info: vi.fn(),
@@ -25,7 +25,7 @@ vi.mock('./useNotificationLogger', () => ({
 }))
 
 // Mock the realtime listener
-vi.mock('./useRealtimeListener', () => ({
+vi.mock('~/composables/notifications/useRealtimeListener', () => ({
   useRealtimeListener: () => ({
     isConnected: { value: false },
     isConnecting: { value: false },
@@ -39,14 +39,14 @@ vi.mock('./useRealtimeListener', () => ({
 }))
 
 // Mock the notification pipeline
-vi.mock('./useNotificationPipeline', () => ({
+vi.mock('~/composables/notifications/useNotificationPipeline', () => ({
   useNotificationPipeline: () => ({
     queueNotification: vi.fn().mockResolvedValue(undefined)
   })
 }))
 
 // Mock the push notification service
-vi.mock('./usePushNotificationService', () => ({
+vi.mock('~/composables/notifications/usePushNotificationService', () => ({
   usePushNotificationService: () => ({
     isSupported: true,
     permission: { value: 'default' },

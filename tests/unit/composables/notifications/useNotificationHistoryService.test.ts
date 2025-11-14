@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useNotificationHistoryService } from './useNotificationHistoryService'
+import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
 import type { NotificationHistoryItem } from '~/types/notification'
 
 // Mock the dependencies
@@ -25,11 +25,11 @@ const mockLogger = {
   clearLogs: vi.fn()
 }
 
-vi.mock('./useNotificationStorage', () => ({
+vi.mock('~/composables/notifications/useNotificationStorage', () => ({
   useNotificationStorage: () => mockStorage
 }))
 
-vi.mock('./useNotificationLogger', () => ({
+vi.mock('~/composables/notifications/useNotificationLogger', () => ({
   useNotificationLogger: () => mockLogger
 }))
 

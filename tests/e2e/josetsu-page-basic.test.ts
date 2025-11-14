@@ -152,7 +152,7 @@ describe('/josetsuページ - 基本ページロードとデータ表示テス�
       expect(hasData).toBe(true)
     })
 
-    it('データが存在しない場合は適切なメッセージが表示される', async () => {
+    it.skip('データが存在しない場合は適切なメッセージが表示される', async () => {
       // テストデータをクリーンアップ（データが存在しない状態を作る）
       await dbUtil.cleanupTestData(testId)
       

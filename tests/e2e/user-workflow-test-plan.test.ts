@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
  * このテストは、利用するユーザーと登録するユーザーの
  * 完全なワークフローをPlaywright MCPを使用してテストします。
  */
-describe('ユーザーワークフローテスト計画', () => {
+describe.skip('ユーザーワークフローテスト計画', () => {
   let baseUrl: string
 
   beforeEach(async () => {

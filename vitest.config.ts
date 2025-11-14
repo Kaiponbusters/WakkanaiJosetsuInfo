@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
-    setupFiles: [], // 必要に応じてセットアップファイルを追加
+    setupFiles: ['./tests/setup.ts'], // グローバルセットアップファイル
     include: ['**/*.{test,spec}.{js,ts}'],
     exclude: ['tests/playwright/**', 'node_modules/**'],
     coverage: { // オプション: カバレッジレポートを有効にする場合

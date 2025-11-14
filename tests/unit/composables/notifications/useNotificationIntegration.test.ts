@@ -8,20 +8,20 @@ describe('通知システム統合テスト', () => {
 
   describe('システム統合', () => {
     it('通知マネージャーが正しく初期化される', async () => {
-      const { useNotificationManager } = await import('./useNotificationManager')
-      
+      const { useNotificationManager } = await import('~/composables/notifications/useNotificationManager')
+
       expect(typeof useNotificationManager).toBe('function')
     })
 
     it('リアルタイムリスナーが正しく初期化される', async () => {
-      const { useRealtimeListener } = await import('./useRealtimeListener')
-      
+      const { useRealtimeListener } = await import('~/composables/notifications/useRealtimeListener')
+
       expect(typeof useRealtimeListener).toBe('function')
     })
 
     it('通知配信パイプラインが正しく初期化される', async () => {
-      const { useNotificationPipeline } = await import('./useNotificationPipeline')
-      
+      const { useNotificationPipeline } = await import('~/composables/notifications/useNotificationPipeline')
+
       expect(typeof useNotificationPipeline).toBe('function')
     })
   })

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import NotificationToast from './NotificationToast.vue'
+import NotificationToast from '~/components/feature/NotificationToast.vue'
 import type { NotificationHistoryItem } from '~/types/notification'
 
 // Mock Teleport for testing

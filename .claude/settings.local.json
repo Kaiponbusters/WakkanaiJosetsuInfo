@@ -28,7 +28,9 @@
       "mcp__context7__get-library-docs",
       "Bash(npm run build:*)",
       "Bash(tree:*)",
-      "Bash(npm run test:*)"
+      "Bash(npm run test:*)",
+      "Bash(tee:*)",
+      "Bash(npm run lint:*)"
     ],
     "deny": []
   },

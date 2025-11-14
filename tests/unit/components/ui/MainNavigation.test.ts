@@ -1,13 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
-import MainNavigation from './MainNavigation.vue'
+import MainNavigation from '~/components/ui/MainNavigation.vue'
 
 // Mock composables
 vi.mock('~/composables/notifications/useNotificationManager', () => ({
   useNotificationManager: () => ({
-    getSubscriptions: vi.fn(() => ref(['中央区', '港区'])),
-    isEnabled: vi.fn(() => ref(true))
+    getSubscriptions: vi.fn(() => ['中央区', '港区']),
+    getPreferences: vi.fn(() => ({
+      subscriptions: ['中央区', '港区'],
+      enablePush: true,
+      enableInApp: true,
+      lastUpdated: '2024-01-15T10:00:00Z'
+    })),
+    isEnabled: vi.fn(() => true)
   })
 }))
 

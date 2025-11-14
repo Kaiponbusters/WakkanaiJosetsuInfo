@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validateRequired, validateTimeRange, validateStringLength } from './validators'
+import { validateRequired, validateTimeRange, validateStringLength } from '~/utils/validators'
 
 describe('validateRequired', () => {
   it('空文字列の場合はfalseを返す', () => {

@@ -8,7 +8,7 @@ import {
   sortNotificationsByDate,
   isWithinQuietHours,
   validateNotificationItem
-} from './notificationUtils'
+} from '~/utils/notificationUtils'
 import type { NotificationHistoryItem, NotificationFilter } from '~/types/notification'
 
 describe('notificationUtils', () => {
