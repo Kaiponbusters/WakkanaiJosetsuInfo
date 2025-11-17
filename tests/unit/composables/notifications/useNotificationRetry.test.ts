@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { useNotificationRetry } from './useNotificationRetry'
+import { useNotificationRetry } from '~/composables/notifications/useNotificationRetry'
 
 // モック
-vi.mock('./useNotificationLogger', () => ({
+vi.mock('~/composables/notifications/useNotificationLogger', () => ({
   useNotificationLogger: () => ({
     debug: vi.fn(),
     info: vi.fn(),

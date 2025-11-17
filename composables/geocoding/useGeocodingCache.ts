@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { useGeocodingService } from './useGeocodingService'
-import { NominatimProvider } from '../../providers/NominatimProvider'
+import { NominatimProvider } from './NominatimProvider'
 import { TokenBucketRateLimiter } from '../../utils/TokenBucketRateLimiter'
 
 /**

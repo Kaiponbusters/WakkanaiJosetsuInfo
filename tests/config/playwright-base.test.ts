@@ -23,19 +23,19 @@ describe('PlaywrightTestBase', () => {
 
     it('ページが正しく設定される', async () => {
       await testBase.setup()
-      
+
       const page = testBase.getPage()
       expect(page).toBeDefined()
-      expect(await page.viewportSize()).toEqual({ width: 1280, height: 720 })
+      expect(await page!.viewportSize()).toEqual({ width: 1280, height: 720 })
     })
   })
 
   describe('ナビゲーション', () => {
     it('指定されたURLにナビゲートできる', async () => {
       await testBase.setup()
-      
+
       await testBase.navigateTo('/josetsu')
-      const url = testBase.getPage().url()
+      const url = testBase.getPage()!.url()
       expect(url).toContain('/josetsu')
     })
 

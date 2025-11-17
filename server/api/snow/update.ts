@@ -1,25 +1,11 @@
 import { serverSupabaseClient } from '#supabase/server'
 import { defineEventHandler, readBody, createError, sendError } from 'h3'
+import type { SnowReport } from '~/types/snow'
 
 /**
  * 除雪情報更新APIモジュール
  * @module snowUpdateApi
  */
-
-/**
- * 除雪情報の型定義
- * @interface SnowReport
- */
-interface SnowReport {
-  /** 除雪情報の一意のID */
-  id: number
-  /** 除雪作業が行われた地域名 */
-  area: string
-  /** 除雪作業の開始時間 */
-  start_time: string
-  /** 除雪作業の終了時間 */
-  end_time: string
-}
 
 /**
  * API応答の型定義

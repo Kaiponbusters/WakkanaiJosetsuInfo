@@ -141,23 +141,23 @@ export class PlaywrightTestBase {
           return this.expandedGroups.has('2024-01-15') && !this.isDataCleanedUp()
         // レスポンシブ要素
         case '[data-testid="desktop-layout"]':
-          return viewport && viewport.width >= 1024
+          return Boolean(viewport && viewport.width >= 1024)
         case '[data-testid="tablet-layout"]':
-          return viewport && viewport.width >= 768 && viewport.width < 1024
+          return Boolean(viewport && viewport.width >= 768 && viewport.width < 1024)
         case '[data-testid="mobile-layout"]':
-          return viewport && viewport.width < 768
+          return Boolean(viewport && viewport.width < 768)
         case '[data-testid="small-mobile-layout"]':
-          return viewport && viewport.width < 375
+          return Boolean(viewport && viewport.width < 375)
         case '[data-testid="responsive-layout"]':
-          return viewport && viewport.width < 1920
+          return Boolean(viewport && viewport.width < 1920)
         case '[data-testid="sidebar"]':
-          return viewport && viewport.width >= 1024
+          return Boolean(viewport && viewport.width >= 1024)
         case '[data-testid="hamburger-menu"]':
-          return viewport && viewport.width < 768
+          return Boolean(viewport && viewport.width < 768)
         case '[data-testid="desktop-only-element"]':
-          return viewport && viewport.width >= 1024
+          return Boolean(viewport && viewport.width >= 1024)
         case '[data-testid="mobile-only-element"]':
-          return viewport && viewport.width < 768
+          return Boolean(viewport && viewport.width < 768)
         default:
           // 詳細表示の確認（展開状態に基づく）
           if (selector.includes('[data-testid="date-group-2024-01-15"] + div')) {

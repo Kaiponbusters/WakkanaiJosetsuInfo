@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
-import DefaultLayout from './default.vue'
+import DefaultLayout from '~/layouts/default.vue'
 
 // Mock components
 vi.mock('~/components/ui/InformationIcon.vue', () => ({

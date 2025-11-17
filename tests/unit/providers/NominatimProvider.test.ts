@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { NominatimProvider } from './NominatimProvider'
+import { NominatimProvider } from '~/composables/geocoding/NominatimProvider'
 
 // fetchをモック化
 global.fetch = vi.fn()

@@ -8,7 +8,7 @@ describe('useRealtimeListener', () => {
 
   describe('型定義とインターフェース', () => {
     it('NotificationEventインターフェースが正しく定義されている', async () => {
-      const { useRealtimeListener } = await import('./useRealtimeListener')
+      const { useRealtimeListener } = await import('~/composables/notifications/useRealtimeListener')
       
       // 型定義が正しくエクスポートされていることを確認
       expect(typeof useRealtimeListener).toBe('function')
@@ -16,20 +16,20 @@ describe('useRealtimeListener', () => {
 
     it('RealtimeEventインターフェースが正しく定義されている', async () => {
       // 型定義ファイルが正しく読み込めることを確認
-      const module = await import('./useRealtimeListener')
+      const module = await import('~/composables/notifications/useRealtimeListener')
       expect(module.useRealtimeListener).toBeDefined()
     })
   })
 
   describe('composable構造', () => {
     it('useRealtimeListenerが関数として定義されている', async () => {
-      const { useRealtimeListener } = await import('./useRealtimeListener')
+      const { useRealtimeListener } = await import('~/composables/notifications/useRealtimeListener')
       expect(typeof useRealtimeListener).toBe('function')
     })
 
     it('必要なメソッドがエクスポートされている', async () => {
       // モジュールの構造を確認
-      const module = await import('./useRealtimeListener')
+      const module = await import('~/composables/notifications/useRealtimeListener')
       expect(module.useRealtimeListener).toBeDefined()
     })
   })

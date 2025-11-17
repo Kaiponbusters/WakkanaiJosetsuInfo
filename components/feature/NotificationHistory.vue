@@ -179,6 +179,8 @@
 import { ref, computed, onMounted, reactive } from 'vue'
 import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
 import type { NotificationHistoryItem, NotificationFilter } from '~/types/notification'
+import { getTypeLabel, getSeverityLabel, getSeverityClass } from '~/utils/notificationHelpers'
+import { WAKKANAI_AREAS } from '~/constants/areas'
 
 // Services
 const historyService = useNotificationHistoryService()
@@ -198,11 +200,8 @@ const filters = reactive({
   selectedStatus: ''
 })
 
-// Available areas (should match NotificationSettings)
-const availableAreas = ref([
-  '中央区', '港区', '朝日区', '富岡区', '宗谷区', '恵北区',
-  '声問区', '増幌区', '沼川区', '豊富区', '猿払区', '浜頓別区'
-])
+// Available areas (imported from shared constants)
+const availableAreas = ref([...WAKKANAI_AREAS])
 
 // Computed
 const filteredNotifications = computed(() => {
@@ -350,30 +349,8 @@ const formatTime = (timestamp: string): string => {
   })
 }
 
-const getTypeLabel = (type: string): string => {
-  return type === 'start' ? '開始' : '完了'
-}
-
 const getStatusLabel = (status: string): string => {
   return status === 'unread' ? '未読' : '既読'
-}
-
-const getSeverityLabel = (severity: string): string => {
-  const labels = {
-    low: '軽微',
-    medium: '通常',
-    high: '重要'
-  }
-  return labels[severity as keyof typeof labels] || severity
-}
-
-const getSeverityClass = (severity: string): string => {
-  const classes = {
-    low: 'text-green-600',
-    medium: 'text-yellow-600',
-    high: 'text-red-600'
-  }
-  return classes[severity as keyof typeof classes] || 'text-gray-600'
 }
 
 // Lifecycle

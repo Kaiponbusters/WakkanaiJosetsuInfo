@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import NotificationHistory from './NotificationHistory.vue'
+import NotificationHistory from '~/components/feature/NotificationHistory.vue'
 import type { NotificationHistoryItem } from '~/types/notification'
 
 // Mock notification data
@@ -55,7 +55,7 @@ const mockHistoryService = {
   deleteNotification: vi.fn().mockResolvedValue(undefined)
 }
 
-vi.mock('~/composables/useNotificationHistoryService', () => ({
+vi.mock('~/composables/notifications/useNotificationHistoryService', () => ({
   useNotificationHistoryService: () => mockHistoryService
 }))
 

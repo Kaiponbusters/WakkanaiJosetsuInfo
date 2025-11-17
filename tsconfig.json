@@ -1,20 +1,4 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./*"]
-    }
-  },
-  "include": [
-    "./**/*.ts",
-    "./**/*.vue"
-  ],
-  "exclude": [
-    "tests/playwright/**/*",
-    "playwright.config.ts",
-    "server/**/*"
-  ]
+  "extends": "./.nuxt/tsconfig.json"
 }

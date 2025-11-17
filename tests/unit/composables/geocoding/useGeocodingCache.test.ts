@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useGeocodingCache } from './useGeocodingCache'
+import { useGeocodingCache } from '~/composables/geocoding/useGeocodingCache'
 
 // fetchをモック化
 global.fetch = vi.fn()

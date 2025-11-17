@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useGeocodingService } from './useGeocodingService'
-import type { NominatimProvider } from '~/providers/NominatimProvider'
+import { useGeocodingService } from '~/composables/geocoding/useGeocodingService'
+import type { NominatimProvider } from '~/composables/geocoding/NominatimProvider'
 import type { TokenBucketRateLimiter } from '~/utils/TokenBucketRateLimiter'
 
 // モックオブジェクトの型定義

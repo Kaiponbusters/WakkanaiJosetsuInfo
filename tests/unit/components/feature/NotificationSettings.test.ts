@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import NotificationSettings from './NotificationSettings.vue'
+import NotificationSettings from '~/components/feature/NotificationSettings.vue'
 
 // Mock the composables
 const mockNotificationManager = {
@@ -29,11 +29,11 @@ const mockHistoryService = {
   markAllAsRead: vi.fn().mockResolvedValue(undefined)
 }
 
-vi.mock('~/composables/useNotificationManager', () => ({
+vi.mock('~/composables/notifications/useNotificationManager', () => ({
   useNotificationManager: () => mockNotificationManager
 }))
 
-vi.mock('~/composables/useNotificationHistoryService', () => ({
+vi.mock('~/composables/notifications/useNotificationHistoryService', () => ({
   useNotificationHistoryService: () => mockHistoryService
 }))
 

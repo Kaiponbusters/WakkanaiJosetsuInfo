@@ -1,5 +1,5 @@
 import type { RealtimeChannel } from '@supabase/supabase-js'
-import type { SnowReport } from '~/server/types/snow'
+import type { SnowReport } from '~/types/snow'
 
 /**
  * リアルタイムイベントの型定義
@@ -246,7 +246,7 @@ export const useRealtimeListener = () => {
   const unsubscribe = async (): Promise<void> => {
     try {
       if (channel.value) {
-        await supabase.removeChannel(channel.value)
+        await supabase.removeChannel(channel.value as any)
         channel.value = null
       }
       
