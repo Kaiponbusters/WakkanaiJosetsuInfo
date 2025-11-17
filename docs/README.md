@@ -37,7 +37,6 @@
 
 ### ベストプラクティス
 - [デザインパターン](../.cursor/rules/design-patterns.mdc)
-- [TDD with Twada](../.cursor/rules/test-driven-development-with-twada.mdc)
 - [プロジェクト構造](../.cursor/rules/project-structure.mdc)
 - [技術ガイド](../.cursor/rules/tech-guides.mdc)
 

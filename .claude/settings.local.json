@@ -30,7 +30,10 @@
       "Bash(tree:*)",
       "Bash(npm run test:*)",
       "Bash(tee:*)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(test:*)",
+      "Bash(mkdir:*)",
+      "Bash(git mv:*)"
     ],
     "deny": []
   },
