@@ -45,14 +45,6 @@
 - [ ] **型定義**: 新しい型の適切な文書化
 - [ ] **Composables**: 新機能のImportガイド更新
 
-## TDD（テスト駆動開発）遵守
-
-### 8. TDDサイクル確認
-- [ ] **Red**: テストを先に書いて失敗させた
-- [ ] **Green**: 最小限の実装でテストを通した
-- [ ] **Refactor**: テスト通過後にリファクタリングを実施
-- [ ] **F.I.R.S.T原則**: Fast, Independent, Repeatable, Self-Validating, Timely
-
 ## セキュリティ・パフォーマンス
 
 ### 9. セキュリティチェック

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useNotificationErrorHandler } from '~/composables/notifications/useNotificationErrorHandler'
+import { useNotificationErrorHandler } from '~/composables/notifications/infrastructure/useNotificationErrorHandler'
 
 describe('useNotificationErrorHandler 監視とデバッグ機能', () => {
   let errorHandler: ReturnType<typeof useNotificationErrorHandler>

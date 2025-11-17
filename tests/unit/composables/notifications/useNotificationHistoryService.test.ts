@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { useNotificationHistoryService } from '~/composables/notifications/services/useNotificationHistoryService'
 import type { NotificationHistoryItem } from '~/types/notification'
 
 // Mock the dependencies

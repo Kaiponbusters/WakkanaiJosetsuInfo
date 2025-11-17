@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
-import { useNotificationStorage } from './useNotificationStorage'
-import { useNotificationLogger } from './useNotificationLogger'
+import { useNotificationStorage } from '../infrastructure/useNotificationStorage'
+import { useNotificationLogger } from '../infrastructure/useNotificationLogger'
 import type { 
   NotificationHistoryItem, 
   NotificationFilter, 

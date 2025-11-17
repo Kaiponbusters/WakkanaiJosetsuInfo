@@ -1,10 +1,10 @@
 import { ref, computed, onUnmounted } from 'vue'
-import { useNotificationStorage } from './useNotificationStorage'
-import { useNotificationLogger } from './useNotificationLogger'
-import { useRealtimeListener } from './useRealtimeListener'
+import { useNotificationStorage } from './infrastructure/useNotificationStorage'
+import { useNotificationLogger } from './infrastructure/useNotificationLogger'
+import { useRealtimeListener } from './services/useRealtimeListener'
 import { useNotificationPipeline } from './useNotificationPipeline'
-import { usePushNotificationService } from './usePushNotificationService'
-import type { NotificationEvent } from './useRealtimeListener'
+import { usePushNotificationService } from './services/usePushNotificationService'
+import type { NotificationEvent } from './services/useRealtimeListener'
 
 export interface NotificationPreferences {
   subscriptions: string[]

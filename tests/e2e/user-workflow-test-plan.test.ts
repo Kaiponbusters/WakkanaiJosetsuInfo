@@ -2,9 +2,11 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 
 /**
  * ユーザーワークフローテスト計画
- * 
+ *
  * このテストは、利用するユーザーと登録するユーザーの
  * 完全なワークフローをPlaywright MCPを使用してテストします。
+ *
+ * TODO: ユーザーワークフロー機能実装後に有効化
  */
 describe.skip('ユーザーワークフローテスト計画', () => {
   let baseUrl: string

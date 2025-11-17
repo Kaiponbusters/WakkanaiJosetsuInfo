@@ -23,6 +23,13 @@ export default defineNuxtConfig({
     },
   },
   components: ["@/components"],
+  imports: {
+    dirs: [
+      'composables',                              // トップレベル
+      'composables/*/index.{ts,js,mjs,mts}',     // サブディレクトリのindex.ts
+      'composables/**'                            // すべてのネストファイル
+    ]
+  },
   vite: {
     server: {
       watch: {
