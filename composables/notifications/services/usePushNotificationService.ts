@@ -1,5 +1,5 @@
 import { ref, computed, readonly } from 'vue'
-import { useNotificationLogger } from './useNotificationLogger'
+import { useNotificationLogger } from '../infrastructure/useNotificationLogger'
 
 export interface PushNotificationPayload {
   title: string

@@ -1,13 +1,13 @@
 import { ref, readonly, onUnmounted } from 'vue'
-import type { NotificationEvent } from './useRealtimeListener'
-import { useNotificationStorage } from './useNotificationStorage'
-import { useNotificationHistoryService } from './useNotificationHistoryService'
-import { useNotificationLogger } from './useNotificationLogger'
-import { usePushNotificationService } from './usePushNotificationService'
-import { useNotificationRetry } from './useNotificationRetry'
-import { useNotificationErrorHandler } from './useNotificationErrorHandler'
-import type { PushNotificationPayload } from './usePushNotificationService'
-import type { RetryConfig } from './useNotificationRetry'
+import type { NotificationEvent } from './services/useRealtimeListener'
+import { useNotificationStorage } from './infrastructure/useNotificationStorage'
+import { useNotificationHistoryService } from './services/useNotificationHistoryService'
+import { useNotificationLogger } from './infrastructure/useNotificationLogger'
+import { usePushNotificationService } from './services/usePushNotificationService'
+import { useNotificationRetry } from './infrastructure/useNotificationRetry'
+import { useNotificationErrorHandler } from './infrastructure/useNotificationErrorHandler'
+import type { PushNotificationPayload } from './services/usePushNotificationService'
+import type { RetryConfig } from './infrastructure/useNotificationRetry'
 
 /**
  * 通知配信設定

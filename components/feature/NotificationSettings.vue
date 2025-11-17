@@ -173,7 +173,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useNotificationManager } from '~/composables/notifications/useNotificationManager'
-import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { useNotificationHistoryService } from '~/composables/notifications/services/useNotificationHistoryService'
 import { WAKKANAI_AREAS } from '~/constants/areas'
 
 // Available areas (imported from shared constants)

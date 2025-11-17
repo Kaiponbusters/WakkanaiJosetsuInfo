@@ -177,7 +177,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, reactive } from 'vue'
-import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { useNotificationHistoryService } from '~/composables/notifications/services/useNotificationHistoryService'
 import type { NotificationHistoryItem, NotificationFilter } from '~/types/notification'
 import { getTypeLabel, getSeverityLabel, getSeverityClass } from '~/utils/notificationHelpers'
 import { WAKKANAI_AREAS } from '~/constants/areas'

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { useNotificationLogger } from '~/composables/notifications/useNotificationLogger'
+import { useNotificationLogger } from '~/composables/notifications/infrastructure/useNotificationLogger'
 
 describe('useNotificationLogger', () => {
   let logger: ReturnType<typeof useNotificationLogger>

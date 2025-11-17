@@ -60,7 +60,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useNotificationManager } from '~/composables/notifications/useNotificationManager'
-import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { useNotificationHistoryService } from '~/composables/notifications/services/useNotificationHistoryService'
 
 // Router
 const router = useRouter()

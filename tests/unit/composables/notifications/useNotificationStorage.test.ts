@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useNotificationStorage } from '~/composables/notifications/useNotificationStorage'
+import { useNotificationStorage } from '~/composables/notifications/infrastructure/useNotificationStorage'
 import type { NotificationPreferences } from '~/composables/notifications/useNotificationManager'
 
 // Mock localStorage

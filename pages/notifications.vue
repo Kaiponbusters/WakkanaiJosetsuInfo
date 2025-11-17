@@ -66,7 +66,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 import NotificationSettings from '~/components/feature/NotificationSettings.vue'
 import NotificationHistory from '~/components/feature/NotificationHistory.vue'
 import NotificationToast from '~/components/feature/NotificationToast.vue'
-import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { useNotificationHistoryService } from '~/composables/notifications/services/useNotificationHistoryService'
 import type { NotificationStats } from '~/types/notification'
 // useHead is auto-imported by Nuxt
 

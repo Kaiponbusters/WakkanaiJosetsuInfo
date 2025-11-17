@@ -3,8 +3,8 @@ import { ref, computed, onUnmounted, readonly } from 'vue'
 
 // テスト対象のcomposables
 import { useNotificationManager } from '~/composables/notifications/useNotificationManager'
-import { useRealtimeListener } from '~/composables/notifications/useRealtimeListener'
-import { useNotificationHistoryService } from '~/composables/notifications/useNotificationHistoryService'
+import { useRealtimeListener } from '~/composables/notifications/services/useRealtimeListener'
+import { useNotificationHistoryService } from '~/composables/notifications/services/useNotificationHistoryService'
 
 // モック設定
 const mockSupabase = {
