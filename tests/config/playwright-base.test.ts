@@ -26,7 +26,8 @@ describe('PlaywrightTestBase', () => {
 
       const page = testBase.getPage()
       expect(page).toBeDefined()
-      expect(await page!.viewportSize()).toEqual({ width: 1280, height: 720 })
+      const viewport = await page?.viewportSize()
+      expect(viewport).toEqual({ width: 1280, height: 720 })
     })
   })
 
@@ -35,7 +36,9 @@ describe('PlaywrightTestBase', () => {
       await testBase.setup()
 
       await testBase.navigateTo('/josetsu')
-      const url = testBase.getPage()!.url()
+      const page = testBase.getPage()
+      expect(page).toBeDefined()
+      const url = page!.url()
       expect(url).toContain('/josetsu')
     })
 

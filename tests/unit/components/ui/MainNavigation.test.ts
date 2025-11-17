@@ -13,7 +13,14 @@ vi.mock('~/composables/notifications/useNotificationManager', () => ({
       enableInApp: true,
       lastUpdated: '2024-01-15T10:00:00Z'
     })),
-    isEnabled: vi.fn(() => true)
+    isRealtimeConnected: vi.fn(() => true),
+    getConnectionStatus: vi.fn(() => ({
+      isConnected: true,
+      isConnecting: false,
+      error: null,
+      reconnectAttempts: 0
+    })),
+    isSubscribed: vi.fn((area: string) => ['中央区', '港区'].includes(area))
   })
 }))
 
